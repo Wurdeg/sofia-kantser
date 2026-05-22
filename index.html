@@ -1,0 +1,3244 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI AI CONTENT — Курс по нейровизуалу</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --pink: #E8346A;
+    --pink-light: #FF6B9D;
+    --pink-pale: #FFF0F5;
+    --pink-mid: #FFD6E8;
+    --dark: #1A1218;
+    --dark-mid: #2D1F28;
+    --text: #1A1218;
+    --text-muted: #7A6572;
+    --white: #FFFFFF;
+    --cream: #FDF8FA;
+    --border: rgba(232, 52, 106, 0.15);
+    --radius: 20px;
+    --radius-sm: 12px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Manrope', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* HOOK BANNER */
+  .hook {
+    background: linear-gradient(135deg, var(--pink) 0%, #C0185A 100%);
+    color: white;
+    text-align: center;
+    padding: 14px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .hook span { opacity: 0.85; margin: 0 8px; }
+
+  /* NAV */
+  nav {
+    padding: 10px 60px;
+    background: var(--cream);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .nav-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--dark);
+  }
+  .logo-mark {
+    position: relative;
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    background: linear-gradient(135deg, #FF6B9D 0%, #C0185A 100%);
+    color: #FFFFFF;
+    flex-shrink: 0;
+    box-shadow: 0 6px 16px -4px rgba(232,52,106,0.45);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .logo-mark::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.28) 0%, transparent 55%);
+    pointer-events: none;
+  }
+  .logo-mark::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    right: 6px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    opacity: 0.9;
+    box-shadow: 0 0 6px rgba(255,255,255,0.6);
+  }
+  .logo-mark-text {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 19px;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    position: relative;
+    z-index: 1;
+    transform: translateY(-1px);
+  }
+  .logo:hover .logo-mark {
+    transform: rotate(-4deg) scale(1.05);
+    box-shadow: 0 10px 22px -4px rgba(232,52,106,0.55);
+  }
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.05;
+  }
+  .logo-name {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--dark);
+    letter-spacing: -0.01em;
+  }
+  .logo-sub {
+    font-family: 'Manrope', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    list-style: none;
+    margin-left: auto;
+  }
+  .nav-links a {
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 8px 18px;
+    border-radius: 50px;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+  .nav-links a:hover { color: var(--dark); }
+  .nav-links a.active {
+    color: var(--dark);
+    border-color: rgba(26,18,24,0.25);
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    padding: 8px 16px;
+  }
+  .nav-cta {
+    background: var(--pink);
+    color: #FFFFFF;
+    border: none;
+    padding: 9px 22px;
+    border-radius: 50px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+    margin-left: 16px;
+    box-shadow: 0 6px 20px rgba(232,52,106,0.25);
+  }
+  .nav-cta:hover {
+    background: #C0185A;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(232,52,106,0.35);
+  }
+  /* LANGUAGE TOGGLE */
+  .lang-toggle {
+    display: inline-flex;
+    align-items: stretch;
+    background: rgba(232,52,106,0.06);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: 3px;
+    position: relative;
+    cursor: pointer;
+    margin-left: 14px;
+    font-family: 'Manrope', sans-serif;
+  }
+  .lang-toggle::before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: calc(33.333% - 2px);
+    height: calc(100% - 6px);
+    background: var(--pink);
+    border-radius: 50px;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 2px 10px rgba(232,52,106,0.25);
+  }
+  .lang-toggle[data-lang="ru"]::before { transform: translateX(0); }
+  .lang-toggle[data-lang="en"]::before { transform: translateX(100%); }
+  .lang-toggle[data-lang="ro"]::before { transform: translateX(200%); }
+  .lang-opt {
+    position: relative;
+    z-index: 1;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+    transition: color 0.3s;
+    border-radius: 50px;
+    user-select: none;
+  }
+  .lang-opt.active { color: #FFFFFF; }
+  @media (max-width: 768px) {
+    .lang-toggle { margin-left: 8px; }
+    .lang-opt { padding: 4px 10px; font-size: 11px; }
+  }
+
+  /* VIEWPORT FILL — hero + ticker всегда занимают всю высоту экрана */
+  .viewport-fill {
+    min-height: calc(100vh - 60px);
+    min-height: calc(100dvh - 60px);
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
+  }
+
+
+  /* HERO */
+  .hero {
+    background: var(--white);
+    padding: 24px 60px;
+    position: relative;
+    overflow: hidden;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(232,52,106,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -100px;
+    left: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(232,52,106,0.05) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 56px;
+    align-items: end;
+  }
+  .hero-content {
+    min-width: 0;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .hero-content > * { align-self: flex-start; }
+  .hero-offer { width: 100%; }
+  .hero-photo {
+    position: relative;
+    justify-self: end;
+    width: 100%;
+    max-width: 420px;
+    aspect-ratio: 4 / 5;
+    max-height: calc(100vh - 200px);
+    max-height: calc(100dvh - 200px);
+    border-radius: 24px;
+    overflow: hidden;
+    background: var(--pink-pale);
+    box-shadow:
+      0 24px 60px -20px rgba(232,52,106,0.32),
+      0 8px 24px -8px rgba(26,18,24,0.12);
+    transform: rotate(1.2deg);
+  }
+  .hero-photo::before {
+    content: '';
+    position: absolute;
+    inset: -14px;
+    border: 1.5px solid var(--pink);
+    border-radius: 32px;
+    transform: rotate(-3deg);
+    z-index: -1;
+    opacity: 0.45;
+  }
+  .hero-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+  .hero-photo-tag {
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--dark);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 16px;
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 8px 24px rgba(26,18,24,0.12);
+    letter-spacing: 0.01em;
+  }
+  .hero-photo-tag::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #2ecc71;
+    box-shadow: 0 0 0 4px rgba(46,204,113,0.2);
+    animation: dot-pulse 2s ease-in-out infinite;
+  }
+  @keyframes dot-pulse {
+    0%, 100% { box-shadow: 0 0 0 4px rgba(46,204,113,0.2); }
+    50% { box-shadow: 0 0 0 8px rgba(46,204,113,0.05); }
+  }
+
+  /* HERO ENTRANCE ANIMATIONS */
+  .hero-badge,
+  .hero h1,
+  .hero-sub,
+  .hero .cta-btn,
+  .hero-photo,
+  .hero-photo-tag {
+    transition:
+      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .hero-badge   { transition-delay: 0.15s; }
+  .hero h1      { transition-delay: 0.30s; }
+  .hero-sub     { transition-delay: 0.50s; }
+  .hero .cta-btn{ transition-delay: 0.70s; }
+  .hero-photo   { transition-delay: 0.35s; transition-duration: 1.2s; }
+  .hero-photo-tag {
+    transition: opacity 0.55s, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition-delay: 1.25s;
+  }
+  body.loading .hero-badge,
+  body.loading .hero h1,
+  body.loading .hero-sub,
+  body.loading .hero .cta-btn {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  body.loading .hero-photo {
+    opacity: 0;
+    transform: rotate(0deg) scale(0.94) translateY(20px);
+  }
+  body.loading .hero-photo-tag {
+    opacity: 0;
+    transform: scale(0.4) translateY(10px);
+  }
+
+  /* H1 italic price — gentle glow pulse after entrance */
+  .hero h1 em {
+    display: inline-block;
+    animation: price-pulse 3.4s ease-in-out infinite 2.2s;
+  }
+  @keyframes price-pulse {
+    0%, 100% { text-shadow: 0 0 0 rgba(232,52,106,0); transform: translateY(0); }
+    50%      { text-shadow: 0 0 28px rgba(232,52,106,0.35); transform: translateY(-2px); }
+  }
+
+  /* Floating background blobs */
+  .hero::before { animation: hero-blob-a 14s ease-in-out infinite; }
+  .hero::after  { animation: hero-blob-b 16s ease-in-out infinite; }
+  @keyframes hero-blob-a {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(40px, 30px) scale(1.08); }
+  }
+  @keyframes hero-blob-b {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(-30px, -25px) scale(1.06); }
+  }
+
+  /* CTA button — soft breathing glow */
+  .hero .cta-btn { animation: cta-glow 2.8s ease-in-out infinite 2.4s; }
+  @keyframes cta-glow {
+    0%, 100% { box-shadow: 0 8px 28px rgba(232,52,106,0.28); }
+    50%      { box-shadow: 0 14px 42px rgba(232,52,106,0.48); }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    body.loading .hero-badge,
+    body.loading .hero h1,
+    body.loading .hero-sub,
+    body.loading .hero .cta-btn,
+    body.loading .hero-photo,
+    body.loading .hero-photo-tag {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .hero h1 em,
+    .hero .cta-btn,
+    .hero::before,
+    .hero::after,
+    .hero-photo-tag::before { animation: none !important; }
+  }
+  .hero-photo-badge {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    background: var(--pink);
+    color: white;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 10px 18px;
+    border-radius: 50px;
+    box-shadow: 0 8px 24px rgba(232,52,106,0.35);
+    transform: rotate(6deg);
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--pink-pale);
+    border: 1px solid var(--pink-mid);
+    color: var(--pink);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 7px 16px;
+    border-radius: 50px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .hero-badge::before { content: '✦'; font-size: 10px; }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.06;
+    color: var(--dark);
+    margin-bottom: 14px;
+    letter-spacing: -0.02em;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--pink);
+  }
+  .hero-sub {
+    font-size: 17px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+  .hero-note {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 22px;
+    font-style: italic;
+  }
+  .hero-note strong { color: var(--dark); font-style: normal; }
+  .hero-stats {
+    display: flex;
+    gap: 18px 28px;
+    margin-bottom: 26px;
+    flex-wrap: wrap;
+  }
+  .stat {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dark);
+  }
+  .stat-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--pink-pale);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+  }
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, var(--pink) 0%, #C0185A 100%);
+    color: white;
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    padding: 15px 34px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s;
+    letter-spacing: 0.02em;
+    box-shadow: 0 8px 28px rgba(232,52,106,0.28);
+  }
+  .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(232,52,106,0.4);
+  }
+
+  /* TICKER */
+  .ticker-wrap {
+    background: var(--cream);
+    border-top: 1px solid var(--border);
+    padding: 18px 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .ticker {
+    display: flex;
+    white-space: nowrap;
+    animation: ticker 30s linear infinite;
+  }
+  .ticker-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--dark);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0 40px;
+    letter-spacing: 0.05em;
+  }
+  .ticker-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--pink);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 80px 60px;
+  }
+  .section-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 44px;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.15;
+    margin-bottom: 48px;
+    letter-spacing: -0.02em;
+  }
+  .section-title em {
+    font-style: italic;
+    color: var(--pink);
+  }
+
+  /* FOR WHO */
+  .for-who { background: var(--cream); }
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .who-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .who-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--pink) 0%, var(--pink-light) 100%);
+    border-radius: 4px 0 0 4px;
+  }
+  .who-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(232,52,106,0.1);
+    border-color: var(--pink);
+  }
+  .card-num {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--pink);
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
+    opacity: 0.6;
+  }
+  .who-card p {
+    font-size: 15px;
+    color: var(--text);
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  /* RESULTS */
+  .results {
+    background: var(--dark);
+    position: relative;
+    overflow: hidden;
+  }
+  .results::before {
+    content: '';
+    position: absolute;
+    top: -250px;
+    left: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(232,52,106,0.22) 0%, transparent 65%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .results::after {
+    content: '';
+    position: absolute;
+    bottom: -200px;
+    right: -150px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255,107,157,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .results .section-inner { position: relative; z-index: 1; }
+  .results .section-title { color: var(--white); }
+  .results .section-label { color: var(--pink-light); }
+  .results-bento {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: minmax(220px, auto);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .result-card {
+    position: relative;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 22px;
+    padding: 32px;
+    overflow: hidden;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 24px;
+    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .result-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--pink), transparent);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .result-card:hover {
+    background: rgba(232,52,106,0.08);
+    border-color: rgba(232,52,106,0.45);
+    transform: translateY(-6px);
+    box-shadow: 0 24px 60px -20px rgba(232,52,106,0.35);
+  }
+  .result-card:hover::before { transform: scaleX(1); }
+  .result-card-big {
+    grid-column: span 2;
+    background: linear-gradient(135deg, rgba(232,52,106,0.18) 0%, rgba(255,255,255,0.03) 100%);
+    border-color: rgba(232,52,106,0.32);
+  }
+  .result-card-big .result-text { font-size: 22px; font-weight: 600; line-height: 1.3; color: #FFFFFF; }
+  .result-card-big .result-text strong { color: var(--pink-light); }
+  .result-card-promise {
+    background: linear-gradient(135deg, var(--pink) 0%, #C0185A 100%);
+    border-color: transparent;
+    color: #FFFFFF;
+  }
+  .result-card-promise:hover {
+    background: linear-gradient(135deg, #C0185A 0%, var(--pink) 100%);
+    border-color: transparent;
+    box-shadow: 0 24px 60px -16px rgba(232,52,106,0.55);
+  }
+  .result-card-promise::before { display: none; }
+  .result-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .result-icon {
+    width: 54px;
+    height: 54px;
+    background: rgba(232,52,106,0.18);
+    border: 1px solid rgba(232,52,106,0.32);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+  .result-card-big .result-icon {
+    width: 64px;
+    height: 64px;
+    background: rgba(232,52,106,0.28);
+    border-color: rgba(232,52,106,0.5);
+    font-size: 30px;
+  }
+  .result-card-promise .result-icon {
+    background: rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.35);
+    color: #FFFFFF;
+  }
+  .result-num {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 56px;
+    font-weight: 700;
+    color: rgba(232,52,106,0.5);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+  }
+  .result-card-big .result-num { font-size: 72px; color: rgba(255,255,255,0.9); }
+  .result-text {
+    color: rgba(255,255,255,0.88);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.55;
+  }
+  .result-text strong { color: var(--pink-light); font-weight: 700; }
+  .result-metric {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 50px;
+    padding: 7px 14px;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--pink-light);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    align-self: flex-start;
+  }
+  .result-metric::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--pink);
+    box-shadow: 0 0 8px rgba(232,52,106,0.7);
+  }
+  .result-card-big .result-metric {
+    background: rgba(232,52,106,0.18);
+    border-color: rgba(232,52,106,0.4);
+    color: #FFFFFF;
+    font-size: 12px;
+    padding: 8px 16px;
+  }
+  .result-card-promise .result-metric {
+    background: rgba(255,255,255,0.22);
+    border-color: rgba(255,255,255,0.35);
+    color: #FFFFFF;
+  }
+  .result-card-promise .result-metric::before { background: #FFFFFF; box-shadow: 0 0 8px rgba(255,255,255,0.7); }
+  .result-promise-title {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 24px;
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .result-promise-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.88);
+    line-height: 1.5;
+  }
+  @media (max-width: 900px) {
+    .results-bento { grid-template-columns: repeat(2, 1fr); }
+    .result-card-big { grid-column: span 2; }
+    .result-card-promise { grid-column: span 2; }
+  }
+  @media (max-width: 560px) {
+    .results-bento { grid-template-columns: 1fr; }
+    .result-card-big, .result-card-promise { grid-column: auto; }
+    .result-card { padding: 24px; }
+    .result-card-big .result-text { font-size: 18px; }
+  }
+
+  /* ABOUT AUTHOR */
+  .about { background: var(--pink-pale); }
+  .about-inner {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .about-photo {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    border-radius: 24px;
+    overflow: hidden;
+    background: var(--white);
+    box-shadow:
+      0 30px 70px -20px rgba(232,52,106,0.35),
+      0 10px 30px -10px rgba(26,18,24,0.15);
+    transform: rotate(-1.5deg);
+  }
+  .about-photo::before {
+    content: '';
+    position: absolute;
+    inset: -14px;
+    border: 1.5px solid var(--pink);
+    border-radius: 28px;
+    transform: rotate(3deg);
+    z-index: -1;
+    opacity: 0.4;
+  }
+  .about-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .about-photo-tag {
+    position: absolute;
+    bottom: 18px;
+    left: 18px;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--dark);
+    font-size: 12px;
+    font-weight: 800;
+    padding: 9px 14px;
+    border-radius: 50px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    box-shadow: 0 8px 24px rgba(26,18,24,0.12);
+  }
+  .about-content { min-width: 0; }
+  .about-sign {
+    font-family: 'Playfair Display', serif;
+    font-size: 34px;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+  .about-sign em { font-style: italic; color: var(--pink); }
+  .about-text {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    font-size: 15px;
+    color: var(--text);
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+  .about-text strong { color: var(--pink); font-weight: 700; }
+  .about-brands-label {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+  }
+  .brand-marquee {
+    position: relative;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 4%, black 96%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, black 4%, black 96%, transparent 100%);
+  }
+  .brand-marquee-track {
+    display: flex;
+    gap: 10px;
+    width: max-content;
+    animation: brandScroll 25s linear infinite;
+  }
+  .brand-logo {
+    flex-shrink: 0;
+    height: 80px;
+    min-width: 160px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .brand-logo img {
+    max-height: 100%;
+    max-width: 180px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+  @keyframes brandScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .brand-marquee-track { animation: none; }
+  }
+  /* Старые pills - оставляю как fallback */
+  .brand-pill {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: 8px 16px;
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--dark);
+  }
+  @media (max-width: 900px) {
+    .about-inner { grid-template-columns: 1fr; gap: 36px; }
+    .about-photo { max-width: 320px; justify-self: center; transform: none; }
+    .about-photo::before { display: none; }
+    .about-sign { font-size: 28px; }
+  }
+
+  /* REVIEWS (Отзывы учениц) */
+  .reviews { background: var(--cream); }
+  .reviews-header {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 36px;
+  }
+  .reviews-header .section-title { margin-bottom: 0; }
+  .reviews-subtitle {
+    font-size: 16px;
+    color: var(--text-muted);
+    margin-top: 8px;
+    font-style: italic;
+  }
+  .reviews-viewport {
+    overflow: hidden;
+    margin: 0 -16px;
+    padding: 12px 16px;
+  }
+  .reviews-track {
+    display: flex;
+    gap: 20px;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+  .review-card {
+    flex: 0 0 calc((100% - 40px) / 3);
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    transition: all 0.3s;
+    position: relative;
+  }
+  .review-card::before {
+    content: '"';
+    position: absolute;
+    top: 14px;
+    right: 22px;
+    font-family: 'Playfair Display', serif;
+    font-size: 90px;
+    line-height: 1;
+    color: var(--pink-pale);
+    z-index: 0;
+    pointer-events: none;
+  }
+  .review-card:hover {
+    border-color: var(--pink);
+    transform: translateY(-4px);
+    box-shadow: 0 18px 50px -20px rgba(232,52,106,0.22);
+  }
+  .review-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    position: relative;
+    z-index: 1;
+  }
+  .review-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--pink) 0%, var(--pink-light) 100%);
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    flex-shrink: 0;
+    box-shadow: 0 8px 18px -6px rgba(232,52,106,0.4);
+  }
+  .review-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.2;
+  }
+  .review-format {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 4px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--pink);
+    background: var(--pink-pale);
+    border: 1px solid var(--pink-mid);
+    border-radius: 50px;
+    padding: 3px 10px;
+  }
+  .review-quote {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+  }
+  @media (max-width: 900px) {
+    .review-card { flex: 0 0 calc((100% - 20px) / 2); }
+    .reviews-header { flex-direction: column; align-items: flex-start; }
+  }
+  @media (max-width: 600px) {
+    .review-card { flex: 0 0 100%; }
+  }
+
+  /* PORTFOLIO (Мои работы) — горизонтальный слайдер */
+  .portfolio { background: var(--cream); }
+  .portfolio-header {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 36px;
+  }
+  .portfolio-header .section-title { margin-bottom: 0; }
+  .portfolio-viewport {
+    overflow: hidden;
+    margin: 0 -16px;
+    padding: 0 16px;
+  }
+  .portfolio-track {
+    display: flex;
+    gap: 20px;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+  .work-card {
+    flex: 0 0 calc((100% - 40px) / 3);
+    position: relative;
+    border-radius: 22px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 28px;
+    color: #FFFFFF;
+    isolation: isolate;
+    aspect-ratio: 4 / 5;
+  }
+  .work-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background: var(--bg, linear-gradient(135deg, #E8346A 0%, #1A1218 100%));
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .work-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.6) 100%);
+  }
+  .work-card:hover { transform: translateY(-6px); }
+  .work-card:hover::before { transform: scale(1.08); }
+  .work-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.28);
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    width: fit-content;
+    margin-bottom: 12px;
+  }
+  .work-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 6px;
+  }
+  .work-meta {
+    font-size: 13px;
+    color: rgba(255,255,255,0.8);
+    font-weight: 500;
+  }
+  .work-art {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 140px;
+    opacity: 0.18;
+    pointer-events: none;
+  }
+  img.work-art,
+  video.work-art {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 1;
+    display: block;
+    font-size: 0;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .work-card:hover img.work-art,
+  .work-card:hover video.work-art { transform: scale(1.06); }
+  .portfolio-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 32px;
+  }
+  @media (max-width: 900px) {
+    .work-card { flex: 0 0 calc((100% - 20px) / 2); }
+    .portfolio-header { flex-direction: column; align-items: flex-start; }
+  }
+  @media (max-width: 600px) {
+    .work-card { flex: 0 0 100%; }
+  }
+
+  /* STUDENTS (Работы учеников — 9:16 reels-style) */
+  .students { background: var(--white); }
+  .students-header {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 36px;
+  }
+  .students-header .section-title { margin-bottom: 0; }
+  .students-controls {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .students-arrow {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    background: var(--white);
+    color: var(--dark);
+    font-size: 22px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s;
+  }
+  .students-arrow:hover {
+    background: var(--pink);
+    border-color: var(--pink);
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(232,52,106,0.3);
+  }
+  .students-arrow:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    background: var(--white);
+    border-color: var(--border);
+    color: var(--dark);
+  }
+  .students-viewport {
+    overflow: hidden;
+    margin: 0 -16px;
+    padding: 0 16px;
+  }
+  .students-track {
+    display: flex;
+    gap: 18px;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+  .student-card {
+    flex: 0 0 calc((100% - 54px) / 4);
+    aspect-ratio: 9 / 16;
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    color: #FFFFFF;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px;
+  }
+  .student-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background: var(--bg, linear-gradient(135deg, #E8346A 0%, #1A1218 100%));
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .student-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, transparent 30%, transparent 60%, rgba(0,0,0,0.75) 100%);
+  }
+  .student-card:hover { transform: translateY(-6px); }
+  .student-card:hover::before { transform: scale(1.06); }
+  .student-art {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 100px;
+    opacity: 0.22;
+    pointer-events: none;
+  }
+  video.student-art,
+  img.student-art {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 1;
+    display: block;
+    font-size: 0;
+  }
+  .student-play {
+    align-self: flex-end;
+    width: 36px;
+    height: 36px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 50%;
+    color: var(--dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    padding-left: 3px;
+  }
+  .student-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .student-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .student-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .student-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 1.15;
+  }
+  .student-niche {
+    font-size: 11px;
+    color: rgba(255,255,255,0.75);
+    font-weight: 500;
+    margin-top: 1px;
+  }
+  .student-result-pill {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.95);
+    color: var(--dark);
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 800;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+  }
+  .student-result-pill::before { content: '💸'; font-size: 12px; }
+  .students-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 32px;
+  }
+  .students-dot {
+    width: 28px;
+    height: 4px;
+    background: var(--border);
+    border-radius: 4px;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .students-dot.active { background: var(--pink); width: 44px; }
+  @media (max-width: 1100px) {
+    .student-card { flex: 0 0 calc((100% - 36px) / 3); }
+  }
+  @media (max-width: 900px) {
+    .student-card { flex: 0 0 calc((100% - 18px) / 2); }
+    .students-header { flex-direction: column; align-items: flex-start; }
+  }
+  @media (max-width: 600px) {
+    .student-card { flex: 0 0 75%; }
+    .students-arrow { width: 44px; height: 44px; font-size: 18px; }
+  }
+
+  /* CURRICULUM — все модули видны сразу, в одну колонку */
+  .curriculum { background: var(--white); }
+  .modules-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .module-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 24px 32px;
+    display: grid;
+    grid-template-columns: 320px 1fr 280px;
+    gap: 36px;
+    align-items: center;
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+    overflow: hidden;
+  }
+  .module-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--pink) 0%, var(--pink-light) 100%);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .module-card:hover {
+    border-color: var(--pink-mid);
+    transform: translateY(-2px);
+    box-shadow: 0 18px 50px -20px rgba(232,52,106,0.2);
+  }
+  .module-card:hover::before { transform: scaleX(1); }
+  .module-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .module-num {
+    width: 52px;
+    height: 52px;
+    background: linear-gradient(135deg, var(--pink) 0%, #C0185A 100%);
+    color: #FFFFFF;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 800;
+    flex-shrink: 0;
+    box-shadow: 0 8px 18px -6px rgba(232,52,106,0.45);
+  }
+  .module-week {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--pink);
+  }
+  .module-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-top: 2px;
+  }
+  .module-desc {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0;
+  }
+  .module-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .module-bonus {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--pink);
+    line-height: 1.4;
+  }
+  .module-bonus::before {
+    content: '⭐';
+    font-size: 13px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .module-result {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 8px;
+    background: var(--pink-pale);
+    border: 1px solid var(--pink-mid);
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--dark);
+    line-height: 1.4;
+  }
+  .module-result::before {
+    content: '🎯';
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  /* Финальный модуль - на всю ширину, выделен */
+  .module-card.module-final {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, var(--dark) 0%, #2D1F28 100%);
+    border-color: transparent;
+    color: #FFFFFF;
+  }
+  .module-card.module-final::before {
+    background: linear-gradient(90deg, var(--pink) 0%, var(--pink-light) 50%, var(--pink) 100%);
+    transform: scaleX(1);
+    height: 4px;
+  }
+  .module-card.module-final:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 30px 60px -20px rgba(232,52,106,0.4);
+  }
+  .module-final .module-week { color: var(--pink-light); }
+  .module-final .module-title { color: #FFFFFF; font-size: 26px; }
+  .module-final .module-desc { color: rgba(255,255,255,0.75); font-size: 14px; }
+  .module-final .module-result {
+    background: rgba(232,52,106,0.22);
+    border-color: rgba(232,52,106,0.45);
+    color: #FFFFFF;
+    padding: 12px 18px;
+    font-size: 13px;
+  }
+  .module-final .module-num {
+    background: linear-gradient(135deg, var(--pink) 0%, var(--pink-light) 100%);
+  }
+  @media (max-width: 900px) {
+    .module-card {
+      grid-template-columns: 1fr;
+      gap: 16px;
+      padding: 22px 24px;
+    }
+  }
+  @media (max-width: 640px) {
+    .module-card { padding: 20px; }
+    .module-num { width: 44px; height: 44px; font-size: 18px; }
+    .module-title { font-size: 19px; }
+    .module-final .module-title { font-size: 22px; }
+  }
+
+  /* PRICING */
+  .pricing { background: var(--cream); }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    align-items: stretch;
+  }
+  .price-card {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 36px 28px;
+    position: relative;
+    transition: all 0.25s;
+    display: flex;
+    flex-direction: column;
+  }
+  .price-card .plan-features { flex: 1; }
+  .price-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(232,52,106,0.12);
+  }
+  .price-card.featured {
+    border-color: var(--pink);
+    border-width: 2px;
+    background: white;
+    transform: scale(1.03);
+  }
+  .price-card.featured:hover { transform: scale(1.03) translateY(-4px); }
+  .popular-badge {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--pink);
+    color: white;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 6px 20px;
+    border-radius: 50px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .plan-medal { font-size: 28px; margin-bottom: 8px; display: block; }
+  .plan-name {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--dark);
+    margin-bottom: 8px;
+  }
+  .plan-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    line-height: 1.6;
+    min-height: 52px;
+  }
+  .plan-price {
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .price-main {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--pink);
+    line-height: 1;
+  }
+  .price-sub {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    font-weight: 500;
+  }
+  .plan-features {
+    list-style: none;
+    margin-bottom: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .plan-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--text);
+    font-weight: 500;
+    line-height: 1.5;
+  }
+  .plan-features li::before {
+    content: '✓';
+    color: var(--pink);
+    font-weight: 800;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .plan-features li.bonus {
+    color: var(--pink);
+    font-weight: 600;
+  }
+  .plan-features li.bonus::before { content: '🎁'; }
+  .plan-features li.locked {
+    color: #ccc;
+    text-decoration: line-through;
+  }
+  .plan-features li.locked::before { content: '—'; color: #ddd; }
+  .plan-cta {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 14px;
+    border-radius: 50px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .plan-cta.outline {
+    background: transparent;
+    border: 2px solid var(--pink);
+    color: var(--pink);
+  }
+  .plan-cta.outline:hover { background: var(--pink-pale); }
+  .plan-cta.filled {
+    background: linear-gradient(135deg, var(--pink) 0%, #C0185A 100%);
+    border: none;
+    color: white;
+    box-shadow: 0 6px 24px rgba(232,52,106,0.3);
+  }
+  .plan-cta.filled:hover {
+    box-shadow: 0 10px 32px rgba(232,52,106,0.4);
+    transform: translateY(-1px);
+  }
+
+  /* FINAL CTA */
+  .final-cta {
+    background: linear-gradient(135deg, var(--dark) 0%, var(--dark-mid) 100%);
+    padding: 100px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .final-cta::before {
+    content: '';
+    position: absolute;
+    top: -150px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(232,52,106,0.15) 0%, transparent 60%);
+    border-radius: 50%;
+  }
+  .final-cta-inner { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+  .final-cta h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 50px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 20px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+  .final-cta h2 em { font-style: italic; color: var(--pink-light); }
+  .final-cta p {
+    font-size: 17px;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 40px;
+    line-height: 1.7;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 32px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  footer .logo { color: rgba(255,255,255,0.5); font-size: 18px; }
+  footer p { font-size: 13px; color: rgba(255,255,255,0.3); }
+
+  /* ANIMATIONS */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 1100px) {
+    .hero-inner { gap: 48px; }
+    .hero h1 { font-size: 48px; }
+    .hero-photo { max-width: 400px; }
+  }
+  @media (max-width: 900px) {
+    .viewport-fill { min-height: 0; display: block; }
+    .hero {
+      padding: 60px 32px 80px;
+      display: block;
+      flex: none;
+    }
+    .hero-inner {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+    .hero-photo {
+      justify-self: center;
+      max-width: 360px;
+      max-height: none;
+      order: -1;
+      transform: rotate(0deg);
+    }
+    .hero-photo::before { display: none; }
+  }
+  /* PRELOADER */
+  .preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: linear-gradient(135deg, var(--cream) 0%, var(--pink-pale) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition:
+      opacity 0.7s cubic-bezier(0.65, 0, 0.35, 1),
+      transform 0.9s cubic-bezier(0.77, 0, 0.18, 1),
+      visibility 0s linear 0.9s;
+  }
+  .preloader::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(232,52,106,0.18) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: preloader-blob 6s ease-in-out infinite;
+  }
+  .preloader::after {
+    content: '';
+    position: absolute;
+    bottom: -150px; left: -150px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(232,52,106,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: preloader-blob 7s ease-in-out infinite reverse;
+  }
+  .preloader.done {
+    opacity: 0;
+    transform: translateY(-100%);
+    pointer-events: none;
+    visibility: hidden;
+  }
+  .preloader-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+  }
+  .preloader-mark {
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    color: var(--pink);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    opacity: 0;
+    transform: translateY(8px);
+    animation: pre-fade-up 0.7s 0.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .preloader-mark::before,
+  .preloader-mark::after {
+    content: '';
+    display: inline-block;
+    width: 28px;
+    height: 1px;
+    background: var(--pink);
+    vertical-align: middle;
+    margin: 0 14px;
+    opacity: 0.5;
+  }
+  .preloader-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 72px;
+    font-weight: 700;
+    color: var(--dark);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 36px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: pre-fade-up 1s 0.25s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .preloader-logo em {
+    font-style: italic;
+    color: var(--pink);
+  }
+  .preloader-line {
+    width: 220px;
+    height: 2px;
+    background: rgba(232,52,106,0.15);
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+    opacity: 0;
+    animation: pre-fade-up 0.6s 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .preloader-line::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--pink) 0%, var(--pink-light) 100%);
+    transform: translateX(-101%);
+    animation: pre-line 1.8s 0.7s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+  .preloader-caption {
+    margin-top: 22px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    opacity: 0;
+    animation: pre-fade-up 0.6s 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  @keyframes pre-fade-up {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pre-line {
+    to { transform: translateX(0); }
+  }
+  @keyframes preloader-blob {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(30px, 40px) scale(1.08); }
+  }
+  body.loading { overflow: hidden; }
+  @media (prefers-reduced-motion: reduce) {
+    .preloader-mark, .preloader-logo, .preloader-line, .preloader-caption {
+      animation-duration: 0.01s;
+      animation-delay: 0s;
+    }
+    .preloader::before, .preloader::after { animation: none; }
+  }
+
+  @media (max-width: 768px) {
+    .preloader-logo { font-size: 52px; }
+    .preloader-line { width: 160px; }
+    nav { padding: 14px 20px; }
+    .nav-links { display: none; }
+    .nav-cta { margin-left: 0; padding: 10px 18px; font-size: 13px; }
+    .hero { padding: 48px 20px 72px; }
+    .hero h1 { font-size: 38px; }
+    .hero-photo { max-width: 300px; border-radius: 22px; }
+    .hero-photo-badge { font-size: 12px; padding: 8px 14px; }
+    .hero-photo-tag { font-size: 12px; padding: 8px 14px; left: 14px; bottom: 14px; }
+    section { padding: 60px 24px; }
+    .section-title { font-size: 32px; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .price-card.featured { transform: none; }
+    .results-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 16px; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body class="loading">
+
+<!-- PRELOADER -->
+<div class="preloader" id="preloader" aria-hidden="true">
+  <div class="preloader-content">
+    <div class="preloader-mark">AI AI Content</div>
+    <div class="preloader-logo">Sofia <em>Kantser</em></div>
+    <div class="preloader-line"></div>
+    <div class="preloader-caption" data-i18n="preloader.caption">Подготавливаем для тебя пространство</div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#hero" class="logo">
+      <span class="logo-mark"><span class="logo-mark-text">sk</span></span>
+      <span class="logo-text">
+        <span class="logo-name">Sofia Kantser</span>
+        <span class="logo-sub">AI AI Content</span>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#hero" data-i18n="nav.brand">АЙ АЙ КОНТЕНТ</a></li>
+      <li><a href="#results" data-i18n="nav.cases">Кейсы</a></li>
+    </ul>
+    <a href="#pricing" class="nav-cta" data-i18n="nav.cta">Предзапись</a>
+    <button class="lang-toggle" id="langToggle" data-lang="ru" aria-label="Language">
+      <span class="lang-opt active" data-lang="ru">RU</span>
+      <span class="lang-opt" data-lang="en">EN</span>
+      <span class="lang-opt" data-lang="ro">RO</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO + TICKER (всегда занимают первый экран целиком) -->
+<div class="viewport-fill">
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge" data-i18n="hero.badge">Старт в июне</div>
+      <div class="hero-offer">
+        <h1 data-i18n-html="hero.title">Создавай AI-контент<br>для брендов и<br>зарабатывай <em>от €1500</em><br>в месяц</h1>
+        <p class="hero-sub" data-i18n-html="hero.sub">С нуля до первых заказов за 45 дней.<br>Без опыта в дизайне и знаний написания промтов.</p>
+      </div>
+      <a href="#pricing" class="cta-btn" data-i18n="cta.start">НАЧАТЬ СЕЙЧАС</a>
+    </div>
+    <div class="hero-photo">
+      <img src="sofia.jpg" alt="Sofia Kantser">
+      <div class="hero-photo-tag" data-i18n="hero.tag">Набор открыт</div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <div class="ticker-item"><span class="ticker-dot"></span><span data-i18n="ticker.1">Не нужно быть дизайнером - всё объясняю пошагово</span></div>
+    <div class="ticker-item"><span class="ticker-dot"></span><span data-i18n="ticker.2">Достаточно 1-2 часа в день</span></div>
+    <div class="ticker-item"><span class="ticker-dot"></span><span data-i18n="ticker.3">Получишь готовый план действий, а не просто знания</span></div>
+    <div class="ticker-item"><span class="ticker-dot"></span><span data-i18n="ticker.4">Всё реально - у моих учениц уже получилось</span></div>
+    <div class="ticker-item"><span class="ticker-dot"></span><span data-i18n="ticker.5">Окупаешь курс с первого заказа</span></div>
+    <div class="ticker-item"><span class="ticker-dot"></span><span data-i18n="ticker.1">Не нужно быть дизайнером - всё объясняю пошагово</span></div>
+    <div class="ticker-item"><span class="ticker-dot"></span><span data-i18n="ticker.2">Достаточно 1-2 часа в день</span></div>
+    <div class="ticker-item"><span class="ticker-dot"></span><span data-i18n="ticker.3">Получишь готовый план действий, а не просто знания</span></div>
+    <div class="ticker-item"><span class="ticker-dot"></span><span data-i18n="ticker.4">Всё реально - у моих учениц уже получилось</span></div>
+    <div class="ticker-item"><span class="ticker-dot"></span><span data-i18n="ticker.5">Окупаешь курс с первого заказа</span></div>
+  </div>
+</div>
+</div>
+<!-- /viewport-fill -->
+
+<!-- FOR WHO -->
+<section class="for-who">
+  <div class="section-inner">
+    <div class="section-title fade-in" data-i18n-html="forwho.title">Эта программа создана<br>для тебя, <em>если:</em></div>
+    <div class="cards-grid">
+      <div class="who-card fade-in">
+        <div class="card-num">01</div>
+        <p data-i18n="forwho.1">Ты хочешь зарабатывать из любой точки мира - без офиса, графика и злого начальника</p>
+      </div>
+      <div class="who-card fade-in">
+        <div class="card-num">02</div>
+        <p data-i18n="forwho.2">У тебя есть 2-3 свободных часа в день, и ты готова вложить их в своё будущее</p>
+      </div>
+      <div class="who-card fade-in">
+        <div class="card-num">03</div>
+        <p data-i18n="forwho.3">Ты хочешь иметь личный доход - не зависеть ни от кого</p>
+      </div>
+      <div class="who-card fade-in">
+        <div class="card-num">04</div>
+        <p data-i18n="forwho.4">Ты никогда не работала с AI - и именно поэтому хочешь начать сейчас, пока рынок не переполнен</p>
+      </div>
+      <div class="who-card fade-in">
+        <div class="card-num">05</div>
+        <p data-i18n="forwho.5">Ты устала от нестабильного дохода и хочешь навык, который приносит деньги регулярно</p>
+      </div>
+      <div class="who-card fade-in">
+        <div class="card-num">06</div>
+        <p data-i18n="forwho.6">Ты чувствуешь, что AI - это твоё, но не знаешь, с чего начать и как на этом зарабатывать</p>
+      </div>
+    </div>
+    <br><br>
+    <div style="text-align:center;">
+      <a href="#pricing" class="cta-btn" data-i18n="cta.start">НАЧАТЬ СЕЙЧАС</a>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="results">
+  <div class="section-inner">
+    <div class="section-label fade-in" data-i18n="results.label">Результаты</div>
+    <div class="section-title fade-in" data-i18n-html="results.title">Всего за <em>45 дней</em> ты:</div>
+    <div class="results-bento">
+      <div class="result-card result-card-big fade-in">
+        <div class="result-top">
+          <div class="result-icon">🚀</div>
+          <div class="result-num">01</div>
+        </div>
+        <p class="result-text" data-i18n-html="results.1">Освоишь <strong>AI-инструменты</strong>, которые уже сейчас используют топовые бренды</p>
+        <div class="result-metric" data-i18n="results.metric.1">45 дней практики</div>
+      </div>
+
+      <div class="result-card fade-in">
+        <div class="result-top">
+          <div class="result-icon">📁</div>
+          <div class="result-num">02</div>
+        </div>
+        <p class="result-text" data-i18n-html="results.2">Создашь <strong>портфолио</strong> из реальных проектов - работы, за которые платят</p>
+        <div class="result-metric" data-i18n="results.metric.2">Реальные кейсы</div>
+      </div>
+
+      <div class="result-card fade-in">
+        <div class="result-top">
+          <div class="result-icon">💸</div>
+          <div class="result-num">03</div>
+        </div>
+        <p class="result-text" data-i18n-html="results.3">Получишь <strong>первые заказы</strong> ещё во время обучения</p>
+        <div class="result-metric" data-i18n="results.metric.3">От €250 в неделю</div>
+      </div>
+
+      <div class="result-card fade-in">
+        <div class="result-top">
+          <div class="result-icon">📈</div>
+          <div class="result-num">04</div>
+        </div>
+        <p class="result-text" data-i18n-html="results.4">Выстроишь систему <strong>стабильного онлайн-дохода</strong>, которая работает каждый месяц</p>
+        <div class="result-metric" data-i18n="results.metric.4">От €1 500/мес</div>
+      </div>
+
+      <div class="result-card result-card-promise fade-in">
+        <div class="result-top">
+          <div class="result-icon">✦</div>
+          <div class="result-metric" data-i18n="results.promise.tag">Главное</div>
+        </div>
+        <div class="result-promise-title" data-i18n="results.promise2">Самое время начать - именно сейчас.</div>
+        <div class="result-promise-sub" data-i18n="results.promise">И всё это - без опыта в дизайне, без вложений на старт и без ощущения, что ты опоздала.</div>
+      </div>
+    </div>
+    <div style="text-align:center;">
+      <a href="#pricing" class="cta-btn" data-i18n="cta.start">НАЧАТЬ СЕЙЧАС</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT AUTHOR -->
+<section class="about">
+  <div class="section-inner">
+    <div class="about-inner">
+      <div class="about-photo fade-in">
+        <img src="sofia.jpg" alt="Sofia Kantser - автор курса">
+        <div class="about-photo-tag" data-i18n="about.photo.tag">Автор программы</div>
+      </div>
+      <div class="about-content">
+        <div class="section-label fade-in" data-i18n="about.label">Об авторе</div>
+        <div class="about-sign fade-in" data-i18n-html="about.sign">София - <em>автор программы</em><br>AI AI CONTENT</div>
+        <div class="about-text fade-in">
+          <p data-i18n="about.p1"><strong>7 лет в маркетинге</strong> - от офисного SMM до собственного агентства. Я знаю, что такое выгорание и потолок в доходе.</p>
+          <p data-i18n="about.p2"><strong>9 месяцев назад</strong> я кардинально изменила направление - погрузилась в AI-контент. Сегодня я зарабатываю от 3 000 до 5 000 € в месяц, работаю с крупными брендами и развиваю это направление в Молдове.</p>
+          <p data-i18n="about.p3">Я создала AI AI CONTENT, потому что вижу это каждый день: <strong>огромный спрос и почти нулевая конкуренция</strong>. 2026 - окно возможностей, бизнесы ищут тех, кто экономит им время, нервы и деньги. Это можем сделать именно мы, AI-креаторы. Я хочу, чтобы ты вошла в эту нишу одной из первых - пока рынок ждёт тебя.</p>
+        </div>
+        <div class="about-brands-label fade-in" data-i18n="about.brands.label">Бренды, с которыми я работала</div>
+        <div class="brand-marquee fade-in">
+          <div class="brand-marquee-track">
+            <div class="brand-logo"><img src="works/brands/Ovico_logo.png" alt="Ovico"></div>
+            <div class="brand-logo"><img src="works/brands/Biodance.svg.png" alt="Biodance"></div>
+            <div class="brand-logo"><img src="works/brands/Maalex.png" alt="Maalex"></div>
+            <div class="brand-logo"><img src="works/brands/2025_03_15_17_21_43_logo_fb.png" alt="Brand"></div>
+            <div class="brand-logo"><img src="works/brands/481415211_654651733698195_1387780956910937122_n.jpg" alt="Brand"></div>
+            <div class="brand-logo"><img src="works/brands/gy4r9u_p.svg" alt="Brand"></div>
+            <div class="brand-logo"><img src="works/brands/images.png" alt="Brand"></div>
+            <div class="brand-logo"><img src="works/brands/images%20%281%29.png" alt="Brand"></div>
+            <div class="brand-logo"><img src="works/brands/logo.svg" alt="Brand"></div>
+            <!-- дубль для бесшовного цикла -->
+            <div class="brand-logo"><img src="works/brands/Ovico_logo.png" alt="Ovico"></div>
+            <div class="brand-logo"><img src="works/brands/Biodance.svg.png" alt="Biodance"></div>
+            <div class="brand-logo"><img src="works/brands/Maalex.png" alt="Maalex"></div>
+            <div class="brand-logo"><img src="works/brands/2025_03_15_17_21_43_logo_fb.png" alt="Brand"></div>
+            <div class="brand-logo"><img src="works/brands/481415211_654651733698195_1387780956910937122_n.jpg" alt="Brand"></div>
+            <div class="brand-logo"><img src="works/brands/gy4r9u_p.svg" alt="Brand"></div>
+            <div class="brand-logo"><img src="works/brands/images.png" alt="Brand"></div>
+            <div class="brand-logo"><img src="works/brands/images%20%281%29.png" alt="Brand"></div>
+            <div class="brand-logo"><img src="works/brands/logo.svg" alt="Brand"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO (Мои работы) -->
+<section class="portfolio">
+  <div class="section-inner">
+    <div class="section-label fade-in" data-i18n="portfolio.label">Мои работы</div>
+    <div class="portfolio-header fade-in">
+      <div class="section-title" data-i18n-html="portfolio.title">То, что я создаю <em>для брендов</em></div>
+      <div class="students-controls">
+        <button class="students-arrow" id="portfolioPrev" aria-label="Назад">‹</button>
+        <button class="students-arrow" id="portfolioNext" aria-label="Вперёд">›</button>
+      </div>
+    </div>
+    <div class="portfolio-viewport">
+      <div class="portfolio-track" id="portfolioTrack">
+        <div class="work-card">
+          <video class="work-art" src="works/portfolio/IMG_0451.MOV" autoplay muted loop playsinline preload="metadata"></video>
+          <div class="work-tag" data-i18n="portfolio.tag.featured">Featured</div>
+          <div class="work-title">Кейс 01</div>
+          <div class="work-meta" data-i18n="portfolio.meta.video">Видео-кампания</div>
+        </div>
+        <div class="work-card">
+          <img class="work-art" src="works/portfolio/IMG_0695.JPG" alt="Кейс 02">
+          <div class="work-tag" data-i18n="portfolio.tag.beauty">Beauty</div>
+          <div class="work-title">Кейс 02</div>
+          <div class="work-meta" data-i18n="portfolio.meta.shoot">Фото-съёмка</div>
+        </div>
+        <div class="work-card">
+          <img class="work-art" src="works/portfolio/IMG_0698.JPG" alt="Кейс 03">
+          <div class="work-tag" data-i18n="portfolio.tag.lifestyle">Lifestyle</div>
+          <div class="work-title">Кейс 03</div>
+          <div class="work-meta" data-i18n="portfolio.meta.shoot">Фото-съёмка</div>
+        </div>
+        <div class="work-card">
+          <video class="work-art" src="works/portfolio/IMG_1375.MOV" autoplay muted loop playsinline preload="metadata"></video>
+          <div class="work-tag" data-i18n="portfolio.tag.fashion">Fashion</div>
+          <div class="work-title">Кейс 04</div>
+          <div class="work-meta" data-i18n="portfolio.meta.video">Видео-кампания</div>
+        </div>
+        <div class="work-card">
+          <video class="work-art" src="works/portfolio/IMG_2451.MOV" autoplay muted loop playsinline preload="metadata"></video>
+          <div class="work-tag" data-i18n="portfolio.tag.beauty">Beauty</div>
+          <div class="work-title">Кейс 05</div>
+          <div class="work-meta" data-i18n="portfolio.meta.video">Видео-кампания</div>
+        </div>
+        <div class="work-card">
+          <video class="work-art" src="works/portfolio/IMG_2472.MOV" autoplay muted loop playsinline preload="metadata"></video>
+          <div class="work-tag" data-i18n="portfolio.tag.featured">Featured</div>
+          <div class="work-title">Кейс 06</div>
+          <div class="work-meta" data-i18n="portfolio.meta.video">Видео-кампания</div>
+        </div>
+        <div class="work-card">
+          <video class="work-art" src="works/portfolio/IMG_8553.MOV" autoplay muted loop playsinline preload="metadata"></video>
+          <div class="work-tag" data-i18n="portfolio.tag.lifestyle">Lifestyle</div>
+          <div class="work-title">Кейс 07</div>
+          <div class="work-meta" data-i18n="portfolio.meta.video">Видео-кампания</div>
+        </div>
+        <div class="work-card">
+          <video class="work-art" src="works/portfolio/IMG_9205.MOV" autoplay muted loop playsinline preload="metadata"></video>
+          <div class="work-tag" data-i18n="portfolio.tag.fashion">Fashion</div>
+          <div class="work-title">Кейс 08</div>
+          <div class="work-meta" data-i18n="portfolio.meta.video">Видео-кампания</div>
+        </div>
+        <div class="work-card">
+          <video class="work-art" src="works/portfolio/IMG_9243.MOV" autoplay muted loop playsinline preload="metadata"></video>
+          <div class="work-tag" data-i18n="portfolio.tag.beauty">Beauty</div>
+          <div class="work-title">Кейс 09</div>
+          <div class="work-meta" data-i18n="portfolio.meta.video">Видео-кампания</div>
+        </div>
+        <div class="work-card">
+          <video class="work-art" src="works/portfolio/IMG_9442.MOV" autoplay muted loop playsinline preload="metadata"></video>
+          <div class="work-tag" data-i18n="portfolio.tag.lifestyle">Lifestyle</div>
+          <div class="work-title">Кейс 10</div>
+          <div class="work-meta" data-i18n="portfolio.meta.video">Видео-кампания</div>
+        </div>
+      </div>
+    </div>
+    <div class="portfolio-dots" id="portfolioDots"></div>
+  </div>
+</section>
+
+<!-- STUDENTS (Работы учеников) -->
+<section class="students">
+  <div class="section-inner">
+    <div class="section-label fade-in" data-i18n="students.label">Кейсы учениц</div>
+    <div class="students-header fade-in">
+      <div class="section-title" data-i18n-html="students.title">Их результаты <em>после курса</em></div>
+      <div class="students-controls">
+        <button class="students-arrow" id="studentsPrev" aria-label="Назад">‹</button>
+        <button class="students-arrow" id="studentsNext" aria-label="Вперёд">›</button>
+      </div>
+    </div>
+    <div class="students-viewport">
+      <div class="students-track" id="studentsTrack">
+        <article class="student-card" style="--bg: linear-gradient(135deg, #FF6B9D 0%, #C0185A 100%);">
+          <video class="student-art" src="works/IMG_7545.MOV" autoplay muted loop playsinline preload="metadata"></video>
+          <span class="student-play">▶</span>
+          <div class="student-bottom">
+            <div class="student-result-pill" data-i18n="stud.1.value">250 €</div>
+            <div class="student-meta">
+              <div class="student-avatar">А</div>
+              <div>
+                <div class="student-name" data-i18n="stud.1.name">Арина</div>
+                <div class="student-niche" data-i18n="stud.1.niche">Бренд одежды · Lookbook</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="student-card" style="--bg: linear-gradient(135deg, #1A1218 0%, #E8346A 100%);">
+          <video class="student-art" src="works/IMG_9518.MOV" autoplay muted loop playsinline preload="metadata"></video>
+          <span class="student-play">▶</span>
+          <div class="student-bottom">
+            <div class="student-result-pill" data-i18n="stud.2.value">600 €/мес</div>
+            <div class="student-meta">
+              <div class="student-avatar">Ю</div>
+              <div>
+                <div class="student-name" data-i18n="stud.2.name">Юля</div>
+                <div class="student-niche" data-i18n="stud.2.niche">Видео-реклама · HoReCa</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="student-card" style="--bg: linear-gradient(135deg, #E8346A 0%, #2D1F28 100%);">
+          <video class="student-art" src="works/PORSCHE%26SWAROWSKYmp4.mp4" autoplay muted loop playsinline preload="metadata"></video>
+          <span class="student-play">▶</span>
+          <div class="student-bottom">
+            <div class="student-result-pill" data-i18n="stud.3.value">4 клиента</div>
+            <div class="student-meta">
+              <div class="student-avatar">Е</div>
+              <div>
+                <div class="student-name" data-i18n="stud.3.name">Ева</div>
+                <div class="student-niche" data-i18n="stud.3.niche">AI-портреты · Блогеры</div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+    <div class="students-dots" id="studentsDots"></div>
+  </div>
+</section>
+
+<!-- REVIEWS (Отзывы учениц) -->
+<section class="reviews">
+  <div class="section-inner">
+    <div class="section-label fade-in" data-i18n="reviews.label">Отзывы учениц</div>
+    <div class="reviews-header fade-in">
+      <div>
+        <div class="section-title" data-i18n-html="reviews.title">Что говорят <em>мои ученицы</em></div>
+        <div class="reviews-subtitle" data-i18n="reviews.subtitle">Реальные люди. Реальные результаты.</div>
+      </div>
+      <div class="students-controls">
+        <button class="students-arrow" id="reviewsPrev" aria-label="Назад">‹</button>
+        <button class="students-arrow" id="reviewsNext" aria-label="Вперёд">›</button>
+      </div>
+    </div>
+    <div class="reviews-viewport">
+      <div class="reviews-track" id="reviewsTrack">
+        <article class="review-card">
+          <div class="review-head">
+            <div class="review-avatar">Д</div>
+            <div>
+              <div class="review-name" data-i18n="rev.1.name">Диана</div>
+              <div class="review-format" data-i18n="rev.1.format">📷 Отзыв с фото</div>
+            </div>
+          </div>
+          <p class="review-quote" data-i18n="rev.1.quote">«Удивилась профессионализму Сони несмотря на молодой возраст. Объяснения простые, без воды - после урока сразу хочется творить. Атмосфера поддержки и комфорта, которую сложно найти на других курсах.»</p>
+        </article>
+
+        <article class="review-card">
+          <div class="review-head">
+            <div class="review-avatar">Е</div>
+            <div>
+              <div class="review-name" data-i18n="rev.2.name">Ева</div>
+              <div class="review-format" data-i18n="rev.2.format">▶ Видео-отзыв</div>
+            </div>
+          </div>
+          <p class="review-quote" data-i18n="rev.2.quote">«Лучший курс из всех, что я проходила - за счёт настоящего коннекта с наставником. Чувствуется, что в тебя вкладываются, а не просто продали продукт. За ~30€ в месяц получила знания, за которые раньше платила 150€ и уходила ни с чем.»</p>
+        </article>
+
+        <article class="review-card">
+          <div class="review-head">
+            <div class="review-avatar">Ю</div>
+            <div>
+              <div class="review-name" data-i18n="rev.3.name">Юля</div>
+              <div class="review-format" data-i18n="rev.3.format">▶ Видео-отзыв</div>
+            </div>
+          </div>
+          <p class="review-quote" data-i18n="rev.3.quote">«Это мой первый купленный курс в жизни - и он оправдал ожидания на 100%. Уже во время обучения появились постоянные клиенты, продолжаю вести переговоры с другими.»</p>
+        </article>
+
+        <article class="review-card">
+          <div class="review-head">
+            <div class="review-avatar">А</div>
+            <div>
+              <div class="review-name" data-i18n="rev.4.name">Ангелина</div>
+              <div class="review-format" data-i18n="rev.4.format">📷 Отзыв с фото</div>
+            </div>
+          </div>
+          <p class="review-quote" data-i18n="rev.4.quote">«Соня - не просто преподаватель, к ней можно обратиться как к наставнику и классному человеку. Сильно отличается от рынка, где миллион курсов за 50$ - и ничему не учат. Ожидания полностью оправдались.»</p>
+        </article>
+
+        <article class="review-card">
+          <div class="review-head">
+            <div class="review-avatar">А</div>
+            <div>
+              <div class="review-name" data-i18n="rev.5.name">Арина</div>
+              <div class="review-format" data-i18n="rev.5.format">📷 Отзыв с фото</div>
+            </div>
+          </div>
+          <p class="review-quote" data-i18n="rev.5.quote">«Лучшие потраченные деньги за последние годы - ожидания были переплюнуты. Курс не только информативный, но и приятный по ощущениям. Личная оценка - «бесконечно из 10».»</p>
+        </article>
+      </div>
+    </div>
+    <div class="students-dots" id="reviewsDots"></div>
+  </div>
+</section>
+
+<!-- CURRICULUM -->
+<section class="curriculum">
+  <div class="section-inner">
+    <div class="section-label fade-in" data-i18n="curriculum.label">Программа</div>
+    <div class="section-title fade-in" data-i18n-html="curriculum.title">Твой путь от нуля до<br>первых клиентов <em>за 6 недель</em></div>
+    <div class="modules-grid">
+      <div class="module-card fade-in">
+        <div class="module-head">
+          <div class="module-num">1</div>
+          <div>
+            <div class="module-week" data-i18n="week.1">Неделя 1</div>
+            <div class="module-title" data-i18n="step.1.title">Мышление AI-креатора</div>
+          </div>
+        </div>
+        <p class="module-desc" data-i18n="step.1.desc">Прежде чем создавать - выстраиваем фундамент. Ты получишь систему мышления, чёткий план до первых денег и внутренний настрой, который не даёт сдаться на полпути.</p>
+        <div class="module-meta">
+          <div class="module-result" data-i18n="step.1.result">Больше никаких «а вдруг не получится» - ты знаешь, куда идёшь</div>
+        </div>
+      </div>
+
+      <div class="module-card fade-in">
+        <div class="module-head">
+          <div class="module-num">2</div>
+          <div>
+            <div class="module-week" data-i18n="week.2">Неделя 2</div>
+            <div class="module-title" data-i18n="step.2.title">Насмотренность и стиль</div>
+          </div>
+        </div>
+        <p class="module-desc" data-i18n="step.2.desc">Учишься видеть сильный визуал и отличать его от слабого. Формируешь собственный визуальный стиль - основу, от которой будешь отталкиваться при создании любого контента.</p>
+        <div class="module-meta">
+          <div class="module-result" data-i18n="step.2.result">Твоя личная визуальная база готова</div>
+        </div>
+      </div>
+
+      <div class="module-card fade-in">
+        <div class="module-head">
+          <div class="module-num">3</div>
+          <div>
+            <div class="module-week" data-i18n="week.3">Неделя 3</div>
+            <div class="module-title" data-i18n="step.3.title">Промпты и AI-ассистент</div>
+          </div>
+        </div>
+        <p class="module-desc" data-i18n="step.3.desc">Осваиваешь систему написания промптов, которая срабатывает с первого раза. Создаёшь личного AI-ассистента, который делает работу за тебя.</p>
+        <div class="module-meta">
+          <div class="module-bonus" data-i18n="step.3.bonus">Бонус: готовый чат-ассистент по промптингу - настроенный GPT</div>
+          <div class="module-result" data-i18n="step.3.result">Управляешь нейросетью как профессиональным инструментом</div>
+        </div>
+      </div>
+
+      <div class="module-card fade-in">
+        <div class="module-head">
+          <div class="module-num">4</div>
+          <div>
+            <div class="module-week" data-i18n="week.4">Неделя 4</div>
+            <div class="module-title" data-i18n="step.4.title">Создаём фотографии</div>
+          </div>
+        </div>
+        <p class="module-desc" data-i18n="step.4.desc">Работаешь со светом, платформами для генерации и создаёшь детализированного персонажа, который выглядит как реальный человек. Нейрофотосессии и товарная съёмка - не выходя из дома.</p>
+        <div class="module-meta">
+          <div class="module-bonus" data-i18n="step.4.bonus">Бонус: гайд по детализации кожи + ТЗ от реального клиента</div>
+          <div class="module-result" data-i18n="step.4.result">Первые 200-300 € уже на этом этапе</div>
+        </div>
+      </div>
+
+      <div class="module-card fade-in">
+        <div class="module-head">
+          <div class="module-num">5</div>
+          <div>
+            <div class="module-week" data-i18n="week.5">Неделя 5</div>
+            <div class="module-title" data-i18n="step.5.title">Создаём видео</div>
+          </div>
+        </div>
+        <p class="module-desc" data-i18n="step.5.desc">Создаёшь полноценное коммерческое видео, монтируешь в CapCut и добавляешь звук. Самая востребованная услуга в AI-контенте - и ты её освоишь.</p>
+        <div class="module-meta">
+          <div class="module-result" data-i18n="step.5.result">От 200 € за одно видео / до 4 000 € в месяц</div>
+        </div>
+      </div>
+
+      <div class="module-card fade-in">
+        <div class="module-head">
+          <div class="module-num">6</div>
+          <div>
+            <div class="module-week" data-i18n="week.6">Неделя 6</div>
+            <div class="module-title" data-i18n="step.6.title">Продажи и первые клиенты</div>
+          </div>
+        </div>
+        <p class="module-desc" data-i18n="step.6.desc">Узнаёшь реальные цены на AI-контент, получаешь шаблоны переписки и учишься закрывать любые возражения - от «дорого» до «подумаем».</p>
+        <div class="module-meta">
+          <div class="module-result" data-i18n="step.6.result">Страх продаж позади - пишешь клиентам уверенно</div>
+        </div>
+      </div>
+
+      <div class="module-card module-final fade-in">
+        <div class="module-head">
+          <div class="module-num">7</div>
+          <div>
+            <div class="module-week" data-i18n="week.7">Финал</div>
+            <div class="module-title" data-i18n="step.7.title">Портфолио и Диплом</div>
+          </div>
+        </div>
+        <p class="module-desc" data-i18n="step.7.desc">Собираешь сильное портфолио, упакованное под клиента. Защищаешь дипломный проект и получаешь живой разбор работ с планом дальнейшего развития.</p>
+        <div class="module-meta">
+          <div class="module-result" data-i18n="step.7.result">За 6 недель - от новичка до востребованного специалиста</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="section-inner">
+    <div class="section-label fade-in" data-i18n="pricing.label">Тарифы</div>
+    <div class="section-title fade-in" data-i18n-html="pricing.title">Выбери свой формат <em>участия</em></div>
+    <div class="pricing-grid">
+
+      <!-- БАЗА -->
+      <div class="price-card fade-in">
+        <span class="plan-medal">🥉</span>
+        <div class="plan-name" data-i18n="plan.base.name">БАЗА</div>
+        <p class="plan-desc" data-i18n="plan.base.desc">Хочешь освоить AI-инструменты в своём темпе и без наставника - это твой базовый старт в профессии</p>
+        <div class="plan-price">
+          <div class="price-main">~270$</div>
+          <div class="price-sub" data-i18n="plan.base.sub">4 900 MDL · Шаги 1-5</div>
+        </div>
+        <ul class="plan-features">
+          <li data-i18n="feat.1">Записанные видеоуроки</li>
+          <li data-i18n="plan.base.access">Доступ к материалам - 3 месяца</li>
+          <li class="locked" data-i18n="feat.3">Закрытый Telegram-чат с учениками</li>
+          <li class="locked" data-i18n="feat.4">Проверка домашних заданий куратором</li>
+          <li class="locked" data-i18n="feat.5">Zoom-разборы работ - 1 раз в неделю</li>
+          <li class="locked" data-i18n="feat.6">Защита диплома и упаковка портфолио</li>
+          <li class="locked" data-i18n="feat.7">Личная обратная связь от Сони на каждое задание</li>
+          <li class="locked" data-i18n="feat.8">Личный Zoom-разбор портфолио с Соней</li>
+          <li class="locked" data-i18n="feat.9">Помощь с упаковкой профиля под клиентов</li>
+          <li class="locked" data-i18n="feat.10">Помощь в закрытии первой сделки</li>
+          <li class="locked" data-i18n="feat.11">Закрытый чат VIP-учениц</li>
+          <li class="locked" data-i18n="feat.12">Готовый GPT-ассистент по промптингу</li>
+          <li class="locked" data-i18n="feat.13">Гайд по детализации кожи + шаблон ТЗ</li>
+        </ul>
+        <a href="#" class="plan-cta outline" data-i18n="cta.start">НАЧАТЬ СЕЙЧАС</a>
+      </div>
+
+      <!-- СТАНДАРТ -->
+      <div class="price-card featured fade-in">
+        <div class="popular-badge" data-i18n="plan.popular">🔥 Самый популярный</div>
+        <span class="plan-medal">🥈</span>
+        <div class="plan-name" data-i18n="plan.std.name">СТАНДАРТ</div>
+        <p class="plan-desc" data-i18n="plan.std.desc">Хочешь полный курс, обратную связь и реальные первые заказы - оптимальный выбор для большинства</p>
+        <div class="plan-price">
+          <div class="price-main">~550$</div>
+          <div class="price-sub" data-i18n="plan.std.sub">9 900 MDL · Все 7 шагов</div>
+        </div>
+        <ul class="plan-features">
+          <li data-i18n="feat.1">Записанные видеоуроки</li>
+          <li data-i18n="plan.std.access">Доступ к материалам - 6 месяцев</li>
+          <li data-i18n="feat.3">Закрытый Telegram-чат с учениками</li>
+          <li data-i18n="feat.4">Проверка домашних заданий куратором</li>
+          <li data-i18n="feat.5">Zoom-разборы работ - 1 раз в неделю</li>
+          <li data-i18n="feat.6">Защита диплома и упаковка портфолио</li>
+          <li class="locked" data-i18n="feat.7">Личная обратная связь от Сони на каждое задание</li>
+          <li class="locked" data-i18n="feat.8">Личный Zoom-разбор портфолио с Соней</li>
+          <li class="locked" data-i18n="feat.9">Помощь с упаковкой профиля под клиентов</li>
+          <li class="locked" data-i18n="feat.10">Помощь в закрытии первой сделки</li>
+          <li class="locked" data-i18n="feat.11">Закрытый чат VIP-учениц</li>
+          <li class="bonus" data-i18n="feat.12">Готовый GPT-ассистент по промптингу</li>
+          <li class="bonus" data-i18n="feat.13">Гайд по детализации кожи + шаблон ТЗ</li>
+        </ul>
+        <a href="#" class="plan-cta filled" data-i18n="cta.start">НАЧАТЬ СЕЙЧАС</a>
+      </div>
+
+      <!-- VIP -->
+      <div class="price-card fade-in">
+        <span class="plan-medal">🥇</span>
+        <div class="plan-name" data-i18n="plan.vip.name">VIP</div>
+        <p class="plan-desc" data-i18n="plan.vip.desc">Ты проходишь все семь шагов - от мышления до диплома и первой сделки. Личное сопровождение до результата</p>
+        <div class="plan-price">
+          <div class="price-main">~1 100$</div>
+          <div class="price-sub" data-i18n="plan.vip.sub">19 900 MDL · Все 7 шагов</div>
+        </div>
+        <ul class="plan-features">
+          <li data-i18n="feat.1">Записанные видеоуроки</li>
+          <li data-i18n="plan.vip.access">Доступ к материалам - 12 месяцев</li>
+          <li data-i18n="feat.3">Закрытый Telegram-чат с учениками</li>
+          <li data-i18n="feat.4">Проверка домашних заданий куратором</li>
+          <li data-i18n="feat.5">Zoom-разборы работ - 1 раз в неделю</li>
+          <li data-i18n="feat.6">Защита диплома и упаковка портфолио</li>
+          <li data-i18n="feat.7">Личная обратная связь от Сони на каждое задание</li>
+          <li data-i18n="feat.8">Личный Zoom-разбор портфолио с Соней</li>
+          <li data-i18n="feat.9">Помощь с упаковкой профиля под клиентов</li>
+          <li data-i18n="feat.10">Помощь в закрытии первой сделки</li>
+          <li data-i18n="feat.11">Закрытый чат VIP-учениц</li>
+          <li class="bonus" data-i18n="feat.12">Готовый GPT-ассистент по промптингу</li>
+          <li class="bonus" data-i18n="feat.13">Гайд по детализации кожи + шаблон ТЗ</li>
+        </ul>
+        <a href="#" class="plan-cta outline" data-i18n="cta.start">НАЧАТЬ СЕЙЧАС</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="final-cta-inner">
+    <h2 data-i18n-html="final.title">Напиши мне, если ты готова стать <em>звездой AI-мира</em> прямо сейчас</h2>
+    <p data-i18n="final.sub">2026 год - это окно возможностей с огромным спросом и почти нулевой конкуренцией. Я хочу, чтобы ты вошла в эту нишу первой.</p>
+    <a href="#pricing" class="cta-btn" data-i18n="cta.start">НАЧАТЬ СЕЙЧАС</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">AI AI CONTENT</div>
+  <p data-i18n="footer.copy">© 2026 Соня · AI AI CONTENT · Все права защищены</p>
+</footer>
+
+<script>
+// GENERIC SLIDER — общий движок горизонтальной карусели
+function initSlider({ trackId, prevId, nextId, dotsId }) {
+  const track = document.getElementById(trackId);
+  const prev = document.getElementById(prevId);
+  const next = document.getElementById(nextId);
+  const dotsBox = document.getElementById(dotsId);
+  if (!track || !prev || !next) return;
+
+  const cards = [...track.children];
+  let visible = 3;
+  let current = 0;
+  let touchStartX = 0;
+
+  function recalcVisible() {
+    const card = cards[0];
+    if (!card) { visible = 1; return; }
+    const viewport = track.parentElement;
+    const vw = viewport.getBoundingClientRect().width;
+    const cw = card.getBoundingClientRect().width;
+    const gap = parseFloat(getComputedStyle(track).gap) || 20;
+    visible = Math.max(1, Math.round((vw + gap) / (cw + gap)));
+  }
+  function maxIndex() { return Math.max(0, cards.length - visible); }
+
+  function renderDots() {
+    if (!dotsBox) return;
+    dotsBox.innerHTML = '';
+    const pages = maxIndex() + 1;
+    for (let i = 0; i < pages; i++) {
+      const dot = document.createElement('button');
+      dot.className = 'students-dot' + (i === current ? ' active' : '');
+      dot.setAttribute('aria-label', `Страница ${i + 1}`);
+      dot.addEventListener('click', () => goTo(i));
+      dotsBox.appendChild(dot);
+    }
+  }
+
+  function update() {
+    const card = cards[0];
+    if (!card) return;
+    const style = getComputedStyle(track);
+    const gap = parseFloat(style.gap) || 20;
+    const step = card.getBoundingClientRect().width + gap;
+    track.style.transform = `translateX(${-current * step}px)`;
+    prev.disabled = current === 0;
+    next.disabled = current >= maxIndex();
+    if (dotsBox) {
+      dotsBox.querySelectorAll('.students-dot').forEach((d, i) => {
+        d.classList.toggle('active', i === current);
+      });
+    }
+  }
+
+  function goTo(idx) {
+    current = Math.max(0, Math.min(idx, maxIndex()));
+    update();
+  }
+
+  prev.addEventListener('click', () => goTo(current - 1));
+  next.addEventListener('click', () => goTo(current + 1));
+
+  track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend', e => {
+    const dx = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(dx) < 40) return;
+    goTo(current + (dx > 0 ? 1 : -1));
+  });
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      recalcVisible();
+      current = Math.min(current, maxIndex());
+      renderDots();
+      update();
+    }, 120);
+  });
+
+  recalcVisible();
+  renderDots();
+  update();
+}
+
+initSlider({
+  trackId: 'portfolioTrack',
+  prevId: 'portfolioPrev',
+  nextId: 'portfolioNext',
+  dotsId: 'portfolioDots'
+});
+
+initSlider({
+  trackId: 'studentsTrack',
+  prevId: 'studentsPrev',
+  nextId: 'studentsNext',
+  dotsId: 'studentsDots'
+});
+
+initSlider({
+  trackId: 'reviewsTrack',
+  prevId: 'reviewsPrev',
+  nextId: 'reviewsNext',
+  dotsId: 'reviewsDots'
+});
+
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// I18N — словарь переводов и переключатель языка
+const I18N = {
+  ru: {
+    'nav.brand': 'АЙ АЙ КОНТЕНТ',
+    'nav.cases': 'Кейсы',
+    'nav.cta': 'Предзапись',
+    'preloader.caption': 'Подготавливаем для тебя пространство',
+    'hero.badge': 'Старт в июне',
+    'hero.title': 'Создавай AI-контент<br>для брендов и<br>зарабатывай <em>от €1500</em><br>в месяц',
+    'hero.sub': 'С нуля до первых заказов за 45 дней.<br>Без опыта в дизайне и знаний написания промтов.',
+    'hero.tag': 'Набор открыт',
+    'cta.start': 'НАЧАТЬ СЕЙЧАС',
+    'ticker.1': 'Не нужно быть дизайнером - всё объясняю пошагово',
+    'ticker.2': 'Достаточно 1-2 часа в день',
+    'ticker.3': 'Получишь готовый план действий, а не просто знания',
+    'ticker.4': 'Всё реально - у моих учениц уже получилось',
+    'ticker.5': 'Окупаешь курс с первого заказа',
+    'forwho.title': 'Эта программа создана<br>для тебя, <em>если:</em>',
+    'forwho.1': 'Ты хочешь зарабатывать из любой точки мира - без офиса, графика и злого начальника',
+    'forwho.2': 'У тебя есть 2-3 свободных часа в день, и ты готова вложить их в своё будущее',
+    'forwho.3': 'Ты хочешь иметь личный доход - не зависеть ни от кого',
+    'forwho.4': 'Ты никогда не работала с AI - и именно поэтому хочешь начать сейчас, пока рынок не переполнен',
+    'forwho.5': 'Ты устала от нестабильного дохода и хочешь навык, который приносит деньги регулярно',
+    'forwho.6': 'Ты чувствуешь, что AI - это твоё, но не знаешь, с чего начать и как на этом зарабатывать',
+    'results.label': 'Результаты',
+    'results.title': 'Всего за <em>45 дней</em> ты:',
+    'results.1': 'Освоишь <strong>AI-инструменты</strong>, которые уже сейчас используют топовые бренды',
+    'results.2': 'Создашь <strong>портфолио</strong> из реальных проектов - работы, за которые платят',
+    'results.3': 'Получишь <strong>первые заказы</strong> ещё во время обучения',
+    'results.4': 'Выстроишь систему <strong>стабильного онлайн-дохода</strong>, которая работает каждый месяц',
+    'results.promise': 'И всё это - без опыта в дизайне, без вложений на старт и без ощущения, что ты опоздала.',
+    'results.promise2': 'Самое время начать - именно сейчас.',
+    'results.promise.tag': 'Главное',
+    'results.metric.1': '45 дней практики',
+    'results.metric.2': 'Реальные кейсы',
+    'results.metric.3': 'От €250 в неделю',
+    'results.metric.4': 'От €1 500/мес',
+    'about.label': 'Об авторе',
+    'about.sign': 'София - <em>автор программы</em><br>AI AI CONTENT',
+    'about.photo.tag': 'Автор программы',
+    'about.p1': '<strong>7 лет в маркетинге</strong> - от офисного SMM до собственного агентства. Я знаю, что такое выгорание и потолок в доходе.',
+    'about.p2': '<strong>9 месяцев назад</strong> я кардинально изменила направление - погрузилась в AI-контент. Сегодня я зарабатываю от 3 000 до 5 000 € в месяц, работаю с крупными брендами и развиваю это направление в Молдове.',
+    'about.p3': 'Я создала AI AI CONTENT, потому что вижу это каждый день: <strong>огромный спрос и почти нулевая конкуренция</strong>. 2026 - окно возможностей, бизнесы ищут тех, кто экономит им время, нервы и деньги. Это можем сделать именно мы, AI-креаторы. Я хочу, чтобы ты вошла в эту нишу одной из первых - пока рынок ждёт тебя.',
+    'about.brands.label': 'Бренды, с которыми я работала',
+    'reviews.label': 'Отзывы учениц',
+    'reviews.title': 'Что говорят <em>мои ученицы</em>',
+    'reviews.subtitle': 'Реальные люди. Реальные результаты.',
+    'rev.1.name': 'Диана',
+    'rev.1.format': '📷 Отзыв с фото',
+    'rev.1.quote': '«Удивилась профессионализму Сони несмотря на молодой возраст. Объяснения простые, без воды - после урока сразу хочется творить. Атмосфера поддержки и комфорта, которую сложно найти на других курсах.»',
+    'rev.2.name': 'Ева',
+    'rev.2.format': '▶ Видео-отзыв',
+    'rev.2.quote': '«Лучший курс из всех, что я проходила - за счёт настоящего коннекта с наставником. Чувствуется, что в тебя вкладываются, а не просто продали продукт. За ~30€ в месяц получила знания, за которые раньше платила 150€ и уходила ни с чем.»',
+    'rev.3.name': 'Юля',
+    'rev.3.format': '▶ Видео-отзыв',
+    'rev.3.quote': '«Это мой первый купленный курс в жизни - и он оправдал ожидания на 100%. Уже во время обучения появились постоянные клиенты, продолжаю вести переговоры с другими.»',
+    'rev.4.name': 'Ангелина',
+    'rev.4.format': '📷 Отзыв с фото',
+    'rev.4.quote': '«Соня - не просто преподаватель, к ней можно обратиться как к наставнику и классному человеку. Сильно отличается от рынка, где миллион курсов за 50$ - и ничему не учат. Ожидания полностью оправдались.»',
+    'rev.5.name': 'Арина',
+    'rev.5.format': '📷 Отзыв с фото',
+    'rev.5.quote': '«Лучшие потраченные деньги за последние годы - ожидания были переплюнуты. Курс не только информативный, но и приятный по ощущениям. Личная оценка - «бесконечно из 10».»',
+    'portfolio.label': 'Мои работы',
+    'portfolio.title': 'То, что я создаю <em>для брендов</em>',
+    'portfolio.tag.featured': 'Featured',
+    'portfolio.tag.beauty': 'Beauty',
+    'portfolio.tag.jewelry': 'Ювелирка',
+    'portfolio.tag.fashion': 'Fashion',
+    'portfolio.tag.lifestyle': 'Lifestyle',
+    'portfolio.tag.video': 'Видео',
+    'portfolio.tag.portraits': 'AI-портреты',
+    'portfolio.tag.campaign': 'Кампания',
+    'portfolio.meta.1': 'Beauty · Весенняя кампания',
+    'portfolio.meta.2': 'Продуктовая съёмка',
+    'portfolio.meta.3': 'Праздничная кампания',
+    'portfolio.meta.4': 'Зимний editorial',
+    'portfolio.meta.5': 'Городская кампания',
+    'portfolio.meta.video': 'Видео-кампания',
+    'portfolio.meta.shoot': 'Фото-съёмка',
+    'curriculum.label': 'Программа',
+    'curriculum.title': 'Твой путь от нуля до<br>первых клиентов <em>за 6 недель</em>',
+    'week.1': 'Неделя 1', 'week.2': 'Неделя 2', 'week.3': 'Неделя 3',
+    'week.4': 'Неделя 4', 'week.5': 'Неделя 5', 'week.6': 'Неделя 6', 'week.7': 'Финал',
+    'step.1.title': 'Мышление AI-креатора',
+    'step.1.desc': 'Прежде чем создавать - выстраиваем фундамент. Ты получишь систему мышления, чёткий план до первых денег и внутренний настрой, который не даёт сдаться на полпути.',
+    'step.1.result': 'Больше никаких «а вдруг не получится» - ты знаешь, куда идёшь',
+    'step.2.title': 'Насмотренность и стиль',
+    'step.2.desc': 'Учишься видеть сильный визуал и отличать его от слабого. Формируешь собственный визуальный стиль - основу, от которой будешь отталкиваться при создании любого контента.',
+    'step.2.result': 'Твоя личная визуальная база готова',
+    'step.3.title': 'Промпты и AI-ассистент',
+    'step.3.desc': 'Осваиваешь систему написания промптов, которая срабатывает с первого раза. Создаёшь личного AI-ассистента, который делает работу за тебя.',
+    'step.3.bonus': 'Бонус: готовый чат-ассистент по промптингу - настроенный GPT',
+    'step.3.result': 'Управляешь нейросетью как профессиональным инструментом',
+    'step.4.title': 'Создаём фотографии',
+    'step.4.desc': 'Работаешь со светом, платформами для генерации и создаёшь детализированного персонажа, который выглядит как реальный человек. Нейрофотосессии и товарная съёмка - не выходя из дома.',
+    'step.4.bonus': 'Бонус: гайд по детализации кожи + ТЗ от реального клиента',
+    'step.4.result': 'Первые 200-300 € уже на этом этапе',
+    'step.5.title': 'Создаём видео',
+    'step.5.desc': 'Создаёшь полноценное коммерческое видео, монтируешь в CapCut и добавляешь звук. Самая востребованная услуга в AI-контенте - и ты её освоишь.',
+    'step.5.result': 'От 200 € за одно видео / до 4 000 € в месяц',
+    'step.6.title': 'Продажи и первые клиенты',
+    'step.6.desc': 'Узнаёшь реальные цены на AI-контент, получаешь шаблоны переписки и учишься закрывать любые возражения - от «дорого» до «подумаем».',
+    'step.6.result': 'Страх продаж позади - пишешь клиентам уверенно',
+    'step.7.title': 'Портфолио и Диплом',
+    'step.7.desc': 'Собираешь сильное портфолио, упакованное под клиента. Защищаешь дипломный проект и получаешь живой разбор работ с планом дальнейшего развития.',
+    'step.7.result': 'За 6 недель - от новичка до востребованного специалиста',
+    'students.label': 'Кейсы учениц',
+    'students.title': 'Их результаты <em>после курса</em>',
+    'stud.1.name': 'Арина', 'stud.1.niche': 'Бренд одежды · Lookbook',
+    'stud.1.value': '250 €', 'stud.1.label': 'первый заказ',
+    'stud.2.name': 'Юля', 'stud.2.niche': 'Видео-реклама · HoReCa',
+    'stud.2.value': '600 €/мес', 'stud.2.label': 'постоянный клиент',
+    'stud.3.name': 'Ева', 'stud.3.niche': 'AI-портреты · Блогеры',
+    'stud.3.value': '4 клиента', 'stud.3.label': 'за неделю',
+    'pricing.label': 'Тарифы',
+    'pricing.title': 'Выбери свой формат <em>участия</em>',
+    'plan.popular': '🔥 Самый популярный',
+    'plan.base.name': 'БАЗА',
+    'plan.base.desc': 'Хочешь освоить AI-инструменты в своём темпе и без наставника - это твой базовый старт в профессии',
+    'plan.base.sub': '4 900 MDL · Шаги 1-5',
+    'plan.base.access': 'Доступ к материалам - 3 месяца',
+    'plan.std.name': 'СТАНДАРТ',
+    'plan.std.desc': 'Хочешь полный курс, обратную связь и реальные первые заказы - оптимальный выбор для большинства',
+    'plan.std.sub': '9 900 MDL · Все 7 шагов',
+    'plan.std.access': 'Доступ к материалам - 6 месяцев',
+    'plan.vip.name': 'VIP',
+    'plan.vip.desc': 'Ты проходишь все семь шагов - от мышления до диплома и первой сделки. Личное сопровождение до результата',
+    'plan.vip.sub': '19 900 MDL · Все 7 шагов',
+    'plan.vip.access': 'Доступ к материалам - 12 месяцев',
+    'feat.1': 'Записанные видеоуроки',
+    'feat.3': 'Закрытый Telegram-чат с учениками',
+    'feat.4': 'Проверка домашних заданий куратором',
+    'feat.5': 'Zoom-разборы работ - 1 раз в неделю',
+    'feat.6': 'Защита диплома и упаковка портфолио',
+    'feat.7': 'Личная обратная связь от Сони на каждое задание',
+    'feat.8': 'Личный Zoom-разбор портфолио с Соней',
+    'feat.9': 'Помощь с упаковкой профиля под клиентов',
+    'feat.10': 'Помощь в закрытии первой сделки',
+    'feat.11': 'Закрытый чат VIP-учениц',
+    'feat.12': 'Готовый GPT-ассистент по промптингу',
+    'feat.13': 'Гайд по детализации кожи + шаблон ТЗ',
+    'final.title': 'Напиши мне, если ты готова стать <em>звездой AI-мира</em> прямо сейчас',
+    'final.sub': '2026 год - это окно возможностей с огромным спросом и почти нулевой конкуренцией. Я хочу, чтобы ты вошла в эту нишу первой.',
+    'footer.copy': '© 2026 Sofia Kantser · AI AI CONTENT · Все права защищены'
+  },
+  en: {
+    'nav.brand': 'AI AI CONTENT',
+    'nav.cases': 'Cases',
+    'nav.cta': 'Pre-register',
+    'preloader.caption': 'Setting up your space',
+    'hero.badge': 'Starting in June',
+    'hero.title': 'Create AI content<br>for brands and earn<br><em>from €1500</em><br>per month',
+    'hero.sub': 'From zero to first orders in 45 days.<br>No design experience or prompt-writing skills required.',
+    'hero.tag': 'Enrollment open',
+    'cta.start': 'START NOW',
+    'ticker.1': 'No need to be a designer - I walk you through every step',
+    'ticker.2': 'Just 1-2 hours a day is enough',
+    'ticker.3': "You get a ready action plan, not just knowledge",
+    'ticker.4': 'It works - my students have already done it',
+    'ticker.5': 'Pay off the course with your very first order',
+    'forwho.title': 'This program is built<br>for you, <em>if:</em>',
+    'forwho.1': 'You want to earn from anywhere - no office, no schedule, no boss',
+    'forwho.2': 'You have 2-3 free hours a day and are ready to invest them in your future',
+    'forwho.3': 'You want your own personal income - to depend on no one',
+    'forwho.4': "You've never worked with AI - and that's exactly why you want to start now, before the market gets crowded",
+    'forwho.5': "You're tired of unstable income and want a skill that brings money on a regular basis",
+    'forwho.6': "You feel AI is your thing, but don't know where to start or how to earn from it",
+    'results.label': 'Results',
+    'results.title': 'In just <em>45 days</em> you will:',
+    'results.1': 'Master the <strong>AI tools</strong> that top brands are already using today',
+    'results.2': 'Build a <strong>portfolio</strong> from real projects - work that people pay for',
+    'results.3': 'Get your <strong>first paying orders</strong> while still studying',
+    'results.4': 'Build a system of <strong>stable online income</strong> that works every single month',
+    'results.promise': 'And all this - without design experience, without upfront investment and without feeling that you are late.',
+    'results.promise2': 'The right time to start is now.',
+    'results.promise.tag': 'The key',
+    'results.metric.1': '45 days of practice',
+    'results.metric.2': 'Real projects',
+    'results.metric.3': 'From €250/week',
+    'results.metric.4': 'From €1,500/mo',
+    'about.label': 'About the author',
+    'about.sign': 'Sofia - <em>creator of</em><br>AI AI CONTENT',
+    'about.photo.tag': 'Course author',
+    'about.p1': '<strong>7 years in marketing</strong> - from office SMM to my own agency. I know what burnout and an income ceiling feel like.',
+    'about.p2': '<strong>9 months ago</strong> I changed direction completely - went all-in on AI content. Today I earn €3,000-5,000 per month, work with major brands and grow this niche in Moldova.',
+    'about.p3': 'I built AI AI CONTENT because I see it every day: <strong>huge demand and almost no competition</strong>. 2026 is a window of opportunity - businesses are looking for people who save them time, nerves and money. That is exactly what AI creators do. I want you to enter this niche among the first - while the market is still waiting for you.',
+    'about.brands.label': 'Brands I have worked with',
+    'reviews.label': 'Reviews',
+    'reviews.title': 'What <em>my students say</em>',
+    'reviews.subtitle': 'Real people. Real results.',
+    'rev.1.name': 'Diana',
+    'rev.1.format': '📷 Photo review',
+    'rev.1.quote': '"I was impressed by Sofia\'s expertise despite her age. Explanations are simple and to the point - right after a lesson you want to create. The support and comfort here is rare on other courses."',
+    'rev.2.name': 'Eva',
+    'rev.2.format': '▶ Video review',
+    'rev.2.quote': '"The best course I have ever taken - because of the real connection with the mentor. You feel they invest in you, not just sold you a product. For ~€30 a month I got knowledge I used to pay €150 for and walk away with nothing."',
+    'rev.3.name': 'Julia',
+    'rev.3.format': '▶ Video review',
+    'rev.3.quote': '"This is the first course I have ever purchased - and it met expectations 100%. Recurring clients appeared while I was still studying, and I am in talks with new ones."',
+    'rev.4.name': 'Angelina',
+    'rev.4.format': '📷 Photo review',
+    'rev.4.quote': '"Sofia is not just a teacher - you can come to her as a mentor and a great human. Very different from the market full of $50 courses that teach nothing. Expectations fully met."',
+    'rev.5.name': 'Arina',
+    'rev.5.format': '📷 Photo review',
+    'rev.5.quote': '"Best money I have spent in years - expectations were exceeded. The course is not just informative, it feels good. My personal rating - infinity out of 10."',
+    'portfolio.label': 'My work',
+    'portfolio.title': 'What I create <em>for brands</em>',
+    'portfolio.tag.featured': 'Featured',
+    'portfolio.tag.beauty': 'Beauty',
+    'portfolio.tag.jewelry': 'Jewelry',
+    'portfolio.tag.fashion': 'Fashion',
+    'portfolio.tag.lifestyle': 'Lifestyle',
+    'portfolio.tag.video': 'Video',
+    'portfolio.tag.portraits': 'AI portraits',
+    'portfolio.tag.campaign': 'Campaign',
+    'portfolio.meta.1': 'Beauty · Spring campaign',
+    'portfolio.meta.2': 'Product photoshoot',
+    'portfolio.meta.3': 'Holiday campaign',
+    'portfolio.meta.4': 'Winter editorial',
+    'portfolio.meta.5': 'Urban campaign',
+    'portfolio.meta.video': 'Video campaign',
+    'portfolio.meta.shoot': 'Photo shoot',
+    'curriculum.label': 'Curriculum',
+    'curriculum.title': 'Your path from zero to<br>first clients <em>in 6 weeks</em>',
+    'week.1': 'Week 1', 'week.2': 'Week 2', 'week.3': 'Week 3',
+    'week.4': 'Week 4', 'week.5': 'Week 5', 'week.6': 'Week 6', 'week.7': 'Finale',
+    'step.1.title': 'AI-creator mindset',
+    'step.1.desc': "Before creating - we lay the foundation. You'll get a mindset system, a clear plan to your first money and the inner drive that keeps you going.",
+    'step.1.result': 'No more "what if it doesn’t work" - you know exactly where you’re going',
+    'step.2.title': 'Visual taste & style',
+    'step.2.desc': "You learn to see strong visuals and tell them apart from weak ones. You shape your own visual style - the foundation for everything you'll create next.",
+    'step.2.result': 'Your personal visual library is ready',
+    'step.3.title': 'Prompts & AI assistant',
+    'step.3.desc': "You master a prompt-writing system that works on the first try. You build a personal AI assistant that does the work for you.",
+    'step.3.bonus': 'Bonus: a ready chat assistant for prompting - a tuned GPT',
+    'step.3.result': 'You wield AI like a professional tool',
+    'step.4.title': 'Creating photography',
+    'step.4.desc': 'You work with light, generation platforms and craft a detailed character that looks like a real person. AI photoshoots and product photography - without leaving home.',
+    'step.4.bonus': 'Bonus: skin detail guide + real-client brief template',
+    'step.4.result': 'First €200-300 already at this stage',
+    'step.5.title': 'Creating video',
+    'step.5.desc': 'You produce a full commercial video, edit it in CapCut and add sound. The most in-demand AI-content service - and you will own it.',
+    'step.5.result': 'From €200 per video / up to €4,000 per month',
+    'step.6.title': 'Sales & first clients',
+    'step.6.desc': 'You learn real AI-content pricing, get messaging templates and learn to close any objection - from "too expensive" to "let me think".',
+    'step.6.result': 'Fear of selling is gone - you message clients with confidence',
+    'step.7.title': 'Portfolio & Diploma',
+    'step.7.desc': 'You build a strong client-ready portfolio, defend your diploma project and get a live review with a roadmap for your next steps.',
+    'step.7.result': '6 weeks - from beginner to a sought-after specialist',
+    'students.label': 'Student cases',
+    'students.title': 'Their results <em>after the course</em>',
+    'stud.1.name': 'Arina', 'stud.1.niche': 'Fashion brand · Lookbook',
+    'stud.1.value': '€250', 'stud.1.label': 'first order',
+    'stud.2.name': 'Yulia', 'stud.2.niche': 'Video ads · HoReCa',
+    'stud.2.value': '€600/mo', 'stud.2.label': 'recurring client',
+    'stud.3.name': 'Eva', 'stud.3.niche': 'AI portraits · Bloggers',
+    'stud.3.value': '4 clients', 'stud.3.label': 'in one week',
+    'pricing.label': 'Plans',
+    'pricing.title': 'Choose your <em>format</em>',
+    'plan.popular': '🔥 Most popular',
+    'plan.base.name': 'BASE',
+    'plan.base.desc': 'Want to master AI tools at your own pace, no mentor - this is your basic launch into the profession',
+    'plan.base.sub': '4,900 MDL · Steps 1-5',
+    'plan.base.access': 'Access to materials - 3 months',
+    'plan.std.name': 'STANDARD',
+    'plan.std.desc': 'Want the full course, feedback and real first orders - the optimal choice for most',
+    'plan.std.sub': '9,900 MDL · All 7 steps',
+    'plan.std.access': 'Access to materials - 6 months',
+    'plan.vip.name': 'VIP',
+    'plan.vip.desc': "You go through all seven steps - from mindset to diploma and your first deal. Personal guidance all the way to the result",
+    'plan.vip.sub': '19,900 MDL · All 7 steps',
+    'plan.vip.access': 'Access to materials - 12 months',
+    'feat.1': 'Recorded video lessons',
+    'feat.3': 'Private Telegram chat with students',
+    'feat.4': 'Homework review by a curator',
+    'feat.5': 'Weekly Zoom work reviews',
+    'feat.6': 'Diploma defense + portfolio packaging',
+    'feat.7': 'Personal feedback from Sofia on every task',
+    'feat.8': 'Personal Zoom portfolio review with Sofia',
+    'feat.9': 'Help with packaging your profile for clients',
+    'feat.10': 'Help closing your first deal',
+    'feat.11': 'Private VIP-students chat',
+    'feat.12': 'Ready-made GPT prompting assistant',
+    'feat.13': 'Skin-detail guide + brief template',
+    'final.title': 'Message me if you are ready to become an <em>AI star</em> right now',
+    'final.sub': '2026 is a window of opportunity with huge demand and almost no competition. I want you to enter this niche first.',
+    'footer.copy': '© 2026 Sofia Kantser · AI AI CONTENT · All rights reserved'
+  },
+  ro: {
+    'nav.brand': 'AI AI CONTENT',
+    'nav.cases': 'Cazuri',
+    'nav.cta': 'Înscriere',
+    'preloader.caption': 'Îți pregătim spațiul',
+    'hero.badge': 'Start în iunie',
+    'hero.title': 'Creează conținut AI<br>pentru branduri și<br>câștigă <em>de la €1500</em><br>pe lună',
+    'hero.sub': 'De la zero la primele comenzi în 45 de zile.<br>Fără experiență în design și fără cunoștințe de prompting.',
+    'hero.tag': 'Înscrieri deschise',
+    'cta.start': 'ÎNCEPE ACUM',
+    'ticker.1': 'Nu trebuie să fii designer - explic totul pas cu pas',
+    'ticker.2': 'Doar 1-2 ore pe zi sunt suficiente',
+    'ticker.3': 'Primești un plan concret de acțiune, nu doar teorie',
+    'ticker.4': 'Totul e real - studentele mele au reușit deja',
+    'ticker.5': 'Recuperezi costul cursului din prima comandă',
+    'forwho.title': 'Acest program e creat<br>pentru tine, <em>dacă:</em>',
+    'forwho.1': 'Vrei să câștigi din orice colț al lumii - fără birou, program sau șef nervos',
+    'forwho.2': 'Ai 2-3 ore libere pe zi și ești gata să le investești în viitorul tău',
+    'forwho.3': 'Vrei un venit personal - să nu depinzi de nimeni',
+    'forwho.4': 'N-ai lucrat niciodată cu AI - și tocmai de aceea vrei să începi acum, până piața nu e supraaglomerată',
+    'forwho.5': 'Te-ai săturat de venituri instabile și vrei o abilitate care aduce bani constant',
+    'forwho.6': 'Simți că AI e treaba ta - dar nu știi de unde să începi și cum să câștigi din asta',
+    'results.label': 'Rezultate',
+    'results.title': 'Doar în <em>45 de zile</em> vei:',
+    'results.1': 'Stăpâni <strong>instrumentele AI</strong> pe care brandurile de top deja le folosesc',
+    'results.2': 'Crea <strong>un portofoliu</strong> din proiecte reale - lucrări pentru care se plătește',
+    'results.3': 'Primi <strong>primele comenzi</strong> încă din timpul cursului',
+    'results.4': 'Construi un sistem de <strong>venit stabil online</strong>, care funcționează lună de lună',
+    'results.promise': 'Și toate astea - fără experiență în design, fără investiții la start și fără să simți că ai întârziat.',
+    'results.promise2': 'Cel mai bun moment să începi - chiar acum.',
+    'results.promise.tag': 'Esențial',
+    'results.metric.1': '45 de zile de practică',
+    'results.metric.2': 'Proiecte reale',
+    'results.metric.3': 'De la €250/săptămână',
+    'results.metric.4': 'De la €1 500/lună',
+    'about.label': 'Despre autoare',
+    'about.sign': 'Sofia - <em>autoarea programului</em><br>AI AI CONTENT',
+    'about.photo.tag': 'Autoarea cursului',
+    'about.p1': '<strong>7 ani în marketing</strong> - de la SMM în birou la propria agenție. Știu ce înseamnă burnout și plafonul de venit.',
+    'about.p2': '<strong>Acum 9 luni</strong> mi-am schimbat radical direcția - am intrat complet în conținutul AI. Astăzi câștig între €3 000 și €5 000 pe lună, lucrez cu branduri mari și dezvolt această nișă în Moldova.',
+    'about.p3': 'Am creat AI AI CONTENT pentru că văd asta în fiecare zi: <strong>cerere uriașă și aproape zero concurență</strong>. 2026 e fereastra ta de oportunitate - businessurile caută oameni care să le economisească timp, nervi și bani. Asta facem noi, creatorii AI. Vreau să intri în această nișă printre primele - cât piața încă te așteaptă.',
+    'about.brands.label': 'Branduri cu care am lucrat',
+    'reviews.label': 'Recenzii',
+    'reviews.title': 'Ce spun <em>studentele mele</em>',
+    'reviews.subtitle': 'Oameni reali. Rezultate reale.',
+    'rev.1.name': 'Diana',
+    'rev.1.format': '📷 Recenzie foto',
+    'rev.1.quote': '«Am fost surprinsă de profesionalismul Sofiei, în ciuda vârstei tinere. Explicațiile sunt simple, fără umplutură - după o lecție vrei imediat să creezi. Atmosferă de susținere și confort, greu de găsit la alte cursuri.»',
+    'rev.2.name': 'Eva',
+    'rev.2.format': '▶ Recenzie video',
+    'rev.2.quote': '«Cel mai bun curs pe care l-am făcut - datorită conexiunii reale cu mentorul. Simți că se investește în tine, nu doar că ți s-a vândut un produs. Pentru ~€30 pe lună am primit cunoștințe pentru care plăteam înainte €150 fără rezultate.»',
+    'rev.3.name': 'Iulia',
+    'rev.3.format': '▶ Recenzie video',
+    'rev.3.quote': '«E primul curs pe care l-am cumpărat în viața mea - și a depășit așteptările 100%. Încă din timpul cursului am avut clienți recurenți și negociez cu alții noi.»',
+    'rev.4.name': 'Anghelina',
+    'rev.4.format': '📷 Recenzie foto',
+    'rev.4.quote': '«Sofia nu e doar profesoară - poți apela la ea ca la un mentor și un om grozav. Foarte diferită de piață, unde sunt mii de cursuri de $50 care nu te învață nimic. Așteptările au fost confirmate complet.»',
+    'rev.5.name': 'Arina',
+    'rev.5.format': '📷 Recenzie foto',
+    'rev.5.quote': '«Cei mai bine cheltuiți bani din ultimii ani - așteptările au fost depășite. Cursul nu e doar informativ, ci și plăcut. Evaluarea mea - infinit din 10.»',
+    'portfolio.label': 'Lucrările mele',
+    'portfolio.title': 'Ce creez <em>pentru branduri</em>',
+    'portfolio.tag.featured': 'Featured',
+    'portfolio.tag.beauty': 'Beauty',
+    'portfolio.tag.jewelry': 'Bijuterii',
+    'portfolio.tag.fashion': 'Fashion',
+    'portfolio.tag.lifestyle': 'Lifestyle',
+    'portfolio.tag.video': 'Video',
+    'portfolio.tag.portraits': 'Portrete AI',
+    'portfolio.tag.campaign': 'Campanie',
+    'portfolio.meta.1': 'Beauty · Campanie de primăvară',
+    'portfolio.meta.2': 'Sesiune foto produs',
+    'portfolio.meta.3': 'Campanie de sezon',
+    'portfolio.meta.4': 'Editorial de iarnă',
+    'portfolio.meta.5': 'Campanie urbană',
+    'portfolio.meta.video': 'Campanie video',
+    'portfolio.meta.shoot': 'Sesiune foto',
+    'curriculum.label': 'Programa',
+    'curriculum.title': 'Drumul tău de la zero la<br>primii clienți <em>în 6 săptămâni</em>',
+    'week.1': 'Săptămâna 1', 'week.2': 'Săptămâna 2', 'week.3': 'Săptămâna 3',
+    'week.4': 'Săptămâna 4', 'week.5': 'Săptămâna 5', 'week.6': 'Săptămâna 6', 'week.7': 'Final',
+    'step.1.title': 'Mentalitatea creatorului AI',
+    'step.1.desc': 'Înainte să creezi - construim fundația. Vei primi un sistem de gândire, un plan clar până la primii bani și o atitudine internă care nu te lasă să renunți la jumătatea drumului.',
+    'step.1.result': 'Gata cu «dacă nu reușesc?» - știi exact unde mergi',
+    'step.2.title': 'Ochi de stil și viziune',
+    'step.2.desc': 'Înveți să vezi un vizual puternic și să-l distingi de unul slab. Îți formezi propriul stil vizual - baza de la care vei porni la crearea oricărui conținut.',
+    'step.2.result': 'Baza ta vizuală personală e gata',
+    'step.3.title': 'Prompturi și asistent AI',
+    'step.3.desc': 'Stăpânești sistemul de scriere a prompturilor care funcționează din prima. Îți creezi propriul asistent AI care face munca în locul tău.',
+    'step.3.bonus': 'Bonus: chat-asistent gata făcut pentru prompting - GPT configurat',
+    'step.3.result': 'Controlezi rețeaua neuronală ca un instrument profesional',
+    'step.4.title': 'Creăm fotografii',
+    'step.4.desc': 'Lucrezi cu lumina, cu platformele de generare și creezi un personaj detaliat care arată ca un om real. Ședințe foto AI și fotografie de produs - direct de acasă.',
+    'step.4.bonus': 'Bonus: ghid de detaliere a pielii + brief de la un client real',
+    'step.4.result': 'Primii 200-300 € deja la această etapă',
+    'step.5.title': 'Creăm video',
+    'step.5.desc': 'Creezi un video comercial complet, montezi în CapCut și adaugi sunet. Cel mai cerut serviciu în conținutul AI - și îl stăpânești.',
+    'step.5.result': 'De la 200 € pentru un video / până la 4 000 € pe lună',
+    'step.6.title': 'Vânzări și primii clienți',
+    'step.6.desc': 'Afli prețurile reale pentru conținut AI, primești șabloane de mesaje și înveți să închizi orice obiecție - de la «e scump» la «mă mai gândesc».',
+    'step.6.result': 'Frica de vânzări dispare - scrii cu încredere clienților',
+    'step.7.title': 'Portofoliu și Diplomă',
+    'step.7.desc': 'Construiești un portofoliu puternic, ambalat pentru client. Îți susții proiectul de diplomă și primești o analiză live a lucrărilor cu un plan de dezvoltare.',
+    'step.7.result': 'În 6 săptămâni - de la începătoare la specialistă căutată',
+    'students.label': 'Cazuri ale studentelor',
+    'students.title': 'Rezultatele lor <em>după curs</em>',
+    'stud.1.name': 'Arina', 'stud.1.niche': 'Brand de haine · Lookbook',
+    'stud.1.value': '250 €', 'stud.1.label': 'prima comandă',
+    'stud.2.name': 'Iulia', 'stud.2.niche': 'Reclamă video · HoReCa',
+    'stud.2.value': '600 €/lună', 'stud.2.label': 'client recurent',
+    'stud.3.name': 'Eva', 'stud.3.niche': 'Portrete AI · Bloggeri',
+    'stud.3.value': '4 clienți', 'stud.3.label': 'într-o săptămână',
+    'pricing.label': 'Tarife',
+    'pricing.title': 'Alege <em>formatul tău</em> de participare',
+    'plan.popular': '🔥 Cel mai popular',
+    'plan.base.name': 'BASE',
+    'plan.base.desc': 'Vrei să stăpânești instrumentele AI în ritmul tău, fără mentor - acesta e startul tău de bază în profesie',
+    'plan.base.sub': '4 900 MDL · Pașii 1-5',
+    'plan.base.access': 'Acces la materiale - 3 luni',
+    'plan.std.name': 'STANDARD',
+    'plan.std.desc': 'Vrei cursul complet, feedback și primele comenzi reale - alegerea optimă pentru majoritatea',
+    'plan.std.sub': '9 900 MDL · Toți cei 7 pași',
+    'plan.std.access': 'Acces la materiale - 6 luni',
+    'plan.vip.name': 'VIP',
+    'plan.vip.desc': 'Parcurgi toți cei șapte pași - de la mentalitate la diplomă și prima vânzare. Mentorat personal până la rezultat',
+    'plan.vip.sub': '19 900 MDL · Toți cei 7 pași',
+    'plan.vip.access': 'Acces la materiale - 12 luni',
+    'feat.1': 'Lecții video înregistrate',
+    'feat.3': 'Chat Telegram închis cu studentele',
+    'feat.4': 'Verificarea temelor de către curator',
+    'feat.5': 'Sesiuni Zoom de analiză - 1 dată pe săptămână',
+    'feat.6': 'Susținerea diplomei și ambalarea portofoliului',
+    'feat.7': 'Feedback personal de la Sofia la fiecare temă',
+    'feat.8': 'Analiză Zoom personală a portofoliului cu Sofia',
+    'feat.9': 'Ajutor cu ambalarea profilului pentru clienți',
+    'feat.10': 'Ajutor la închiderea primei vânzări',
+    'feat.11': 'Chat închis VIP',
+    'feat.12': 'GPT-asistent gata configurat pentru prompting',
+    'feat.13': 'Ghid de detaliere a pielii + șablon de brief',
+    'final.title': 'Scrie-mi dacă ești gata să devii <em>o vedetă a lumii AI</em> chiar acum',
+    'final.sub': '2026 e o fereastră de oportunitate cu cerere uriașă și aproape zero concurență. Vreau să intri în această nișă printre primele.',
+    'footer.copy': '© 2026 Sofia Kantser · AI AI CONTENT · Toate drepturile rezervate'
+  }
+};
+
+(function() {
+  const STORAGE_KEY = 'site-lang';
+  const toggle = document.getElementById('langToggle');
+  if (!toggle) return;
+
+  const SUPPORTED = ['ru', 'en', 'ro'];
+
+  function applyLang(lang) {
+    if (!SUPPORTED.includes(lang)) lang = 'ru';
+    const dict = I18N[lang] || I18N.ru;
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key] !== undefined) el.textContent = dict[key];
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      const key = el.getAttribute('data-i18n-html');
+      if (dict[key] !== undefined) el.innerHTML = dict[key];
+    });
+    toggle.setAttribute('data-lang', lang);
+    toggle.querySelectorAll('.lang-opt').forEach(opt => {
+      opt.classList.toggle('active', opt.dataset.lang === lang);
+    });
+    try { localStorage.setItem(STORAGE_KEY, lang); } catch(e) {}
+    // Notify slider to recalc widths
+    window.dispatchEvent(new Event('resize'));
+  }
+
+  toggle.querySelectorAll('.lang-opt').forEach(opt => {
+    opt.addEventListener('click', e => {
+      e.stopPropagation();
+      applyLang(opt.dataset.lang);
+    });
+  });
+  toggle.addEventListener('click', e => {
+    if (e.target.closest('.lang-opt')) return;
+    const current = toggle.getAttribute('data-lang') || 'ru';
+    const idx = SUPPORTED.indexOf(current);
+    applyLang(SUPPORTED[(idx + 1) % SUPPORTED.length]);
+  });
+
+  // initial
+  let initial = 'ru';
+  try { initial = localStorage.getItem(STORAGE_KEY) || 'ru'; } catch(e) {}
+  applyLang(initial);
+})();
+
+// PRELOADER
+(function() {
+  const preloader = document.getElementById('preloader');
+  if (!preloader) return;
+  const MIN_DURATION = 2400;
+  const start = performance.now();
+  const hide = () => {
+    const elapsed = performance.now() - start;
+    const remaining = Math.max(0, MIN_DURATION - elapsed);
+    setTimeout(() => {
+      preloader.classList.add('done');
+      document.body.classList.remove('loading');
+      setTimeout(() => preloader.remove(), 1000);
+    }, remaining);
+  };
+  if (document.readyState === 'complete') hide();
+  else window.addEventListener('load', hide);
+})();
+
+</script>
+</body>
+</html>

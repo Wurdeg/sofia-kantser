@@ -1,0 +1,10 @@
+# Видео > 100 МБ - не помещается в GitHub (лимит на файл)
+# Сожми до ~30 МБ через HandBrake / cloudconvert и закоммить снова
+works/PORSCHE&SWAROWSKYmp4.mp4
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
