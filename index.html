@@ -2791,7 +2791,9 @@ document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
           displayName: 'AI AI CONTENT - тариф ' + name,
           sku: 'aiai-' + plan,
           unitPrice: amount,
-          qty: 1
+          qty: 1,
+          itemUrl: origin + '#pricing',
+          itemImageUrl: origin + 'favicon.svg'
         }],
         orderId: orderId,
         currency: 'EUR',
