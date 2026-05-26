@@ -14,7 +14,8 @@
   Если IuteCredit подтвердит другой production URL — заменить в src/href ниже.
 -->
 <script src="https://ecom.iutecredit.md/iutepay.js" defer></script>
-<link rel="stylesheet" href="https://ecom.iutecredit.md/iutepay.css">
+<link rel="stylesheet" href="https://ecom.iutecredit.md/iutepay.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://ecom.iutecredit.md/iutepay.css"></noscript>
 <script>
   window.addEventListener('load', function() {
     if (window.iute && typeof iute.configure === 'function') {
@@ -3295,8 +3296,12 @@ const I18N = {
   const preloader = document.getElementById('preloader');
   if (!preloader) return;
   const MIN_DURATION = 2400;
+  const MAX_DURATION = 3500; // жёсткий лимит - не ждём внешние ресурсы
   const start = performance.now();
+  let hidden = false;
   const hide = () => {
+    if (hidden) return;
+    hidden = true;
     const elapsed = performance.now() - start;
     const remaining = Math.max(0, MIN_DURATION - elapsed);
     setTimeout(() => {
@@ -3305,8 +3310,13 @@ const I18N = {
       setTimeout(() => preloader.remove(), 1000);
     }, remaining);
   };
-  if (document.readyState === 'complete') hide();
-  else window.addEventListener('load', hide);
+  if (document.readyState === 'interactive' || document.readyState === 'complete') {
+    hide();
+  } else {
+    document.addEventListener('DOMContentLoaded', hide);
+  }
+  // Жёсткий fallback - даже если что-то пошло не так
+  setTimeout(hide, MAX_DURATION);
 })();
 
 </script>
