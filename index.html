@@ -8,14 +8,20 @@
 <link rel="apple-touch-icon" href="favicon.svg">
 
 <!--
-  IuteCredit BNPL calculator widget.
-  Раскомментировать и подставить реальные значения после онбординга:
-  1. {{IUTEPAY_BASE}} - URL библиотеки IuteCredit (запросить у IuteCredit support)
-  2. MERCHANT_PUBLIC_KEY - публичный ключ мерчанта
+  IuteCredit BNPL calculator widget — активен.
+  Site API key: 84450032-2887-4bba-83fc-5cd9ebecd10a (публичный, можно держать в фронте)
+  Admin API key хранится отдельно на бэкенде, в HTML НЕ ставим.
+  Если IuteCredit подтвердит другой production URL — заменить в src/href ниже.
 -->
-<!-- <script src="https://{{IUTEPAY_BASE}}/iutepay.js"></script> -->
-<!-- <link rel="stylesheet" href="https://{{IUTEPAY_BASE}}/iutepay.css"> -->
-<!-- <script>if (window.iute) iute.configure('MERCHANT_PUBLIC_KEY', 'ro');</script> -->
+<script src="https://ecom.iutecredit.md/iutepay.js" defer></script>
+<link rel="stylesheet" href="https://ecom.iutecredit.md/iutepay.css">
+<script>
+  window.addEventListener('load', function() {
+    if (window.iute && typeof iute.configure === 'function') {
+      iute.configure('84450032-2887-4bba-83fc-5cd9ebecd10a', 'ro');
+    }
+  });
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
