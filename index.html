@@ -1704,6 +1704,39 @@
     box-shadow: 0 10px 32px rgba(232,52,106,0.4);
     transform: translateY(-1px);
   }
+  .plan-cta-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .plan-cta.installment {
+    background: var(--dark);
+    color: #FFFFFF;
+    border: none;
+    padding: 12px;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .plan-cta.installment::before {
+    content: '💳';
+    font-size: 15px;
+  }
+  .plan-cta.installment:hover {
+    background: var(--pink);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(232,52,106,0.3);
+  }
+  .plan-cta.installment:disabled {
+    background: #e5e5e5;
+    color: #999;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
 
   /* FINAL CTA */
   .final-cta {
@@ -2469,7 +2502,10 @@
           <li class="locked" data-i18n="feat.12">Готовый GPT-ассистент по промптингу</li>
           <li class="locked" data-i18n="feat.13">Гайд по детализации кожи + шаблон ТЗ</li>
         </ul>
-        <a href="#pricing" class="plan-cta outline" data-i18n="cta.start">НАЧАТЬ СЕЙЧАС</a>
+        <div class="plan-cta-group">
+          <a href="#pricing" class="plan-cta outline" data-i18n="cta.start">НАЧАТЬ СЕЙЧАС</a>
+          <button type="button" class="plan-cta installment" data-plan="base" data-amount="270" data-name="БАЗА" data-i18n="cta.installment">В РАССРОЧКУ</button>
+        </div>
       </div>
 
       <!-- СТАНДАРТ -->
@@ -2502,7 +2538,10 @@
           <li class="bonus" data-i18n="feat.12">Готовый GPT-ассистент по промптингу</li>
           <li class="bonus" data-i18n="feat.13">Гайд по детализации кожи + шаблон ТЗ</li>
         </ul>
-        <a href="#pricing" class="plan-cta filled" data-i18n="cta.start">НАЧАТЬ СЕЙЧАС</a>
+        <div class="plan-cta-group">
+          <a href="#pricing" class="plan-cta filled" data-i18n="cta.start">НАЧАТЬ СЕЙЧАС</a>
+          <button type="button" class="plan-cta installment" data-plan="standard" data-amount="550" data-name="СТАНДАРТ" data-i18n="cta.installment">В РАССРОЧКУ</button>
+        </div>
       </div>
 
       <!-- VIP -->
@@ -2534,7 +2573,10 @@
           <li class="bonus" data-i18n="feat.12">Готовый GPT-ассистент по промптингу</li>
           <li class="bonus" data-i18n="feat.13">Гайд по детализации кожи + шаблон ТЗ</li>
         </ul>
-        <a href="#pricing" class="plan-cta outline" data-i18n="cta.start">НАЧАТЬ СЕЙЧАС</a>
+        <div class="plan-cta-group">
+          <a href="#pricing" class="plan-cta outline" data-i18n="cta.start">НАЧАТЬ СЕЙЧАС</a>
+          <button type="button" class="plan-cta installment" data-plan="vip" data-amount="1100" data-name="VIP" data-i18n="cta.installment">В РАССРОЧКУ</button>
+        </div>
       </div>
 
     </div>
@@ -2673,6 +2715,43 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
+// IUTECREDIT INSTALLMENT CHECKOUT
+document.querySelectorAll('.plan-cta.installment').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const plan = btn.dataset.plan;
+    const amount = parseInt(btn.dataset.amount, 10);
+    const name = btn.dataset.name;
+
+    if (!window.iute || typeof iute.checkout !== 'function') {
+      alert('Виджет IuteCredit ещё не загрузился. Попробуй ещё раз через пару секунд или напиши Софии в Telegram - оформим заявку вручную.');
+      return;
+    }
+
+    const origin = window.location.origin + window.location.pathname;
+    try {
+      iute.checkout({
+        order: {
+          currency: 'EUR',
+          totalAmount: amount,
+          taxAmount: 0,
+          shippingAmount: 0,
+          items: [{
+            displayName: 'AI AI CONTENT - тариф ' + name,
+            sku: 'aiai-' + plan,
+            unitPrice: amount,
+            quantity: 1
+          }]
+        },
+        successUrl: origin + '?iute=success#pricing',
+        cancelUrl: origin + '?iute=cancel#pricing'
+      });
+    } catch (err) {
+      console.error('IuteCredit checkout error:', err);
+      alert('Не удалось открыть форму рассрочки. Напиши Софии в Telegram - оформим заявку вручную.');
+    }
+  });
+});
+
 // RESULTS ACCORDION (cards 01, 02, 03)
 document.querySelectorAll('.result-card.has-accordion').forEach(card => {
   card.addEventListener('click', () => {
@@ -2701,6 +2780,7 @@ const I18N = {
     'hero.sub': 'С нуля до первых заказов за 45 дней.<br>Без опыта в дизайне и знаний написания промтов.',
     'hero.tag': 'Набор открыт',
     'cta.start': 'НАЧАТЬ СЕЙЧАС',
+    'cta.installment': 'В РАССРОЧКУ',
     'ticker.1': 'Не нужно быть дизайнером - всё объясняю пошагово',
     'ticker.2': 'Достаточно 1-2 часа в день',
     'ticker.3': 'Получишь готовый план действий, а не просто знания',
@@ -2832,6 +2912,7 @@ const I18N = {
     'hero.sub': 'From zero to first orders in 45 days.<br>No design experience or prompt-writing skills required.',
     'hero.tag': 'Enrollment open',
     'cta.start': 'START NOW',
+    'cta.installment': 'PAY IN INSTALLMENTS',
     'ticker.1': 'No need to be a designer - I walk you through every step',
     'ticker.2': 'Just 1-2 hours a day is enough',
     'ticker.3': "You get a ready action plan, not just knowledge",
@@ -2963,6 +3044,7 @@ const I18N = {
     'hero.sub': 'De la zero la primele comenzi în 45 de zile.<br>Fără experiență în design și fără cunoștințe de prompting.',
     'hero.tag': 'Înscrieri deschise',
     'cta.start': 'ÎNCEPE ACUM',
+    'cta.installment': 'ÎN RATE',
     'ticker.1': 'Nu trebuie să fii designer - explic totul pas cu pas',
     'ticker.2': 'Doar 1-2 ore pe zi sunt suficiente',
     'ticker.3': 'Primești un plan concret de acțiune, nu doar teorie',
