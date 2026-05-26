@@ -2766,10 +2766,17 @@ document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
       const origin = window.location.origin + window.location.pathname;
       const orderId = 'aiai-' + plan + '-' + Date.now();
       const blankAddress = () => ({
-        name: { first: '', last: '' },
-        phoneNumber: '',
-        email: '',
-        address: { line1: '', line2: '', city: '', state: '', zipcode: '', country: 'MD' }
+        name: { first: 'Client', last: 'Pending' },
+        phoneNumber: '+37300000000',
+        email: 'pending@aiaicontent.md',
+        address: {
+          line1: 'TBD',
+          line2: '',
+          city: 'Chișinău',
+          state: 'Chișinău',
+          zipcode: 'MD-2000',
+          country: 'MDA'
+        }
       });
       const payload = {
         merchant: {
