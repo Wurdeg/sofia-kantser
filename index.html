@@ -6,6 +6,16 @@
 <title>AI AI CONTENT — Курс по нейровизуалу</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="apple-touch-icon" href="favicon.svg">
+
+<!--
+  IuteCredit BNPL calculator widget.
+  Раскомментировать и подставить реальные значения после онбординга:
+  1. {{IUTEPAY_BASE}} - URL библиотеки IuteCredit (запросить у IuteCredit support)
+  2. MERCHANT_PUBLIC_KEY - публичный ключ мерчанта
+-->
+<!-- <script src="https://{{IUTEPAY_BASE}}/iutepay.js"></script> -->
+<!-- <link rel="stylesheet" href="https://{{IUTEPAY_BASE}}/iutepay.css"> -->
+<!-- <script>if (window.iute) iute.configure('MERCHANT_PUBLIC_KEY', 'ro');</script> -->
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -853,6 +863,89 @@
     color: rgba(255,255,255,0.88);
     line-height: 1.5;
   }
+  /* Accordion (Results pts 01/02/03) */
+  .results-bento { align-items: start; }
+  .result-card.has-accordion { cursor: pointer; user-select: none; }
+  .result-card.has-accordion .result-text { margin-bottom: 0; }
+  .result-bottom-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .result-toggle-arrow {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(232,52,106,0.18);
+    border: 1px solid rgba(232,52,106,0.32);
+    color: var(--pink-light);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-family: 'Playfair Display', serif;
+    line-height: 1;
+    transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
+    flex-shrink: 0;
+  }
+  .result-card.is-open .result-toggle-arrow { transform: rotate(90deg); }
+  .result-card.has-accordion:hover .result-toggle-arrow {
+    background: rgba(232,52,106,0.3);
+    color: #FFFFFF;
+  }
+  .result-accordion {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.45s cubic-bezier(0.22,1,0.36,1);
+  }
+  .result-card.is-open .result-accordion { grid-template-rows: 1fr; }
+  .result-accordion-inner {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 0;
+    transition: margin-top 0.45s cubic-bezier(0.22,1,0.36,1);
+  }
+  .result-card.is-open .result-accordion-inner { margin-top: 20px; }
+  .acc-step {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .acc-step:first-child { padding-top: 0; border-top: none; }
+  .acc-step-num {
+    width: 30px;
+    height: 30px;
+    background: rgba(232,52,106,0.18);
+    border: 1px solid rgba(232,52,106,0.32);
+    color: var(--pink-light);
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .acc-step-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 1.2;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+  .acc-step-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.72);
+    line-height: 1.55;
+    margin: 0;
+  }
   @media (max-width: 900px) {
     .results-bento { grid-template-columns: repeat(2, 1fr); }
     .result-card-big { grid-column: span 2; }
@@ -863,6 +956,7 @@
     .result-card-big, .result-card-promise { grid-column: auto; }
     .result-card { padding: 24px; }
     .result-card-big .result-text { font-size: 18px; }
+    .result-toggle-arrow { width: 32px; height: 32px; font-size: 18px; }
   }
 
   /* ABOUT AUTHOR */
@@ -953,25 +1047,28 @@
   }
   .brand-marquee-track {
     display: flex;
-    gap: 10px;
+    gap: 24px;
     width: max-content;
     animation: brandScroll 25s linear infinite;
+    align-items: center;
   }
   .brand-logo {
     flex-shrink: 0;
-    height: 80px;
-    min-width: 160px;
+    width: 88px;
+    height: 88px;
+    min-width: 88px;
     background: var(--white);
     border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 12px 22px;
+    border-radius: 50%;
+    padding: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
   }
   .brand-logo img {
+    max-width: 100%;
     max-height: 100%;
-    max-width: 180px;
     width: auto;
     height: auto;
     object-fit: contain;
@@ -1440,166 +1537,6 @@
     .students-arrow { width: 44px; height: 44px; font-size: 18px; }
   }
 
-  /* CURRICULUM — все модули видны сразу, в одну колонку */
-  .curriculum { background: var(--white); }
-  .modules-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-  .module-card {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 22px;
-    padding: 24px 32px;
-    display: grid;
-    grid-template-columns: 320px 1fr 280px;
-    gap: 36px;
-    align-items: center;
-    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-    position: relative;
-    overflow: hidden;
-  }
-  .module-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, var(--pink) 0%, var(--pink-light) 100%);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .module-card:hover {
-    border-color: var(--pink-mid);
-    transform: translateY(-2px);
-    box-shadow: 0 18px 50px -20px rgba(232,52,106,0.2);
-  }
-  .module-card:hover::before { transform: scaleX(1); }
-  .module-head {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-  .module-num {
-    width: 52px;
-    height: 52px;
-    background: linear-gradient(135deg, var(--pink) 0%, #C0185A 100%);
-    color: #FFFFFF;
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    font-weight: 800;
-    flex-shrink: 0;
-    box-shadow: 0 8px 18px -6px rgba(232,52,106,0.45);
-  }
-  .module-week {
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--pink);
-  }
-  .module-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--dark);
-    line-height: 1.15;
-    letter-spacing: -0.01em;
-    margin-top: 2px;
-  }
-  .module-desc {
-    font-size: 14px;
-    color: var(--text-muted);
-    line-height: 1.6;
-    margin: 0;
-  }
-  .module-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .module-bonus {
-    display: inline-flex;
-    align-items: flex-start;
-    gap: 8px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--pink);
-    line-height: 1.4;
-  }
-  .module-bonus::before {
-    content: '⭐';
-    font-size: 13px;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-  .module-result {
-    display: inline-flex;
-    align-items: flex-start;
-    gap: 8px;
-    background: var(--pink-pale);
-    border: 1px solid var(--pink-mid);
-    border-radius: 12px;
-    padding: 10px 14px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--dark);
-    line-height: 1.4;
-  }
-  .module-result::before {
-    content: '🎯';
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-  /* Финальный модуль - на всю ширину, выделен */
-  .module-card.module-final {
-    grid-column: 1 / -1;
-    background: linear-gradient(135deg, var(--dark) 0%, #2D1F28 100%);
-    border-color: transparent;
-    color: #FFFFFF;
-  }
-  .module-card.module-final::before {
-    background: linear-gradient(90deg, var(--pink) 0%, var(--pink-light) 50%, var(--pink) 100%);
-    transform: scaleX(1);
-    height: 4px;
-  }
-  .module-card.module-final:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 30px 60px -20px rgba(232,52,106,0.4);
-  }
-  .module-final .module-week { color: var(--pink-light); }
-  .module-final .module-title { color: #FFFFFF; font-size: 26px; }
-  .module-final .module-desc { color: rgba(255,255,255,0.75); font-size: 14px; }
-  .module-final .module-result {
-    background: rgba(232,52,106,0.22);
-    border-color: rgba(232,52,106,0.45);
-    color: #FFFFFF;
-    padding: 12px 18px;
-    font-size: 13px;
-  }
-  .module-final .module-num {
-    background: linear-gradient(135deg, var(--pink) 0%, var(--pink-light) 100%);
-  }
-  @media (max-width: 900px) {
-    .module-card {
-      grid-template-columns: 1fr;
-      gap: 16px;
-      padding: 22px 24px;
-    }
-  }
-  @media (max-width: 640px) {
-    .module-card { padding: 20px; }
-    .module-num { width: 44px; height: 44px; font-size: 18px; }
-    .module-title { font-size: 19px; }
-    .module-final .module-title { font-size: 22px; }
-  }
-
   /* PRICING */
   .pricing { background: var(--cream); }
   .pricing-grid {
@@ -1675,6 +1612,29 @@
     color: var(--text-muted);
     margin-top: 4px;
     font-weight: 500;
+  }
+  .iutepay-calc {
+    margin: 8px 0 16px;
+    min-height: 32px;
+    font-size: 13px;
+    color: var(--text-muted);
+    padding: 10px 14px;
+    background: var(--pink-pale);
+    border: 1px dashed var(--pink-mid);
+    border-radius: 12px;
+    text-align: center;
+  }
+  .iutepay-calc:empty::before {
+    content: '💳 Рассрочка от IuteCredit';
+    color: var(--pink);
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+  .iutepay-calc:not(:empty) {
+    background: transparent;
+    border: none;
+    padding: 0;
   }
   .plan-features {
     list-style: none;
@@ -1764,9 +1724,10 @@
     font-size: 50px;
     font-weight: 700;
     color: white;
-    margin-bottom: 20px;
+    margin: 0 auto 20px;
     line-height: 1.15;
     letter-spacing: -0.02em;
+    max-width: 560px;
   }
   .final-cta h2 em { font-style: italic; color: var(--pink-light); }
   .final-cta p {
@@ -2092,31 +2053,101 @@
     <div class="section-label fade-in" data-i18n="results.label">Результаты</div>
     <div class="section-title fade-in" data-i18n-html="results.title">Всего за <em>45 дней</em> ты:</div>
     <div class="results-bento">
-      <div class="result-card result-card-big fade-in">
+      <div class="result-card result-card-big has-accordion fade-in" data-result="1" aria-expanded="false">
         <div class="result-top">
           <div class="result-icon">🚀</div>
           <div class="result-num">01</div>
         </div>
         <p class="result-text" data-i18n-html="results.1">Освоишь <strong>AI-инструменты</strong>, которые уже сейчас используют топовые бренды</p>
-        <div class="result-metric" data-i18n="results.metric.1">45 дней практики</div>
+        <div class="result-bottom-row">
+          <div class="result-metric" data-i18n="results.metric.1">45 дней практики</div>
+          <span class="result-toggle-arrow" aria-hidden="true">›</span>
+        </div>
+        <div class="result-accordion">
+          <div class="result-accordion-inner">
+            <div class="acc-step">
+              <div class="acc-step-num">1</div>
+              <div class="acc-step-body">
+                <div class="acc-step-title" data-i18n="step.1.title">Мышление AI-креатора</div>
+                <p class="acc-step-desc" data-i18n="step.1.desc">Прежде чем создавать - выстраиваем фундамент. Ты получишь систему мышления, чёткий план до первых денег и внутренний настрой, который не даёт сдаться на полпути.</p>
+              </div>
+            </div>
+            <div class="acc-step">
+              <div class="acc-step-num">2</div>
+              <div class="acc-step-body">
+                <div class="acc-step-title" data-i18n="step.2.title">Насмотренность и стиль</div>
+                <p class="acc-step-desc" data-i18n="step.2.desc">Учишься видеть сильный визуал и отличать его от слабого. Формируешь собственный визуальный стиль - основу, от которой будешь отталкиваться при создании любого контента.</p>
+              </div>
+            </div>
+            <div class="acc-step">
+              <div class="acc-step-num">3</div>
+              <div class="acc-step-body">
+                <div class="acc-step-title" data-i18n="step.3.title">Промпты и AI-ассистент</div>
+                <p class="acc-step-desc" data-i18n="step.3.desc">Осваиваешь систему написания промптов, которая срабатывает с первого раза. Создаёшь личного AI-ассистента, который делает работу за тебя.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="result-card fade-in">
+      <div class="result-card has-accordion fade-in" data-result="2" aria-expanded="false">
         <div class="result-top">
           <div class="result-icon">📁</div>
           <div class="result-num">02</div>
         </div>
         <p class="result-text" data-i18n-html="results.2">Создашь <strong>портфолио</strong> из реальных проектов - работы, за которые платят</p>
-        <div class="result-metric" data-i18n="results.metric.2">Реальные кейсы</div>
+        <div class="result-bottom-row">
+          <div class="result-metric" data-i18n="results.metric.2">Реальные кейсы</div>
+          <span class="result-toggle-arrow" aria-hidden="true">›</span>
+        </div>
+        <div class="result-accordion">
+          <div class="result-accordion-inner">
+            <div class="acc-step">
+              <div class="acc-step-num">4</div>
+              <div class="acc-step-body">
+                <div class="acc-step-title" data-i18n="step.4.title">Создаём фотографии</div>
+                <p class="acc-step-desc" data-i18n="step.4.desc">Работаешь со светом, платформами для генерации и создаёшь детализированного персонажа, который выглядит как реальный человек. Нейрофотосессии и товарная съёмка - не выходя из дома.</p>
+              </div>
+            </div>
+            <div class="acc-step">
+              <div class="acc-step-num">5</div>
+              <div class="acc-step-body">
+                <div class="acc-step-title" data-i18n="step.5.title">Создаём видео</div>
+                <p class="acc-step-desc" data-i18n="step.5.desc">Создаёшь полноценное коммерческое видео, монтируешь в CapCut и добавляешь звук. Самая востребованная услуга в AI-контенте - и ты её освоишь.</p>
+              </div>
+            </div>
+            <div class="acc-step">
+              <div class="acc-step-num">7</div>
+              <div class="acc-step-body">
+                <div class="acc-step-title" data-i18n="step.7.title">Портфолио и Диплом</div>
+                <p class="acc-step-desc" data-i18n="step.7.desc">Собираешь сильное портфолио, упакованное под клиента. Защищаешь дипломный проект и получаешь живой разбор работ с планом дальнейшего развития.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="result-card fade-in">
+      <div class="result-card has-accordion fade-in" data-result="3" aria-expanded="false">
         <div class="result-top">
           <div class="result-icon">💸</div>
           <div class="result-num">03</div>
         </div>
         <p class="result-text" data-i18n-html="results.3">Получишь <strong>первые заказы</strong> ещё во время обучения</p>
-        <div class="result-metric" data-i18n="results.metric.3">От €250 в неделю</div>
+        <div class="result-bottom-row">
+          <div class="result-metric" data-i18n="results.metric.3">От €250 в неделю</div>
+          <span class="result-toggle-arrow" aria-hidden="true">›</span>
+        </div>
+        <div class="result-accordion">
+          <div class="result-accordion-inner">
+            <div class="acc-step">
+              <div class="acc-step-num">6</div>
+              <div class="acc-step-body">
+                <div class="acc-step-title" data-i18n="step.6.title">Продажи и первые клиенты</div>
+                <p class="acc-step-desc" data-i18n="step.6.desc">Узнаёшь реальные цены на AI-контент, получаешь шаблоны переписки и учишься закрывать любые возражения - от «дорого» до «подумаем».</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="result-card fade-in">
@@ -2155,9 +2186,9 @@
         <div class="section-label fade-in" data-i18n="about.label">Об авторе</div>
         <div class="about-sign fade-in" data-i18n-html="about.sign">София - <em>автор программы</em><br>AI AI CONTENT</div>
         <div class="about-text fade-in">
-          <p data-i18n="about.p1"><strong>7 лет в маркетинге</strong> - от офисного SMM до собственного агентства. Я знаю, что такое выгорание и потолок в доходе.</p>
-          <p data-i18n="about.p2"><strong>9 месяцев назад</strong> я кардинально изменила направление - погрузилась в AI-контент. Сегодня я зарабатываю от 3 000 до 5 000 € в месяц, работаю с крупными брендами и развиваю это направление в Молдове.</p>
-          <p data-i18n="about.p3">Я создала AI AI CONTENT, потому что вижу это каждый день: <strong>огромный спрос и почти нулевая конкуренция</strong>. 2026 - окно возможностей, бизнесы ищут тех, кто экономит им время, нервы и деньги. Это можем сделать именно мы, AI-креаторы. Я хочу, чтобы ты вошла в эту нишу одной из первых - пока рынок ждёт тебя.</p>
+          <p data-i18n-html="about.p1"><strong>7 лет в маркетинге</strong> - от офисного SMM до собственного агентства. Я знаю, что такое выгорание и потолок в доходе.</p>
+          <p data-i18n-html="about.p2"><strong>9 месяцев назад</strong> я кардинально изменила направление - погрузилась в AI-контент. Сегодня я зарабатываю от 3 000 до 5 000 € в месяц, работаю с крупными брендами и развиваю это направление в Молдове.</p>
+          <p data-i18n-html="about.p3">Я создала AI AI CONTENT, потому что вижу это каждый день: <strong>огромный спрос и почти нулевая конкуренция</strong>. 2026 - окно возможностей, бизнесы ищут тех, кто экономит им время, нервы и деньги. Это можем сделать именно мы, AI-креаторы. Я хочу, чтобы ты вошла в эту нишу одной из первых - пока рынок ждёт тебя.</p>
         </div>
         <div class="about-brands-label fade-in" data-i18n="about.brands.label">Бренды, с которыми я работала</div>
         <div class="brand-marquee fade-in">
@@ -2203,62 +2234,52 @@
       <div class="portfolio-track" id="portfolioTrack">
         <div class="work-card">
           <video class="work-art" src="works/portfolio/IMG_0451.MOV" autoplay muted loop playsinline preload="metadata"></video>
-          <div class="work-tag" data-i18n="portfolio.tag.featured">Featured</div>
-          <div class="work-title">Кейс 01</div>
+          <div class="work-title" data-case-num="1">Кейс 1</div>
           <div class="work-meta" data-i18n="portfolio.meta.video">Видео-кампания</div>
         </div>
         <div class="work-card">
-          <img class="work-art" src="works/portfolio/IMG_0695.JPG" alt="Кейс 02">
-          <div class="work-tag" data-i18n="portfolio.tag.beauty">Beauty</div>
-          <div class="work-title">Кейс 02</div>
+          <img class="work-art" src="works/portfolio/IMG_0695.JPG" alt="Кейс 2">
+          <div class="work-title" data-case-num="2">Кейс 2</div>
           <div class="work-meta" data-i18n="portfolio.meta.shoot">Фото-съёмка</div>
         </div>
         <div class="work-card">
-          <img class="work-art" src="works/portfolio/IMG_0698.JPG" alt="Кейс 03">
-          <div class="work-tag" data-i18n="portfolio.tag.lifestyle">Lifestyle</div>
-          <div class="work-title">Кейс 03</div>
+          <img class="work-art" src="works/portfolio/IMG_0698.JPG" alt="Кейс 3">
+          <div class="work-title" data-case-num="3">Кейс 3</div>
           <div class="work-meta" data-i18n="portfolio.meta.shoot">Фото-съёмка</div>
         </div>
         <div class="work-card">
           <video class="work-art" src="works/portfolio/IMG_1375.MOV" autoplay muted loop playsinline preload="metadata"></video>
-          <div class="work-tag" data-i18n="portfolio.tag.fashion">Fashion</div>
-          <div class="work-title">Кейс 04</div>
+          <div class="work-title" data-case-num="4">Кейс 4</div>
           <div class="work-meta" data-i18n="portfolio.meta.video">Видео-кампания</div>
         </div>
         <div class="work-card">
           <video class="work-art" src="works/portfolio/IMG_2451.MOV" autoplay muted loop playsinline preload="metadata"></video>
-          <div class="work-tag" data-i18n="portfolio.tag.beauty">Beauty</div>
-          <div class="work-title">Кейс 05</div>
+          <div class="work-title" data-case-num="5">Кейс 5</div>
           <div class="work-meta" data-i18n="portfolio.meta.video">Видео-кампания</div>
         </div>
         <div class="work-card">
           <video class="work-art" src="works/portfolio/IMG_2472.MOV" autoplay muted loop playsinline preload="metadata"></video>
-          <div class="work-tag" data-i18n="portfolio.tag.featured">Featured</div>
-          <div class="work-title">Кейс 06</div>
+          <div class="work-title" data-case-num="6">Кейс 6</div>
           <div class="work-meta" data-i18n="portfolio.meta.video">Видео-кампания</div>
         </div>
         <div class="work-card">
           <video class="work-art" src="works/portfolio/IMG_8553.MOV" autoplay muted loop playsinline preload="metadata"></video>
-          <div class="work-tag" data-i18n="portfolio.tag.lifestyle">Lifestyle</div>
-          <div class="work-title">Кейс 07</div>
+          <div class="work-title" data-case-num="7">Кейс 7</div>
           <div class="work-meta" data-i18n="portfolio.meta.video">Видео-кампания</div>
         </div>
         <div class="work-card">
           <video class="work-art" src="works/portfolio/IMG_9205.MOV" autoplay muted loop playsinline preload="metadata"></video>
-          <div class="work-tag" data-i18n="portfolio.tag.fashion">Fashion</div>
-          <div class="work-title">Кейс 08</div>
+          <div class="work-title" data-case-num="8">Кейс 8</div>
           <div class="work-meta" data-i18n="portfolio.meta.video">Видео-кампания</div>
         </div>
         <div class="work-card">
           <video class="work-art" src="works/portfolio/IMG_9243.MOV" autoplay muted loop playsinline preload="metadata"></video>
-          <div class="work-tag" data-i18n="portfolio.tag.beauty">Beauty</div>
-          <div class="work-title">Кейс 09</div>
+          <div class="work-title" data-case-num="9">Кейс 9</div>
           <div class="work-meta" data-i18n="portfolio.meta.video">Видео-кампания</div>
         </div>
         <div class="work-card">
           <video class="work-art" src="works/portfolio/IMG_9442.MOV" autoplay muted loop playsinline preload="metadata"></video>
-          <div class="work-tag" data-i18n="portfolio.tag.lifestyle">Lifestyle</div>
-          <div class="work-title">Кейс 10</div>
+          <div class="work-title" data-case-num="10">Кейс 10</div>
           <div class="work-meta" data-i18n="portfolio.meta.video">Видео-кампания</div>
         </div>
       </div>
@@ -2406,115 +2427,6 @@
   </div>
 </section>
 
-<!-- CURRICULUM -->
-<section class="curriculum">
-  <div class="section-inner">
-    <div class="section-label fade-in" data-i18n="curriculum.label">Программа</div>
-    <div class="section-title fade-in" data-i18n-html="curriculum.title">Твой путь от нуля до<br>первых клиентов <em>за 6 недель</em></div>
-    <div class="modules-grid">
-      <div class="module-card fade-in">
-        <div class="module-head">
-          <div class="module-num">1</div>
-          <div>
-            <div class="module-week" data-i18n="week.1">Неделя 1</div>
-            <div class="module-title" data-i18n="step.1.title">Мышление AI-креатора</div>
-          </div>
-        </div>
-        <p class="module-desc" data-i18n="step.1.desc">Прежде чем создавать - выстраиваем фундамент. Ты получишь систему мышления, чёткий план до первых денег и внутренний настрой, который не даёт сдаться на полпути.</p>
-        <div class="module-meta">
-          <div class="module-result" data-i18n="step.1.result">Больше никаких «а вдруг не получится» - ты знаешь, куда идёшь</div>
-        </div>
-      </div>
-
-      <div class="module-card fade-in">
-        <div class="module-head">
-          <div class="module-num">2</div>
-          <div>
-            <div class="module-week" data-i18n="week.2">Неделя 2</div>
-            <div class="module-title" data-i18n="step.2.title">Насмотренность и стиль</div>
-          </div>
-        </div>
-        <p class="module-desc" data-i18n="step.2.desc">Учишься видеть сильный визуал и отличать его от слабого. Формируешь собственный визуальный стиль - основу, от которой будешь отталкиваться при создании любого контента.</p>
-        <div class="module-meta">
-          <div class="module-result" data-i18n="step.2.result">Твоя личная визуальная база готова</div>
-        </div>
-      </div>
-
-      <div class="module-card fade-in">
-        <div class="module-head">
-          <div class="module-num">3</div>
-          <div>
-            <div class="module-week" data-i18n="week.3">Неделя 3</div>
-            <div class="module-title" data-i18n="step.3.title">Промпты и AI-ассистент</div>
-          </div>
-        </div>
-        <p class="module-desc" data-i18n="step.3.desc">Осваиваешь систему написания промптов, которая срабатывает с первого раза. Создаёшь личного AI-ассистента, который делает работу за тебя.</p>
-        <div class="module-meta">
-          <div class="module-bonus" data-i18n="step.3.bonus">Бонус: готовый чат-ассистент по промптингу - настроенный GPT</div>
-          <div class="module-result" data-i18n="step.3.result">Управляешь нейросетью как профессиональным инструментом</div>
-        </div>
-      </div>
-
-      <div class="module-card fade-in">
-        <div class="module-head">
-          <div class="module-num">4</div>
-          <div>
-            <div class="module-week" data-i18n="week.4">Неделя 4</div>
-            <div class="module-title" data-i18n="step.4.title">Создаём фотографии</div>
-          </div>
-        </div>
-        <p class="module-desc" data-i18n="step.4.desc">Работаешь со светом, платформами для генерации и создаёшь детализированного персонажа, который выглядит как реальный человек. Нейрофотосессии и товарная съёмка - не выходя из дома.</p>
-        <div class="module-meta">
-          <div class="module-bonus" data-i18n="step.4.bonus">Бонус: гайд по детализации кожи + ТЗ от реального клиента</div>
-          <div class="module-result" data-i18n="step.4.result">Первые 200-300 € уже на этом этапе</div>
-        </div>
-      </div>
-
-      <div class="module-card fade-in">
-        <div class="module-head">
-          <div class="module-num">5</div>
-          <div>
-            <div class="module-week" data-i18n="week.5">Неделя 5</div>
-            <div class="module-title" data-i18n="step.5.title">Создаём видео</div>
-          </div>
-        </div>
-        <p class="module-desc" data-i18n="step.5.desc">Создаёшь полноценное коммерческое видео, монтируешь в CapCut и добавляешь звук. Самая востребованная услуга в AI-контенте - и ты её освоишь.</p>
-        <div class="module-meta">
-          <div class="module-result" data-i18n="step.5.result">От 200 € за одно видео / до 4 000 € в месяц</div>
-        </div>
-      </div>
-
-      <div class="module-card fade-in">
-        <div class="module-head">
-          <div class="module-num">6</div>
-          <div>
-            <div class="module-week" data-i18n="week.6">Неделя 6</div>
-            <div class="module-title" data-i18n="step.6.title">Продажи и первые клиенты</div>
-          </div>
-        </div>
-        <p class="module-desc" data-i18n="step.6.desc">Узнаёшь реальные цены на AI-контент, получаешь шаблоны переписки и учишься закрывать любые возражения - от «дорого» до «подумаем».</p>
-        <div class="module-meta">
-          <div class="module-result" data-i18n="step.6.result">Страх продаж позади - пишешь клиентам уверенно</div>
-        </div>
-      </div>
-
-      <div class="module-card module-final fade-in">
-        <div class="module-head">
-          <div class="module-num">7</div>
-          <div>
-            <div class="module-week" data-i18n="week.7">Финал</div>
-            <div class="module-title" data-i18n="step.7.title">Портфолио и Диплом</div>
-          </div>
-        </div>
-        <p class="module-desc" data-i18n="step.7.desc">Собираешь сильное портфолио, упакованное под клиента. Защищаешь дипломный проект и получаешь живой разбор работ с планом дальнейшего развития.</p>
-        <div class="module-meta">
-          <div class="module-result" data-i18n="step.7.result">За 6 недель - от новичка до востребованного специалиста</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- PRICING -->
 <section class="pricing" id="pricing">
   <div class="section-inner">
@@ -2528,9 +2440,14 @@
         <div class="plan-name" data-i18n="plan.base.name">БАЗА</div>
         <p class="plan-desc" data-i18n="plan.base.desc">Хочешь освоить AI-инструменты в своём темпе и без наставника - это твой базовый старт в профессии</p>
         <div class="plan-price">
-          <div class="price-main">~270$</div>
+          <div class="price-main">~270€</div>
           <div class="price-sub" data-i18n="plan.base.sub">4 900 MDL · Шаги 1-5</div>
         </div>
+        <div class="iutepay-monthly-calculator iutepay-calc"
+             data-amount="270"
+             data-currency="EUR"
+             data-page-type="product"
+             data-sku="aiai-base"></div>
         <ul class="plan-features">
           <li data-i18n="feat.1">Записанные видеоуроки</li>
           <li data-i18n="plan.base.access">Доступ к материалам - 3 месяца</li>
@@ -2546,7 +2463,7 @@
           <li class="locked" data-i18n="feat.12">Готовый GPT-ассистент по промптингу</li>
           <li class="locked" data-i18n="feat.13">Гайд по детализации кожи + шаблон ТЗ</li>
         </ul>
-        <a href="#" class="plan-cta outline" data-i18n="cta.start">НАЧАТЬ СЕЙЧАС</a>
+        <a href="#pricing" class="plan-cta outline" data-i18n="cta.start">НАЧАТЬ СЕЙЧАС</a>
       </div>
 
       <!-- СТАНДАРТ -->
@@ -2556,9 +2473,14 @@
         <div class="plan-name" data-i18n="plan.std.name">СТАНДАРТ</div>
         <p class="plan-desc" data-i18n="plan.std.desc">Хочешь полный курс, обратную связь и реальные первые заказы - оптимальный выбор для большинства</p>
         <div class="plan-price">
-          <div class="price-main">~550$</div>
+          <div class="price-main">~550€</div>
           <div class="price-sub" data-i18n="plan.std.sub">9 900 MDL · Все 7 шагов</div>
         </div>
+        <div class="iutepay-monthly-calculator iutepay-calc"
+             data-amount="550"
+             data-currency="EUR"
+             data-page-type="product"
+             data-sku="aiai-standard"></div>
         <ul class="plan-features">
           <li data-i18n="feat.1">Записанные видеоуроки</li>
           <li data-i18n="plan.std.access">Доступ к материалам - 6 месяцев</li>
@@ -2574,7 +2496,7 @@
           <li class="bonus" data-i18n="feat.12">Готовый GPT-ассистент по промптингу</li>
           <li class="bonus" data-i18n="feat.13">Гайд по детализации кожи + шаблон ТЗ</li>
         </ul>
-        <a href="#" class="plan-cta filled" data-i18n="cta.start">НАЧАТЬ СЕЙЧАС</a>
+        <a href="#pricing" class="plan-cta filled" data-i18n="cta.start">НАЧАТЬ СЕЙЧАС</a>
       </div>
 
       <!-- VIP -->
@@ -2583,9 +2505,14 @@
         <div class="plan-name" data-i18n="plan.vip.name">VIP</div>
         <p class="plan-desc" data-i18n="plan.vip.desc">Ты проходишь все семь шагов - от мышления до диплома и первой сделки. Личное сопровождение до результата</p>
         <div class="plan-price">
-          <div class="price-main">~1 100$</div>
+          <div class="price-main">~1 100€</div>
           <div class="price-sub" data-i18n="plan.vip.sub">19 900 MDL · Все 7 шагов</div>
         </div>
+        <div class="iutepay-monthly-calculator iutepay-calc"
+             data-amount="1100"
+             data-currency="EUR"
+             data-page-type="product"
+             data-sku="aiai-vip"></div>
         <ul class="plan-features">
           <li data-i18n="feat.1">Записанные видеоуроки</li>
           <li data-i18n="plan.vip.access">Доступ к материалам - 12 месяцев</li>
@@ -2601,7 +2528,7 @@
           <li class="bonus" data-i18n="feat.12">Готовый GPT-ассистент по промптингу</li>
           <li class="bonus" data-i18n="feat.13">Гайд по детализации кожи + шаблон ТЗ</li>
         </ul>
-        <a href="#" class="plan-cta outline" data-i18n="cta.start">НАЧАТЬ СЕЙЧАС</a>
+        <a href="#pricing" class="plan-cta outline" data-i18n="cta.start">НАЧАТЬ СЕЙЧАС</a>
       </div>
 
     </div>
@@ -2740,6 +2667,22 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
+// RESULTS ACCORDION (cards 01, 02, 03)
+document.querySelectorAll('.result-card.has-accordion').forEach(card => {
+  card.addEventListener('click', () => {
+    const isOpen = card.classList.toggle('is-open');
+    card.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  card.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      card.click();
+    }
+  });
+  card.setAttribute('tabindex', '0');
+  card.setAttribute('role', 'button');
+});
+
 // I18N — словарь переводов и переключатель языка
 const I18N = {
   ru: {
@@ -2819,33 +2762,21 @@ const I18N = {
     'portfolio.meta.5': 'Городская кампания',
     'portfolio.meta.video': 'Видео-кампания',
     'portfolio.meta.shoot': 'Фото-съёмка',
-    'curriculum.label': 'Программа',
-    'curriculum.title': 'Твой путь от нуля до<br>первых клиентов <em>за 6 недель</em>',
-    'week.1': 'Неделя 1', 'week.2': 'Неделя 2', 'week.3': 'Неделя 3',
-    'week.4': 'Неделя 4', 'week.5': 'Неделя 5', 'week.6': 'Неделя 6', 'week.7': 'Финал',
+    'case.label': 'Кейс',
     'step.1.title': 'Мышление AI-креатора',
     'step.1.desc': 'Прежде чем создавать - выстраиваем фундамент. Ты получишь систему мышления, чёткий план до первых денег и внутренний настрой, который не даёт сдаться на полпути.',
-    'step.1.result': 'Больше никаких «а вдруг не получится» - ты знаешь, куда идёшь',
     'step.2.title': 'Насмотренность и стиль',
     'step.2.desc': 'Учишься видеть сильный визуал и отличать его от слабого. Формируешь собственный визуальный стиль - основу, от которой будешь отталкиваться при создании любого контента.',
-    'step.2.result': 'Твоя личная визуальная база готова',
     'step.3.title': 'Промпты и AI-ассистент',
     'step.3.desc': 'Осваиваешь систему написания промптов, которая срабатывает с первого раза. Создаёшь личного AI-ассистента, который делает работу за тебя.',
-    'step.3.bonus': 'Бонус: готовый чат-ассистент по промптингу - настроенный GPT',
-    'step.3.result': 'Управляешь нейросетью как профессиональным инструментом',
     'step.4.title': 'Создаём фотографии',
     'step.4.desc': 'Работаешь со светом, платформами для генерации и создаёшь детализированного персонажа, который выглядит как реальный человек. Нейрофотосессии и товарная съёмка - не выходя из дома.',
-    'step.4.bonus': 'Бонус: гайд по детализации кожи + ТЗ от реального клиента',
-    'step.4.result': 'Первые 200-300 € уже на этом этапе',
     'step.5.title': 'Создаём видео',
     'step.5.desc': 'Создаёшь полноценное коммерческое видео, монтируешь в CapCut и добавляешь звук. Самая востребованная услуга в AI-контенте - и ты её освоишь.',
-    'step.5.result': 'От 200 € за одно видео / до 4 000 € в месяц',
     'step.6.title': 'Продажи и первые клиенты',
     'step.6.desc': 'Узнаёшь реальные цены на AI-контент, получаешь шаблоны переписки и учишься закрывать любые возражения - от «дорого» до «подумаем».',
-    'step.6.result': 'Страх продаж позади - пишешь клиентам уверенно',
     'step.7.title': 'Портфолио и Диплом',
     'step.7.desc': 'Собираешь сильное портфолио, упакованное под клиента. Защищаешь дипломный проект и получаешь живой разбор работ с планом дальнейшего развития.',
-    'step.7.result': 'За 6 недель - от новичка до востребованного специалиста',
     'students.label': 'Кейсы учениц',
     'students.title': 'Их результаты <em>после курса</em>',
     'stud.1.name': 'Арина', 'stud.1.niche': 'Бренд одежды · Lookbook',
@@ -2962,33 +2893,21 @@ const I18N = {
     'portfolio.meta.5': 'Urban campaign',
     'portfolio.meta.video': 'Video campaign',
     'portfolio.meta.shoot': 'Photo shoot',
-    'curriculum.label': 'Curriculum',
-    'curriculum.title': 'Your path from zero to<br>first clients <em>in 6 weeks</em>',
-    'week.1': 'Week 1', 'week.2': 'Week 2', 'week.3': 'Week 3',
-    'week.4': 'Week 4', 'week.5': 'Week 5', 'week.6': 'Week 6', 'week.7': 'Finale',
+    'case.label': 'Case',
     'step.1.title': 'AI-creator mindset',
     'step.1.desc': "Before creating - we lay the foundation. You'll get a mindset system, a clear plan to your first money and the inner drive that keeps you going.",
-    'step.1.result': 'No more "what if it doesn’t work" - you know exactly where you’re going',
     'step.2.title': 'Visual taste & style',
     'step.2.desc': "You learn to see strong visuals and tell them apart from weak ones. You shape your own visual style - the foundation for everything you'll create next.",
-    'step.2.result': 'Your personal visual library is ready',
     'step.3.title': 'Prompts & AI assistant',
     'step.3.desc': "You master a prompt-writing system that works on the first try. You build a personal AI assistant that does the work for you.",
-    'step.3.bonus': 'Bonus: a ready chat assistant for prompting - a tuned GPT',
-    'step.3.result': 'You wield AI like a professional tool',
     'step.4.title': 'Creating photography',
     'step.4.desc': 'You work with light, generation platforms and craft a detailed character that looks like a real person. AI photoshoots and product photography - without leaving home.',
-    'step.4.bonus': 'Bonus: skin detail guide + real-client brief template',
-    'step.4.result': 'First €200-300 already at this stage',
     'step.5.title': 'Creating video',
     'step.5.desc': 'You produce a full commercial video, edit it in CapCut and add sound. The most in-demand AI-content service - and you will own it.',
-    'step.5.result': 'From €200 per video / up to €4,000 per month',
     'step.6.title': 'Sales & first clients',
     'step.6.desc': 'You learn real AI-content pricing, get messaging templates and learn to close any objection - from "too expensive" to "let me think".',
-    'step.6.result': 'Fear of selling is gone - you message clients with confidence',
     'step.7.title': 'Portfolio & Diploma',
     'step.7.desc': 'You build a strong client-ready portfolio, defend your diploma project and get a live review with a roadmap for your next steps.',
-    'step.7.result': '6 weeks - from beginner to a sought-after specialist',
     'students.label': 'Student cases',
     'students.title': 'Their results <em>after the course</em>',
     'stud.1.name': 'Arina', 'stud.1.niche': 'Fashion brand · Lookbook',
@@ -3105,33 +3024,21 @@ const I18N = {
     'portfolio.meta.5': 'Campanie urbană',
     'portfolio.meta.video': 'Campanie video',
     'portfolio.meta.shoot': 'Sesiune foto',
-    'curriculum.label': 'Programa',
-    'curriculum.title': 'Drumul tău de la zero la<br>primii clienți <em>în 6 săptămâni</em>',
-    'week.1': 'Săptămâna 1', 'week.2': 'Săptămâna 2', 'week.3': 'Săptămâna 3',
-    'week.4': 'Săptămâna 4', 'week.5': 'Săptămâna 5', 'week.6': 'Săptămâna 6', 'week.7': 'Final',
+    'case.label': 'Cazul',
     'step.1.title': 'Mentalitatea creatorului AI',
     'step.1.desc': 'Înainte să creezi - construim fundația. Vei primi un sistem de gândire, un plan clar până la primii bani și o atitudine internă care nu te lasă să renunți la jumătatea drumului.',
-    'step.1.result': 'Gata cu «dacă nu reușesc?» - știi exact unde mergi',
     'step.2.title': 'Ochi de stil și viziune',
     'step.2.desc': 'Înveți să vezi un vizual puternic și să-l distingi de unul slab. Îți formezi propriul stil vizual - baza de la care vei porni la crearea oricărui conținut.',
-    'step.2.result': 'Baza ta vizuală personală e gata',
     'step.3.title': 'Prompturi și asistent AI',
     'step.3.desc': 'Stăpânești sistemul de scriere a prompturilor care funcționează din prima. Îți creezi propriul asistent AI care face munca în locul tău.',
-    'step.3.bonus': 'Bonus: chat-asistent gata făcut pentru prompting - GPT configurat',
-    'step.3.result': 'Controlezi rețeaua neuronală ca un instrument profesional',
     'step.4.title': 'Creăm fotografii',
     'step.4.desc': 'Lucrezi cu lumina, cu platformele de generare și creezi un personaj detaliat care arată ca un om real. Ședințe foto AI și fotografie de produs - direct de acasă.',
-    'step.4.bonus': 'Bonus: ghid de detaliere a pielii + brief de la un client real',
-    'step.4.result': 'Primii 200-300 € deja la această etapă',
     'step.5.title': 'Creăm video',
     'step.5.desc': 'Creezi un video comercial complet, montezi în CapCut și adaugi sunet. Cel mai cerut serviciu în conținutul AI - și îl stăpânești.',
-    'step.5.result': 'De la 200 € pentru un video / până la 4 000 € pe lună',
     'step.6.title': 'Vânzări și primii clienți',
     'step.6.desc': 'Afli prețurile reale pentru conținut AI, primești șabloane de mesaje și înveți să închizi orice obiecție - de la «e scump» la «mă mai gândesc».',
-    'step.6.result': 'Frica de vânzări dispare - scrii cu încredere clienților',
     'step.7.title': 'Portofoliu și Diplomă',
     'step.7.desc': 'Construiești un portofoliu puternic, ambalat pentru client. Îți susții proiectul de diplomă și primești o analiză live a lucrărilor cu un plan de dezvoltare.',
-    'step.7.result': 'În 6 săptămâni - de la începătoare la specialistă căutată',
     'students.label': 'Cazuri ale studentelor',
     'students.title': 'Rezultatele lor <em>după curs</em>',
     'stud.1.name': 'Arina', 'stud.1.niche': 'Brand de haine · Lookbook',
@@ -3191,6 +3098,11 @@ const I18N = {
     document.querySelectorAll('[data-i18n-html]').forEach(el => {
       const key = el.getAttribute('data-i18n-html');
       if (dict[key] !== undefined) el.innerHTML = dict[key];
+    });
+    // Шаблон "Кейс N" / "Case N" / "Cazul N"
+    const caseLabel = dict['case.label'] || 'Кейс';
+    document.querySelectorAll('[data-case-num]').forEach(el => {
+      el.textContent = `${caseLabel} ${el.getAttribute('data-case-num')}`;
     });
     toggle.setAttribute('data-lang', lang);
     toggle.querySelectorAll('.lang-opt').forEach(opt => {
