@@ -966,6 +966,124 @@
     .result-toggle-arrow { width: 32px; height: 32px; font-size: 18px; }
   }
 
+  /* GIFT SECTION */
+  .gift { background: var(--white); }
+  .gift-box {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .gift-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    background: linear-gradient(135deg, var(--pink) 0%, #C0185A 100%);
+    color: #FFFFFF;
+    border: none;
+    padding: 20px 44px;
+    border-radius: 22px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 12px 40px rgba(232,52,106,0.3);
+    letter-spacing: 0.02em;
+    position: relative;
+    overflow: hidden;
+  }
+  .gift-trigger::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .gift-trigger:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 18px 50px rgba(232,52,106,0.4);
+  }
+  .gift-trigger .gift-emoji {
+    font-size: 28px;
+    animation: giftBounce 2s ease-in-out infinite;
+  }
+  @keyframes giftBounce {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-4px) rotate(-5deg); }
+    75% { transform: translateY(-2px) rotate(5deg); }
+  }
+  .gift-reveal {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .gift-reveal.is-open { grid-template-rows: 1fr; }
+  .gift-reveal-inner {
+    overflow: hidden;
+  }
+  .gift-content {
+    padding-top: 48px;
+    text-align: center;
+  }
+  .gift-main-text {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--dark);
+    line-height: 1.45;
+    max-width: 600px;
+    margin: 0 auto 40px;
+  }
+  .gift-main-text strong { color: var(--pink); }
+  .gift-features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    text-align: left;
+  }
+  .gift-feat {
+    background: var(--pink-pale);
+    border: 1px solid var(--pink-mid);
+    border-radius: 18px;
+    padding: 28px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: all 0.3s;
+  }
+  .gift-feat:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px -16px rgba(232,52,106,0.25);
+    border-color: var(--pink);
+  }
+  .gift-feat-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--pink) 0%, #C0185A 100%);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 6px 16px -4px rgba(232,52,106,0.4);
+  }
+  .gift-feat-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.15;
+  }
+  .gift-feat-desc {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+  @media (max-width: 768px) {
+    .gift-features { grid-template-columns: 1fr; gap: 14px; }
+    .gift-trigger { font-size: 16px; padding: 16px 32px; }
+    .gift-main-text { font-size: 17px; }
+  }
+
   /* ABOUT AUTHOR */
   .about { background: var(--pink-pale); }
   .about-inner {
@@ -2214,6 +2332,42 @@
   </div>
 </section>
 
+<!-- GIFT -->
+<section class="gift">
+  <div class="section-inner">
+    <div class="gift-box">
+      <button class="gift-trigger" id="giftTrigger" type="button">
+        <span class="gift-emoji">🎁</span>
+        <span data-i18n="gift.btn">Получить подарок</span>
+      </button>
+      <div class="gift-reveal" id="giftReveal">
+        <div class="gift-reveal-inner">
+          <div class="gift-content">
+            <p class="gift-main-text" data-i18n-html="gift.text">С первого дня обучения ты получаешь доступ ко всем <strong>платным AI-сервисам</strong>, с которыми мы работаем на курсе - для создания фото и видео</p>
+            <div class="gift-features">
+              <div class="gift-feat fade-in">
+                <div class="gift-feat-icon">✅</div>
+                <div class="gift-feat-title" data-i18n="gift.f1.title">Всё включено</div>
+                <div class="gift-feat-desc" data-i18n="gift.f1.desc">Подписки на все инструменты уже входят в твоё обучение</div>
+              </div>
+              <div class="gift-feat fade-in">
+                <div class="gift-feat-icon">🚀</div>
+                <div class="gift-feat-title" data-i18n="gift.f2.title">Старт без вложений</div>
+                <div class="gift-feat-desc" data-i18n="gift.f2.desc">Не нужно ничего покупать дополнительно</div>
+              </div>
+              <div class="gift-feat fade-in">
+                <div class="gift-feat-icon">⚡</div>
+                <div class="gift-feat-title" data-i18n="gift.f3.title">Инструменты профессионалов</div>
+                <div class="gift-feat-desc" data-i18n="gift.f3.desc">Работаешь только с эффективными сервисами с первого дня</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ABOUT AUTHOR -->
 <section class="about">
   <div class="section-inner">
@@ -2480,11 +2634,11 @@
         <div class="plan-name" data-i18n="plan.base.name">БАЗА</div>
         <p class="plan-desc" data-i18n="plan.base.desc">Хочешь освоить AI-инструменты в своём темпе и без наставника - это твой базовый старт в профессии</p>
         <div class="plan-price">
-          <div class="price-main">~270€</div>
-          <div class="price-sub" data-i18n="plan.base.sub">4 900 MDL · Шаги 1-5</div>
+          <div class="price-main">~250€</div>
+          <div class="price-sub" data-i18n="plan.base.sub">5 000 MDL · Шаги 1-5</div>
         </div>
         <div class="iutepay-monthly-calculator iutepay-calc"
-             data-amount="270"
+             data-amount="250"
              data-currency="EUR"
              data-page-type="product"
              data-sku="aiai-base"></div>
@@ -2505,7 +2659,7 @@
         </ul>
         <div class="plan-cta-group">
           <a href="#pricing" class="plan-cta outline" data-i18n="cta.start">НАЧАТЬ СЕЙЧАС</a>
-          <button type="button" class="plan-cta installment" data-plan="base" data-amount="270" data-name="БАЗА" data-i18n="cta.installment">В РАССРОЧКУ</button>
+          <button type="button" class="plan-cta installment" data-plan="base" data-amount="250" data-name="БАЗА" data-i18n="cta.installment">В РАССРОЧКУ</button>
         </div>
       </div>
 
@@ -2516,11 +2670,11 @@
         <div class="plan-name" data-i18n="plan.std.name">СТАНДАРТ</div>
         <p class="plan-desc" data-i18n="plan.std.desc">Хочешь полный курс, обратную связь и реальные первые заказы - оптимальный выбор для большинства</p>
         <div class="plan-price">
-          <div class="price-main">~550€</div>
+          <div class="price-main">~490€</div>
           <div class="price-sub" data-i18n="plan.std.sub">9 900 MDL · Все 7 шагов</div>
         </div>
         <div class="iutepay-monthly-calculator iutepay-calc"
-             data-amount="550"
+             data-amount="490"
              data-currency="EUR"
              data-page-type="product"
              data-sku="aiai-standard"></div>
@@ -2541,7 +2695,7 @@
         </ul>
         <div class="plan-cta-group">
           <a href="#pricing" class="plan-cta filled" data-i18n="cta.start">НАЧАТЬ СЕЙЧАС</a>
-          <button type="button" class="plan-cta installment" data-plan="standard" data-amount="550" data-name="СТАНДАРТ" data-i18n="cta.installment">В РАССРОЧКУ</button>
+          <button type="button" class="plan-cta installment" data-plan="standard" data-amount="490" data-name="СТАНДАРТ" data-i18n="cta.installment">В РАССРОЧКУ</button>
         </div>
       </div>
 
@@ -2551,11 +2705,11 @@
         <div class="plan-name" data-i18n="plan.vip.name">VIP</div>
         <p class="plan-desc" data-i18n="plan.vip.desc">Ты проходишь все семь шагов - от мышления до диплома и первой сделки. Личное сопровождение до результата</p>
         <div class="plan-price">
-          <div class="price-main">~1 100€</div>
+          <div class="price-main">~990€</div>
           <div class="price-sub" data-i18n="plan.vip.sub">19 900 MDL · Все 7 шагов</div>
         </div>
         <div class="iutepay-monthly-calculator iutepay-calc"
-             data-amount="1100"
+             data-amount="990"
              data-currency="EUR"
              data-page-type="product"
              data-sku="aiai-vip"></div>
@@ -2576,7 +2730,7 @@
         </ul>
         <div class="plan-cta-group">
           <a href="#pricing" class="plan-cta outline" data-i18n="cta.start">НАЧАТЬ СЕЙЧАС</a>
-          <button type="button" class="plan-cta installment" data-plan="vip" data-amount="1100" data-name="VIP" data-i18n="cta.installment">В РАССРОЧКУ</button>
+          <button type="button" class="plan-cta installment" data-plan="vip" data-amount="990" data-name="VIP" data-i18n="cta.installment">В РАССРОЧКУ</button>
         </div>
       </div>
 
@@ -2715,6 +2869,17 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// GIFT REVEAL
+(function() {
+  var btn = document.getElementById('giftTrigger');
+  var box = document.getElementById('giftReveal');
+  if (!btn || !box) return;
+  btn.addEventListener('click', function() {
+    box.classList.toggle('is-open');
+    btn.querySelector('.gift-emoji').textContent = box.classList.contains('is-open') ? '🎉' : '🎁';
+  });
+})();
 
 // IUTECREDIT INSTALLMENT CHECKOUT
 (function () {
@@ -2861,6 +3026,14 @@ const I18N = {
     'hero.tag': 'Набор открыт',
     'cta.start': 'НАЧАТЬ СЕЙЧАС',
     'cta.installment': 'В РАССРОЧКУ',
+    'gift.btn': 'Получить подарок',
+    'gift.text': 'С первого дня обучения ты получаешь доступ ко всем <strong>платным AI-сервисам</strong>, с которыми мы работаем на курсе - для создания фото и видео',
+    'gift.f1.title': 'Всё включено',
+    'gift.f1.desc': 'Подписки на все инструменты уже входят в твоё обучение',
+    'gift.f2.title': 'Старт без вложений',
+    'gift.f2.desc': 'Не нужно ничего покупать дополнительно',
+    'gift.f3.title': 'Инструменты профессионалов',
+    'gift.f3.desc': 'Работаешь только с эффективными сервисами с первого дня',
     'ticker.1': 'Не нужно быть дизайнером - всё объясняю пошагово',
     'ticker.2': 'Достаточно 1-2 часа в день',
     'ticker.3': 'Получишь готовый план действий, а не просто знания',
@@ -2956,7 +3129,7 @@ const I18N = {
     'plan.popular': '🔥 Самый популярный',
     'plan.base.name': 'БАЗА',
     'plan.base.desc': 'Хочешь освоить AI-инструменты в своём темпе и без наставника - это твой базовый старт в профессии',
-    'plan.base.sub': '4 900 MDL · Шаги 1-5',
+    'plan.base.sub': '5 000 MDL · Шаги 1-5',
     'plan.base.access': 'Доступ к материалам - 3 месяца',
     'plan.std.name': 'СТАНДАРТ',
     'plan.std.desc': 'Хочешь полный курс, обратную связь и реальные первые заказы - оптимальный выбор для большинства',
@@ -2993,6 +3166,14 @@ const I18N = {
     'hero.tag': 'Enrollment open',
     'cta.start': 'START NOW',
     'cta.installment': 'PAY IN INSTALLMENTS',
+    'gift.btn': 'Get your gift',
+    'gift.text': 'From day one you get access to all <strong>paid AI services</strong> we use in the course - for creating photos and videos',
+    'gift.f1.title': 'All included',
+    'gift.f1.desc': 'Subscriptions to every tool are already part of your training',
+    'gift.f2.title': 'Start with zero investment',
+    'gift.f2.desc': 'No need to buy anything extra',
+    'gift.f3.title': 'Professional tools',
+    'gift.f3.desc': 'Work with proven, effective services from day one',
     'ticker.1': 'No need to be a designer - I walk you through every step',
     'ticker.2': 'Just 1-2 hours a day is enough',
     'ticker.3': "You get a ready action plan, not just knowledge",
@@ -3088,7 +3269,7 @@ const I18N = {
     'plan.popular': '🔥 Most popular',
     'plan.base.name': 'BASE',
     'plan.base.desc': 'Want to master AI tools at your own pace, no mentor - this is your basic launch into the profession',
-    'plan.base.sub': '4,900 MDL · Steps 1-5',
+    'plan.base.sub': '5,000 MDL · Steps 1-5',
     'plan.base.access': 'Access to materials - 3 months',
     'plan.std.name': 'STANDARD',
     'plan.std.desc': 'Want the full course, feedback and real first orders - the optimal choice for most',
@@ -3125,6 +3306,14 @@ const I18N = {
     'hero.tag': 'Înscrieri deschise',
     'cta.start': 'ÎNCEPE ACUM',
     'cta.installment': 'ÎN RATE',
+    'gift.btn': 'Primește cadoul',
+    'gift.text': 'Din prima zi de studii primești acces la toate <strong>serviciile AI plătite</strong> cu care lucrăm la curs - pentru crearea de foto și video',
+    'gift.f1.title': 'Totul inclus',
+    'gift.f1.desc': 'Abonamentele la toate instrumentele sunt deja incluse în formare',
+    'gift.f2.title': 'Start fără investiții',
+    'gift.f2.desc': 'Nu trebuie să cumperi nimic suplimentar',
+    'gift.f3.title': 'Instrumente profesionale',
+    'gift.f3.desc': 'Lucrezi doar cu servicii eficiente din prima zi',
     'ticker.1': 'Nu trebuie să fii designer - explic totul pas cu pas',
     'ticker.2': 'Doar 1-2 ore pe zi sunt suficiente',
     'ticker.3': 'Primești un plan concret de acțiune, nu doar teorie',
@@ -3220,7 +3409,7 @@ const I18N = {
     'plan.popular': '🔥 Cel mai popular',
     'plan.base.name': 'BASE',
     'plan.base.desc': 'Vrei să stăpânești instrumentele AI în ritmul tău, fără mentor - acesta e startul tău de bază în profesie',
-    'plan.base.sub': '4 900 MDL · Pașii 1-5',
+    'plan.base.sub': '5 000 MDL · Pașii 1-5',
     'plan.base.access': 'Acces la materiale - 3 luni',
     'plan.std.name': 'STANDARD',
     'plan.std.desc': 'Vrei cursul complet, feedback și primele comenzi reale - alegerea optimă pentru majoritatea',
