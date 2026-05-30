@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" width="200" height="60">
+  <defs>
+    <linearGradient id="markGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FF6B9D"/>
+      <stop offset="100%" stop-color="#C0185A"/>
+    </linearGradient>
+    <linearGradient id="shineGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.4"/>
+      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Mark: rounded square with monogram -->
+  <g transform="translate(2, 8)">
+    <rect x="0" y="0" width="44" height="44" rx="13" fill="url(#markGrad)"/>
+    <rect x="0" y="0" width="44" height="22" rx="13" fill="url(#shineGrad)"/>
+    <!-- Stylized 'sk' monogram in white italic serif -->
+    <text x="22" y="32" text-anchor="middle"
+          font-family="'Playfair Display', 'Times New Roman', Georgia, serif"
+          font-style="italic" font-weight="700"
+          font-size="22" fill="#FFFFFF" letter-spacing="-0.5">sk</text>
+    <!-- Sparkle accent -->
+    <circle cx="38" cy="8" r="1.6" fill="#FFFFFF" opacity="0.9"/>
+  </g>
+
+  <!-- Wordmark: Sofia Kantser -->
+  <g transform="translate(58, 0)">
+    <text x="0" y="28"
+          font-family="'Playfair Display', 'Times New Roman', Georgia, serif"
+          font-style="italic" font-weight="700"
+          font-size="20" fill="#1A1218" letter-spacing="-0.3">Sofia</text>
+    <text x="0" y="48"
+          font-family="'Manrope', 'Helvetica Neue', Arial, sans-serif"
+          font-weight="600"
+          font-size="12" fill="#7A6572" letter-spacing="3" text-transform="uppercase">KANTSER</text>
+  </g>
+</svg>
