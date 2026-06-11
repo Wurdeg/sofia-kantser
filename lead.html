@@ -2,16 +2,15 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Соня AI — Начни зарабатывать от 1 500 € на AI-контенте</title>
-<meta name="description" content="Оставь заявку и узнай, как зарабатывать от 1 500 € в месяц на AI-контенте — без камеры, съёмок и сложных программ. Обучение с нуля.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Соня AI — Тест: твой путь в AI-контенте</title>
+<meta name="description" content="Пройди короткий тест и узнай, как зарабатывать от 1 500 € на AI-контенте. В конце - бесплатный разбор.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="apple-touch-icon" href="favicon.svg">
 
-<!-- OpenGraph для красивой ссылки в Telegram/соцсетях -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="Начни зарабатывать от 1 500 € на AI-контенте">
-<meta property="og:description" content="Оставь заявку — пришлём всю информацию о профессии AI-контент мейкера.">
+<meta property="og:title" content="Тест: твой путь в AI-контенте — от 1 500 €">
+<meta property="og:description" content="Пройди короткий тест и забери бесплатный разбор.">
 <meta property="og:image" content="https://wurdeg.github.io/sofia-kantser/sofia.jpg">
 
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
@@ -25,545 +24,475 @@
     --pink-pale: #FFF0F5;
     --pink-mid: #FFD6E8;
     --dark: #1A1218;
-    --dark-mid: #2D1F28;
     --text: #1A1218;
     --text-muted: #7A6572;
     --white: #FFFFFF;
     --cream: #FDF8FA;
     --border: rgba(232, 52, 106, 0.16);
-    --radius: 24px;
-    --radius-sm: 14px;
-    --shadow-soft: 0 24px 60px -28px rgba(232,52,106,0.40);
-    --shadow-card: 0 30px 80px -40px rgba(26,18,24,0.35);
+    --radius: 18px;
   }
 
-  html { scroll-behavior: smooth; }
-
+  html, body { height: 100%; }
   body {
     font-family: 'Manrope', sans-serif;
-    background: var(--cream);
     color: var(--text);
-    overflow-x: hidden;
-    line-height: 1.6;
+    background: linear-gradient(135deg, #FFE4EF 0%, #FFF0F5 50%, #FFE9D9 100%);
     -webkit-font-smoothing: antialiased;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100vh; min-height: 100dvh;
   }
 
-  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
-
-  /* ===== Декоративный фон ===== */
-  .bg-orbs { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
-  .orb { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.55; }
-  .orb-1 { width: 480px; height: 480px; background: radial-gradient(circle, #FFD6E8, transparent 70%); top: -160px; right: -120px; }
-  .orb-2 { width: 420px; height: 420px; background: radial-gradient(circle, #FFE8D6, transparent 70%); bottom: -180px; left: -140px; }
-
-  /* ===== NAV ===== */
-  nav {
-    position: sticky; top: 0; z-index: 50;
-    padding: 14px 0;
-    background: rgba(253,248,250,0.82);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border);
+  /* ===== PHONE FRAME ===== */
+  .phone {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    height: 100vh; height: 100dvh;
+    overflow: hidden;
+    background: var(--cream);
   }
-  .nav-inner { display: flex; align-items: center; justify-content: space-between; }
-  .logo { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; }
-  .logo-mark {
-    width: 40px; height: 40px; border-radius: 12px;
-    background: linear-gradient(135deg, var(--pink-light) 0%, var(--pink-deep) 100%);
-    color: #fff; display: inline-flex; align-items: center; justify-content: center;
-    box-shadow: 0 8px 18px -5px rgba(232,52,106,0.5); position: relative; overflow: hidden;
-  }
-  .logo-mark::before { content:''; position:absolute; inset:0; background:linear-gradient(180deg,rgba(255,255,255,0.30),transparent 55%); }
-  .logo-mark span { font-family:'Playfair Display',serif; font-style:italic; font-weight:700; font-size:20px; letter-spacing:-0.04em; position:relative; z-index:1; }
-  .logo-text { display:flex; flex-direction:column; line-height:1.05; }
-  .logo-name { font-family:'Playfair Display',serif; font-style:italic; font-weight:700; font-size:18px; color:var(--dark); }
-  .logo-sub { font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--text-muted); font-weight:600; }
-  .nav-cta {
-    display:inline-flex; align-items:center; gap:8px;
-    padding:11px 22px; border-radius:100px; text-decoration:none;
-    background:linear-gradient(135deg,var(--pink) 0%,var(--pink-deep) 100%);
-    color:#fff; font-weight:700; font-size:14px;
-    box-shadow:0 12px 26px -10px rgba(232,52,106,0.6);
-    transition:transform .25s, box-shadow .25s;
-  }
-  .nav-cta:hover { transform:translateY(-2px); box-shadow:0 18px 34px -12px rgba(232,52,106,0.7); }
-
-  /* ===== HERO ===== */
-  .hero { padding: 56px 0 30px; }
-  .hero-grid { display:grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items:center; }
-
-  .badge {
-    display:inline-flex; align-items:center; gap:8px;
-    padding:8px 16px; border-radius:100px;
-    background:var(--white); border:1px solid var(--border);
-    font-size:13px; font-weight:700; color:var(--pink-deep);
-    box-shadow:0 6px 18px -10px rgba(232,52,106,0.4);
-    margin-bottom:24px;
-  }
-  .badge .dot { width:7px; height:7px; border-radius:50%; background:var(--pink); box-shadow:0 0 0 4px rgba(232,52,106,0.18); }
-
-  h1 {
-    font-size: clamp(34px, 5vw, 56px);
-    line-height: 1.07;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    color: var(--dark);
-    margin-bottom: 22px;
-  }
-  h1 .accent {
-    font-family:'Playfair Display',serif; font-style:italic; font-weight:700;
-    background:linear-gradient(120deg,var(--pink) 0%,var(--pink-deep) 100%);
-    -webkit-background-clip:text; background-clip:text; color:transparent;
-    padding-right:4px;
-  }
-  .hero-sub { font-size: clamp(16px,1.6vw,19px); color:var(--text-muted); max-width:520px; margin-bottom:28px; }
-
-  .hero-points { list-style:none; display:flex; flex-direction:column; gap:13px; margin-bottom:34px; }
-  .hero-points li { display:flex; align-items:center; gap:12px; font-weight:600; font-size:15px; color:var(--dark-mid); }
-  .check {
-    flex-shrink:0; width:26px; height:26px; border-radius:8px;
-    background:linear-gradient(135deg,var(--pink-light),var(--pink-deep));
-    display:inline-flex; align-items:center; justify-content:center; color:#fff;
-    box-shadow:0 6px 14px -6px rgba(232,52,106,0.6);
+  @media (min-width: 540px) {
+    .phone {
+      height: min(880px, 94vh);
+      border-radius: 34px;
+      box-shadow: 0 40px 100px -30px rgba(192,24,90,0.45);
+      border: 1px solid rgba(255,255,255,0.6);
+    }
   }
 
-  .hero-actions { display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
-  .btn-primary {
-    display:inline-flex; align-items:center; gap:10px;
-    padding:18px 34px; border-radius:100px; border:none; cursor:pointer;
-    background:linear-gradient(135deg,var(--pink) 0%,var(--pink-deep) 100%);
-    color:#fff; font-weight:800; font-size:16px; font-family:inherit; text-decoration:none;
-    box-shadow:0 18px 38px -14px rgba(232,52,106,0.7);
-    transition:transform .25s, box-shadow .25s;
+  /* ===== QUIZ HEADER (progress + back) ===== */
+  .quiz-header {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 30;
+    display: none; flex-direction: column; gap: 12px;
+    padding: 16px 18px 0;
   }
-  .btn-primary:hover { transform:translateY(-3px); box-shadow:0 24px 48px -16px rgba(232,52,106,0.8); }
+  .progress { width: 100%; height: 6px; border-radius: 100px; background: rgba(232,52,106,0.16); overflow: hidden; }
+  .progress-fill { height: 100%; width: 0; border-radius: 100px; background: linear-gradient(90deg, var(--pink-light), var(--pink-deep)); transition: width .4s ease; }
+  .back-btn {
+    width: 38px; height: 38px; border-radius: 50%; border: none; cursor: pointer;
+    background: rgba(255,255,255,0.9); color: var(--pink-deep);
+    box-shadow: 0 6px 16px -8px rgba(192,24,90,0.5);
+    display: inline-flex; align-items: center; justify-content: center; font-size: 18px;
+    transition: transform .2s;
+  }
+  .back-btn:hover { transform: translateX(-2px); }
 
-  .proof { display:flex; align-items:center; gap:12px; }
-  .proof-avatars { display:flex; }
-  .proof-avatars span {
-    width:34px; height:34px; border-radius:50%; border:2px solid var(--cream);
-    margin-left:-10px; background:linear-gradient(135deg,#FFD6E8,#FF6B9D);
-    display:inline-flex; align-items:center; justify-content:center; font-size:13px; color:#fff; font-weight:700;
+  /* ===== SCREENS ===== */
+  .screen {
+    position: absolute; inset: 0; z-index: 10;
+    display: none; flex-direction: column;
+    overflow-y: auto; -webkit-overflow-scrolling: touch;
+    opacity: 0;
   }
-  .proof-avatars span:first-child { margin-left:0; }
-  .proof-text { font-size:13px; color:var(--text-muted); line-height:1.3; }
-  .proof-text b { color:var(--dark); }
+  .screen.active { display: flex; animation: screenIn .45s ease forwards; }
+  @keyframes screenIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* Photo */
-  .hero-photo { position:relative; }
-  .photo-frame {
-    position:relative; border-radius:32px; overflow:hidden;
-    box-shadow:var(--shadow-card);
-    border:6px solid #fff;
+  /* ===== INTRO (offer) ===== */
+  .intro {
+    background: url('sofia.jpg') center 12% / cover no-repeat;
+    justify-content: flex-end;
   }
-  .photo-frame::after {
-    content:''; position:absolute; inset:0;
-    background:linear-gradient(180deg,transparent 55%,rgba(232,52,106,0.16));
+  .intro::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(26,18,24,0.20) 0%, rgba(192,24,90,0.30) 42%, rgba(26,18,24,0.88) 100%);
   }
-  .photo-frame img { width:100%; display:block; }
-  .photo-glow { position:absolute; inset:-30px; z-index:-1; background:radial-gradient(circle at 60% 40%,rgba(255,107,157,0.5),transparent 65%); filter:blur(30px); }
+  .intro-inner { position: relative; z-index: 2; padding: 26px 24px 30px; display: flex; flex-direction: column; gap: 20px; }
+  .logo-chip {
+    align-self: flex-start; position: absolute; top: 22px; left: 24px;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 7px 14px; border-radius: 100px;
+    background: rgba(255,255,255,0.18); backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff; font-weight: 700; font-size: 13px; letter-spacing: 0.02em;
+  }
+  .intro h1 {
+    color: #fff; font-size: clamp(28px, 7vw, 36px); line-height: 1.12; font-weight: 800; letter-spacing: -0.02em;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+  }
+  .intro h1 em {
+    font-family: 'Playfair Display', serif; font-style: italic; font-weight: 700;
+    color: #FFD6E8;
+  }
+  .intro p { color: rgba(255,255,255,0.92); font-size: 16px; font-weight: 500; }
+  .reward-card {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px; border-radius: 16px;
+    background: rgba(255,255,255,0.14); backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.28);
+    color: #fff; font-weight: 700; font-size: 15px;
+  }
+  .reward-card .rc-emoji { font-size: 24px; }
+  .reward-card .rc-lock { margin-left: auto; opacity: 0.85; font-size: 15px; }
 
-  .float-card {
-    position:absolute; background:#fff; border-radius:18px;
-    padding:14px 18px; box-shadow:var(--shadow-soft); border:1px solid var(--border);
-    display:flex; align-items:center; gap:12px;
+  .cta-btn {
+    width: 100%; padding: 18px; border: none; border-radius: 100px; cursor: pointer;
+    background: linear-gradient(135deg, var(--pink) 0%, var(--pink-deep) 100%);
+    color: #fff; font-family: inherit; font-weight: 800; font-size: 17px;
+    box-shadow: 0 18px 40px -12px rgba(232,52,106,0.8);
+    transition: transform .2s, box-shadow .2s;
   }
-  .float-card .fc-icon { width:42px; height:42px; border-radius:12px; background:var(--pink-pale); display:inline-flex; align-items:center; justify-content:center; font-size:20px; }
-  .float-card .fc-num { font-size:20px; font-weight:800; color:var(--dark); line-height:1; }
-  .float-card .fc-label { font-size:12px; color:var(--text-muted); }
-  .fc-1 { top:24px; left:-28px; }
-  .fc-2 { bottom:30px; right:-26px; }
+  .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 24px 50px -14px rgba(232,52,106,0.9); }
+  .cta-btn:active { transform: translateY(0); }
 
-  /* ===== FORM SECTION ===== */
-  .form-section { padding: 30px 0 80px; }
-  .form-shell { max-width: 760px; margin:0 auto; }
-  .form-head { text-align:center; margin-bottom:34px; }
-  .form-head h2 { font-size:clamp(26px,3.4vw,38px); font-weight:800; letter-spacing:-0.02em; color:var(--dark); margin-bottom:12px; }
-  .form-head p { color:var(--text-muted); font-size:16px; max-width:520px; margin:0 auto; }
-
-  .form-card {
-    background:#fff; border-radius:var(--radius); padding:40px;
-    box-shadow:var(--shadow-card); border:1px solid var(--border);
+  /* ===== QUESTION SCREENS ===== */
+  .q {
+    background: linear-gradient(165deg, #FFF4F8 0%, #FFE7F1 55%, #FFDCE9 100%);
+    padding: 84px 24px 28px;
+    justify-content: flex-start;
   }
+  .q-head { margin-bottom: 26px; }
+  .q-step { font-size: 13px; font-weight: 700; color: var(--pink-deep); margin-bottom: 10px; letter-spacing: 0.02em; }
+  .q h2 { font-size: clamp(23px, 5.6vw, 28px); font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; color: var(--dark); margin-bottom: 10px; }
+  .q-sub { font-size: 15px; color: var(--text-muted); font-weight: 500; }
 
-  .q { margin-bottom:30px; }
-  .q-label { display:flex; align-items:center; gap:10px; font-weight:700; font-size:17px; color:var(--dark); margin-bottom:16px; }
-  .q-num {
-    flex-shrink:0; width:26px; height:26px; border-radius:8px; font-size:13px;
-    background:var(--pink-pale); color:var(--pink-deep); font-weight:800;
-    display:inline-flex; align-items:center; justify-content:center;
+  .options { display: flex; flex-direction: column; gap: 12px; }
+  .option {
+    display: flex; align-items: center; gap: 14px; cursor: pointer;
+    padding: 16px 16px; border-radius: 16px;
+    background: #fff; border: 2px solid var(--border);
+    transition: border-color .18s, background .18s, transform .12s, box-shadow .18s;
   }
-  .q-label .opt { font-size:13px; font-weight:600; color:var(--text-muted); }
+  .option:hover { border-color: var(--pink-light); transform: translateY(-1px); }
+  .option .o-radio {
+    flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%;
+    border: 2px solid var(--border); background: #fff;
+    display: inline-flex; align-items: center; justify-content: center; transition: all .18s;
+  }
+  .option .o-radio::after { content: ''; width: 10px; height: 10px; border-radius: 50%; background: #fff; transform: scale(0); transition: transform .18s; }
+  .option .o-emoji { font-size: 24px; flex-shrink: 0; }
+  .option .o-body { display: flex; flex-direction: column; gap: 2px; }
+  .option .o-title { font-weight: 700; font-size: 15.5px; color: var(--dark); line-height: 1.25; }
+  .option .o-desc { font-size: 13px; color: var(--text-muted); }
+  .option.selected {
+    border-color: var(--pink); background: var(--pink-pale);
+    box-shadow: 0 14px 30px -16px rgba(232,52,106,0.55);
+  }
+  .option.selected .o-radio { background: var(--pink); border-color: var(--pink); }
+  .option.selected .o-radio::after { transform: scale(1); }
 
-  .choices { display:grid; gap:12px; }
-  .choices.cols-3 { grid-template-columns:repeat(3,1fr); }
-  .choices.cols-2 { grid-template-columns:repeat(2,1fr); }
-
-  .choice {
-    position:relative; cursor:pointer; display:flex; flex-direction:column; gap:6px;
-    padding:18px 18px 18px 18px; border-radius:var(--radius-sm);
-    border:2px solid var(--border); background:var(--cream);
-    transition:border-color .2s, background .2s, transform .15s, box-shadow .2s;
+  /* reward chip bottom */
+  .reward-chip {
+    margin-top: auto; padding-top: 22px;
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; color: var(--text-muted); font-weight: 600;
   }
-  .choice:hover { border-color:var(--pink-light); transform:translateY(-2px); }
-  .choice input { position:absolute; opacity:0; pointer-events:none; }
-  .choice .c-emoji { font-size:24px; }
-  .choice .c-title { font-weight:700; font-size:15px; color:var(--dark); }
-  .choice .c-desc { font-size:13px; color:var(--text-muted); line-height:1.35; }
-  .choice .c-tick {
-    position:absolute; top:14px; right:14px; width:22px; height:22px; border-radius:50%;
-    border:2px solid var(--border); display:inline-flex; align-items:center; justify-content:center;
-    color:#fff; transition:all .2s; background:#fff;
-  }
-  .choice .c-tick svg { opacity:0; transform:scale(0.5); transition:all .2s; }
-  .choice input:checked ~ .c-tick { background:var(--pink); border-color:var(--pink); }
-  .choice input:checked ~ .c-tick svg { opacity:1; transform:scale(1); }
-  .choice:has(input:checked) {
-    border-color:var(--pink); background:var(--pink-pale);
-    box-shadow:0 14px 30px -16px rgba(232,52,106,0.5);
+  .reward-chip .gift {
+    width: 40px; height: 40px; border-radius: 50%; background: #fff;
+    display: inline-flex; align-items: center; justify-content: center; font-size: 20px;
+    box-shadow: 0 8px 20px -10px rgba(192,24,90,0.5); flex-shrink: 0;
   }
 
-  .field-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-  .field { display:flex; flex-direction:column; gap:8px; }
-  .field label { font-weight:700; font-size:14px; color:var(--dark); display:flex; align-items:center; gap:6px; }
-  .field label .tag { font-size:11px; font-weight:600; color:var(--text-muted); background:var(--pink-pale); padding:2px 8px; border-radius:100px; }
+  /* ===== CONTACT SCREEN ===== */
+  .contact {
+    background: linear-gradient(165deg, #FFF4F8 0%, #FFE7F1 55%, #FFDCE9 100%);
+    padding: 84px 24px 28px;
+  }
+  .field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; }
+  .field label { font-weight: 700; font-size: 14px; color: var(--dark); display: flex; align-items: center; gap: 6px; }
+  .field label .tag { font-size: 11px; font-weight: 600; color: var(--text-muted); background: #fff; padding: 2px 9px; border-radius: 100px; }
   .field input {
-    width:100%; padding:15px 16px; border-radius:var(--radius-sm);
-    border:2px solid var(--border); background:var(--cream);
-    font-family:inherit; font-size:15px; color:var(--dark); transition:border-color .2s, background .2s;
+    width: 100%; padding: 15px 16px; border-radius: 14px;
+    border: 2px solid var(--border); background: #fff;
+    font-family: inherit; font-size: 15px; color: var(--dark); transition: border-color .18s;
   }
-  .field input::placeholder { color:#b9a7b0; }
-  .field input:focus { outline:none; border-color:var(--pink); background:#fff; }
+  .field input::placeholder { color: #c2adb6; }
+  .field input:focus { outline: none; border-color: var(--pink); }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-  .consent { display:flex; align-items:flex-start; gap:11px; margin:6px 0 26px; cursor:pointer; }
-  .consent input { position:absolute; opacity:0; }
+  .consent { display: flex; align-items: flex-start; gap: 11px; margin: 8px 0 20px; cursor: pointer; }
+  .consent input { position: absolute; opacity: 0; }
   .consent .box {
-    flex-shrink:0; width:22px; height:22px; border-radius:7px; border:2px solid var(--border); background:#fff;
-    display:inline-flex; align-items:center; justify-content:center; color:#fff; transition:all .2s; margin-top:1px;
+    flex-shrink: 0; width: 22px; height: 22px; border-radius: 7px; border: 2px solid var(--border); background: #fff;
+    display: inline-flex; align-items: center; justify-content: center; color: #fff; transition: all .18s; margin-top: 1px;
   }
-  .consent .box svg { opacity:0; transform:scale(0.5); transition:all .2s; }
-  .consent input:checked ~ .box { background:var(--pink); border-color:var(--pink); }
-  .consent input:checked ~ .box svg { opacity:1; transform:scale(1); }
-  .consent span.txt { font-size:13px; color:var(--text-muted); line-height:1.45; }
-  .consent span.txt a { color:var(--pink-deep); }
-
-  .submit-btn {
-    width:100%; padding:19px; border:none; border-radius:100px; cursor:pointer;
-    background:linear-gradient(135deg,var(--pink) 0%,var(--pink-deep) 100%);
-    color:#fff; font-family:inherit; font-weight:800; font-size:17px;
-    box-shadow:0 18px 40px -14px rgba(232,52,106,0.7);
-    transition:transform .25s, box-shadow .25s, opacity .2s;
-    display:inline-flex; align-items:center; justify-content:center; gap:10px;
-  }
-  .submit-btn:hover { transform:translateY(-3px); box-shadow:0 26px 52px -16px rgba(232,52,106,0.8); }
-  .submit-btn:disabled { opacity:0.55; cursor:not-allowed; transform:none; box-shadow:none; }
-
-  .form-foot { text-align:center; margin-top:16px; font-size:12.5px; color:var(--text-muted); display:flex; align-items:center; justify-content:center; gap:7px; }
-
-  .error-line { color:var(--pink-deep); font-size:13px; font-weight:600; margin-top:14px; text-align:center; min-height:18px; }
+  .consent .box svg { opacity: 0; transform: scale(0.5); transition: all .18s; }
+  .consent input:checked ~ .box { background: var(--pink); border-color: var(--pink); }
+  .consent input:checked ~ .box svg { opacity: 1; transform: scale(1); }
+  .consent .txt { font-size: 12.5px; color: var(--text-muted); line-height: 1.45; }
+  .error-line { color: var(--pink-deep); font-size: 13px; font-weight: 600; margin: 4px 0 12px; min-height: 16px; text-align: center; }
 
   /* ===== SUCCESS ===== */
-  .success { text-align:center; padding:30px 20px; display:none; }
-  .success.show { display:block; animation:fadeUp .5s ease; }
-  .success .s-icon {
-    width:88px; height:88px; border-radius:50%; margin:0 auto 24px;
-    background:linear-gradient(135deg,var(--pink-light),var(--pink-deep));
-    display:flex; align-items:center; justify-content:center; color:#fff;
-    box-shadow:0 20px 44px -16px rgba(232,52,106,0.7); animation:pop .5s ease;
+  .success {
+    background: linear-gradient(165deg, var(--pink) 0%, var(--pink-deep) 100%);
+    align-items: center; justify-content: center; text-align: center; padding: 40px 28px;
+    color: #fff;
   }
-  .success h2 { font-size:30px; font-weight:800; color:var(--dark); margin-bottom:12px; }
-  .success p { color:var(--text-muted); font-size:16px; max-width:440px; margin:0 auto 26px; }
-  .success .tg-btn {
-    display:inline-flex; align-items:center; gap:10px; padding:16px 30px; border-radius:100px;
-    background:#229ED9; color:#fff; text-decoration:none; font-weight:700; font-size:16px;
-    box-shadow:0 16px 34px -14px rgba(34,158,217,0.7); transition:transform .25s;
+  .success .s-gift { font-size: 64px; margin-bottom: 18px; animation: pop .5s ease; }
+  .success h2 { font-size: 28px; font-weight: 800; margin-bottom: 12px; }
+  .success p { font-size: 15.5px; opacity: 0.94; max-width: 340px; margin: 0 auto 26px; line-height: 1.5; }
+  .tg-btn {
+    display: inline-flex; align-items: center; gap: 10px; padding: 16px 30px; border-radius: 100px;
+    background: #fff; color: var(--pink-deep); text-decoration: none; font-weight: 800; font-size: 16px;
+    box-shadow: 0 16px 40px -14px rgba(0,0,0,0.4); transition: transform .2s;
   }
-  .success .tg-btn:hover { transform:translateY(-3px); }
-
-  @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
-  @keyframes pop { 0% { transform:scale(0); } 70% { transform:scale(1.12); } 100% { transform:scale(1); } }
-
-  /* ===== RESPONSIVE ===== */
-  @media (max-width: 900px) {
-    .hero-grid { grid-template-columns:1fr; gap:40px; }
-    .hero-photo { max-width:420px; margin:0 auto; }
-    .fc-1 { left:0; }
-    .fc-2 { right:0; }
-  }
-  @media (max-width: 620px) {
-    .wrap { padding:0 18px; }
-    .hero { padding:36px 0 20px; }
-    .nav-cta { display:none; }
-    .form-card { padding:26px 20px; }
-    .choices.cols-3, .choices.cols-2 { grid-template-columns:1fr; }
-    .field-row { grid-template-columns:1fr; }
-    .float-card { padding:11px 14px; }
-    .fc-1 { top:14px; left:-6px; }
-    .fc-2 { bottom:16px; right:-6px; }
-    .float-card .fc-num { font-size:17px; }
-    h1 { font-size:32px; }
-  }
+  .tg-btn:hover { transform: translateY(-3px); }
+  @keyframes pop { 0% { transform: scale(0); } 70% { transform: scale(1.15); } 100% { transform: scale(1); } }
 </style>
 </head>
 <body>
 
-<div class="bg-orbs">
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-</div>
+<div class="phone">
 
-<!-- NAV -->
-<nav>
-  <div class="wrap nav-inner">
-    <a href="index.html" class="logo">
-      <span class="logo-mark"><span>sk</span></span>
-      <span class="logo-text">
-        <span class="logo-name">Sofia</span>
-        <span class="logo-sub">Kantser · AI</span>
-      </span>
+  <!-- HEADER -->
+  <div class="quiz-header" id="quizHeader">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <button class="back-btn" onclick="back()" aria-label="Назад">←</button>
+      <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+  </div>
+
+  <!-- INTRO / OFFER -->
+  <section class="screen intro active" id="screen-intro" data-id="intro">
+    <span class="logo-chip">✦ Sofia · AI</span>
+    <div class="intro-inner">
+      <h1>Начни зарабатывать <em>от 1 500 €</em> на AI-контенте</h1>
+      <p>Пройди короткий тест - подберём твой путь и откроем бесплатный разбор 🎁</p>
+      <div class="reward-card">
+        <span class="rc-emoji">🎁</span>
+        <span>Бесплатный разбор</span>
+        <span class="rc-lock">🔒</span>
+      </div>
+      <button class="cta-btn" onclick="start()">Начать тест</button>
+    </div>
+  </section>
+
+  <!-- Q1: ABOUT -->
+  <section class="screen q" id="screen-about" data-id="about" data-q="about">
+    <div class="q-head">
+      <div class="q-step">Шаг 1 из 5</div>
+      <h2>Расскажи немного о себе</h2>
+      <p class="q-sub">Чтобы подобрать тебе подходящий путь</p>
+    </div>
+    <div class="options">
+      <label class="option" onclick="selectOption(this)" data-value="Эксперт">
+        <span class="o-radio"></span><span class="o-emoji">🎯</span>
+        <span class="o-body"><span class="o-title">Я эксперт</span><span class="o-desc">Есть профессия или своё дело</span></span>
+      </label>
+      <label class="option" onclick="selectOption(this)" data-value="Новичок">
+        <span class="o-radio"></span><span class="o-emoji">🌱</span>
+        <span class="o-body"><span class="o-title">Я новичок</span><span class="o-desc">Начинаю с нуля</span></span>
+      </label>
+      <label class="option" onclick="selectOption(this)" data-value="Мама в декрете">
+        <span class="o-radio"></span><span class="o-emoji">🤱</span>
+        <span class="o-body"><span class="o-title">Я мама в декрете</span><span class="o-desc">Хочу доход из дома</span></span>
+      </label>
+    </div>
+    <div class="reward-chip"><span class="gift">🎁</span> Разбор откроется в конце теста</div>
+  </section>
+
+  <!-- Q2: GOAL -->
+  <section class="screen q" id="screen-goal" data-id="goal" data-q="goal">
+    <div class="q-head">
+      <div class="q-step">Шаг 2 из 5</div>
+      <h2>Что тебе ближе?</h2>
+      <p class="q-sub">Подберём формат под твою цель</p>
+    </div>
+    <div class="options">
+      <label class="option" onclick="selectOption(this)" data-value="Зарабатывать в онлайне">
+        <span class="o-radio"></span><span class="o-emoji">💰</span>
+        <span class="o-body"><span class="o-title">Хочу зарабатывать в онлайне</span><span class="o-desc">Новый источник дохода</span></span>
+      </label>
+      <label class="option" onclick="selectOption(this)" data-value="Применять AI в работе">
+        <span class="o-radio"></span><span class="o-emoji">🚀</span>
+        <span class="o-body"><span class="o-title">Хочу применять AI в работе</span><span class="o-desc">Усилить то, что уже делаю</span></span>
+      </label>
+    </div>
+    <div class="reward-chip"><span class="gift">🎁</span> Разбор откроется в конце теста</div>
+  </section>
+
+  <!-- Q3: EXPERIENCE -->
+  <section class="screen q" id="screen-experience" data-id="experience" data-q="experience">
+    <div class="q-head">
+      <div class="q-step">Шаг 3 из 5</div>
+      <h2>Работала с нейросетями?</h2>
+      <p class="q-sub">Это не важно - обучаем с нуля</p>
+    </div>
+    <div class="options">
+      <label class="option" onclick="selectOption(this)" data-value="С нуля">
+        <span class="o-radio"></span><span class="o-emoji">🆕</span>
+        <span class="o-body"><span class="o-title">Нет, начинаю с нуля</span></span>
+      </label>
+      <label class="option" onclick="selectOption(this)" data-value="Немного пробовала">
+        <span class="o-radio"></span><span class="o-emoji">🤏</span>
+        <span class="o-body"><span class="o-title">Немного пробовала</span></span>
+      </label>
+      <label class="option" onclick="selectOption(this)" data-value="Активно использую">
+        <span class="o-radio"></span><span class="o-emoji">⚡</span>
+        <span class="o-body"><span class="o-title">Активно использую</span></span>
+      </label>
+    </div>
+    <div class="reward-chip"><span class="gift">🎁</span> Почти готово - разбор близко</div>
+  </section>
+
+  <!-- Q4: TIME -->
+  <section class="screen q" id="screen-time" data-id="time" data-q="time">
+    <div class="q-head">
+      <div class="q-step">Шаг 4 из 5</div>
+      <h2>Сколько времени готова уделять?</h2>
+      <p class="q-sub">От этого зависит скорость результата</p>
+    </div>
+    <div class="options">
+      <label class="option" onclick="selectOption(this)" data-value="1-2 часа в неделю">
+        <span class="o-radio"></span><span class="o-emoji">🕐</span>
+        <span class="o-body"><span class="o-title">1-2 часа в неделю</span></span>
+      </label>
+      <label class="option" onclick="selectOption(this)" data-value="3-5 часов в неделю">
+        <span class="o-radio"></span><span class="o-emoji">🕒</span>
+        <span class="o-body"><span class="o-title">3-5 часов в неделю</span></span>
+      </label>
+      <label class="option" onclick="selectOption(this)" data-value="Готова погрузиться">
+        <span class="o-radio"></span><span class="o-emoji">🔥</span>
+        <span class="o-body"><span class="o-title">Готова погрузиться по максимуму</span></span>
+      </label>
+    </div>
+    <div class="reward-chip"><span class="gift">🎁</span> Последний рывок до разбора</div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="screen contact" id="screen-contact" data-id="contact">
+    <div class="q-head">
+      <div class="q-step">Шаг 5 из 5</div>
+      <h2>Куда прислать разбор?</h2>
+      <p class="q-sub">Подберу формат лично под твои ответы и пришлю детали</p>
+    </div>
+    <form id="leadForm" novalidate>
+      <div class="field">
+        <label for="name">Как к тебе обращаться?</label>
+        <input type="text" id="name" name="name" placeholder="Имя" autocomplete="name">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="telegram">Telegram</label>
+          <input type="text" id="telegram" name="telegram" placeholder="@ник" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="phone">Телефон <span class="tag">по желанию</span></label>
+          <input type="tel" id="phone" name="phone" placeholder="+ ___" autocomplete="tel">
+        </div>
+      </div>
+      <label class="consent">
+        <input type="checkbox" id="consent">
+        <span class="box"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="txt">Согласен(на) на обработку персональных данных и получение информации о продукте.</span>
+      </label>
+      <div class="error-line" id="errorLine"></div>
+      <button type="submit" class="cta-btn" id="submitBtn">Получить разбор 🎁</button>
+    </form>
+  </section>
+
+  <!-- SUCCESS -->
+  <section class="screen success" id="screen-success" data-id="success">
+    <div class="s-gift">🎁</div>
+    <h2 id="successTitle">Готово! Разбор открыт</h2>
+    <p id="successText">Спасибо! Скоро пришлю твой персональный разбор и информацию о профессии AI-контент мейкера. Забери его быстрее - напиши мне в Telegram.</p>
+    <a href="#" class="tg-btn" id="tgBtn" target="_blank" rel="noopener">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#C0185A"><path d="M21.94 4.3l-3.3 15.56c-.25 1.1-.9 1.37-1.83.85l-5.05-3.72-2.44 2.35c-.27.27-.5.5-1.02.5l.36-5.14L17.4 6.4c.4-.36-.09-.56-.62-.2L6.62 12.6l-4.97-1.55c-1.08-.34-1.1-1.08.23-1.6L20.55 2.7c.9-.33 1.69.2 1.39 1.6z"/></svg>
+      Забрать разбор в Telegram
     </a>
-    <a href="#form" class="nav-cta">Оставить заявку</a>
-  </div>
-</nav>
+  </section>
 
-<!-- HERO -->
-<header class="hero">
-  <div class="wrap hero-grid">
-    <div class="hero-copy">
-      <span class="badge"><span class="dot"></span> AI-контент · новая онлайн-профессия</span>
-      <h1>Начни зарабатывать <span class="accent">от 1 500 €</span> на AI-контенте</h1>
-      <p class="hero-sub">
-        Создавай вирусный визуал и контент с помощью нейросетей - без камеры, съёмок и дизайнерского образования. Обучаем с нуля и помогаем выйти на доход из дома.
-      </p>
-      <ul class="hero-points">
-        <li><span class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Без своей камеры и съёмок - всё делает AI</li>
-        <li><span class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Работа из дома в удобном графике</li>
-        <li><span class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Старт с нуля - даже если ты никогда не работала с нейросетями</li>
-      </ul>
-      <div class="hero-actions">
-        <a href="#form" class="btn-primary">Получить информацию</a>
-      </div>
-    </div>
-
-    <div class="hero-photo">
-      <div class="photo-glow"></div>
-      <div class="photo-frame">
-        <img src="sofia.jpg" alt="Соня - наставник по AI-контенту" loading="eager">
-      </div>
-    </div>
-  </div>
-</header>
-
-<!-- FORM -->
-<section class="form-section" id="form">
-  <div class="wrap form-shell">
-    <div class="form-head">
-      <h2>Оставь заявку - и я пришлю всю информацию</h2>
-      <p>Ответь на 2 коротких вопроса и оставь контакт. Подберу формат под твою ситуацию и пришлю детали лично.</p>
-    </div>
-
-    <div class="form-card">
-      <form id="leadForm" novalidate>
-
-        <!-- Q1 -->
-        <div class="q">
-          <div class="q-label"><span class="q-num">1</span> Расскажи немного о себе</div>
-          <div class="choices cols-3" data-group="about">
-            <label class="choice">
-              <input type="radio" name="about" value="Эксперт">
-              <span class="c-emoji">🎯</span>
-              <span class="c-title">Я эксперт</span>
-              <span class="c-desc">Есть профессия или своё дело</span>
-              <span class="c-tick"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="about" value="Новичок">
-              <span class="c-emoji">🌱</span>
-              <span class="c-title">Я новичок</span>
-              <span class="c-desc">Начинаю с нуля</span>
-              <span class="c-tick"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="about" value="Мама в декрете">
-              <span class="c-emoji">🤱</span>
-              <span class="c-title">Я мама в декрете</span>
-              <span class="c-desc">Хочу доход из дома</span>
-              <span class="c-tick"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            </label>
-          </div>
-        </div>
-
-        <!-- Q2 -->
-        <div class="q">
-          <div class="q-label"><span class="q-num">2</span> Что тебе ближе?</div>
-          <div class="choices cols-2" data-group="goal">
-            <label class="choice">
-              <input type="radio" name="goal" value="Зарабатывать в онлайне">
-              <span class="c-emoji">💰</span>
-              <span class="c-title">Хочу зарабатывать в онлайне</span>
-              <span class="c-desc">Новый источник дохода</span>
-              <span class="c-tick"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="goal" value="Применять AI в своей работе">
-              <span class="c-emoji">🚀</span>
-              <span class="c-title">Хочу применять AI в работе</span>
-              <span class="c-desc">Усилить то, что уже делаю</span>
-              <span class="c-tick"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            </label>
-          </div>
-        </div>
-
-        <!-- Q3 -->
-        <div class="q">
-          <div class="q-label"><span class="q-num">3</span> Как к тебе обращаться?</div>
-          <div class="field">
-            <input type="text" name="name" id="name" placeholder="Имя" autocomplete="name">
-          </div>
-        </div>
-
-        <!-- Q4 -->
-        <div class="q">
-          <div class="q-label"><span class="q-num">4</span> Куда прислать информацию?</div>
-          <div class="field-row">
-            <div class="field">
-              <label for="telegram">Telegram</label>
-              <input type="text" name="telegram" id="telegram" placeholder="@ник" autocomplete="off">
-            </div>
-            <div class="field">
-              <label for="phone">Телефон <span class="tag">по желанию</span></label>
-              <input type="tel" name="phone" id="phone" placeholder="+ ___ __ ___ ___" autocomplete="tel">
-            </div>
-          </div>
-        </div>
-
-        <label class="consent">
-          <input type="checkbox" name="consent" id="consent">
-          <span class="box"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          <span class="txt">Согласен(на) на обработку персональных данных и получение информации о продукте.</span>
-        </label>
-
-        <button type="submit" class="submit-btn" id="submitBtn">Получить информацию</button>
-        <div class="error-line" id="errorLine"></div>
-      </form>
-
-      <!-- SUCCESS -->
-      <div class="success" id="success">
-        <div class="s-icon">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <h2>Заявка принята! 🎉</h2>
-        <p id="successText">Спасибо! Я уже получила твою заявку и скоро пришлю всю информацию. Чтобы получить детали быстрее - напиши мне в Telegram прямо сейчас.</p>
-        <a href="#" class="tg-btn" id="tgBtn" target="_blank" rel="noopener">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M21.94 4.3l-3.3 15.56c-.25 1.1-.9 1.37-1.83.85l-5.05-3.72-2.44 2.35c-.27.27-.5.5-1.02.5l.36-5.14L17.4 6.4c.4-.36-.09-.56-.62-.2L6.62 12.6l-4.97-1.55c-1.08-.34-1.1-1.08.23-1.6L20.55 2.7c.9-.33 1.69.2 1.39 1.6z"/></svg>
-          Написать в Telegram
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
+</div>
 
 <script>
   /* ===========================================================
      НАСТРОЙКИ ДОСТАВКИ ЛИДОВ
-     -----------------------------------------------------------
-     1) MANAGER_TELEGRAM - логин менеджера/бота (без @), куда лид
-        сможет написать сразу после отправки формы.
-     2) WEBHOOK_URL - если указать URL вебхука Salebot / Google
-        Apps Script / любой бэкенд, форма отправит туда JSON.
-        Оставь пустым - лиды просто сохраняются в localStorage
-        + показывается кнопка "Написать в Telegram".
+     MANAGER_TELEGRAM - логин менеджера/бота (без @)
+     WEBHOOK_URL - URL вебхука Salebot / бэкенда (пусто = только TG + localStorage)
      =========================================================== */
-  const MANAGER_TELEGRAM = 'wurdeg';   // <-- замени на нужный логин
-  const WEBHOOK_URL = '';              // <-- сюда URL вебхука Salebot, если нужно
+  const MANAGER_TELEGRAM = 'wurdeg';
+  const WEBHOOK_URL = '';
 
+  const ORDER = ['intro','about','goal','experience','time','contact','success'];
+  const STEPS = ['about','goal','experience','time','contact'];
+  const answers = {};
+  let current = 0;
+
+  function show(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const el = document.getElementById('screen-' + id);
+    el.classList.add('active');
+    el.scrollTop = 0;
+    current = ORDER.indexOf(id);
+
+    const header = document.getElementById('quizHeader');
+    const inQuiz = STEPS.includes(id);
+    header.style.display = inQuiz ? 'flex' : 'none';
+    if (inQuiz) {
+      const pct = (STEPS.indexOf(id) + 1) / STEPS.length * 100;
+      document.getElementById('progressFill').style.width = pct + '%';
+    }
+  }
+  function start() { show('about'); }
+  function next()  { const id = ORDER[current + 1]; if (id) show(id); }
+  function back()  { const id = ORDER[current - 1]; if (id) show(id); }
+
+  function selectOption(el) {
+    const wrap = el.closest('.options');
+    wrap.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    const screen = el.closest('.screen');
+    answers[screen.dataset.q] = el.dataset.value;
+    setTimeout(next, 380);
+  }
+
+  // ===== CONTACT SUBMIT =====
   const form = document.getElementById('leadForm');
   const errorLine = document.getElementById('errorLine');
   const submitBtn = document.getElementById('submitBtn');
-
-  // Снимаем ошибку при взаимодействии
   form.addEventListener('input', () => errorLine.textContent = '');
   form.addEventListener('change', () => errorLine.textContent = '');
 
-  function getRadio(name) {
-    const el = form.querySelector(`input[name="${name}"]:checked`);
-    return el ? el.value : '';
-  }
-
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
-
-    const about    = getRadio('about');
-    const goal     = getRadio('goal');
     const name     = document.getElementById('name').value.trim();
     const telegram = document.getElementById('telegram').value.trim();
     const phone    = document.getElementById('phone').value.trim();
     const consent  = document.getElementById('consent').checked;
 
-    // Валидация
-    if (!about)   return fail('Выбери, что тебе ближе в вопросе 1');
-    if (!goal)    return fail('Ответь на вопрос 2');
-    if (!name)    return fail('Напиши, как к тебе обращаться');
-    if (!telegram && !phone) return fail('Оставь Telegram или телефон - куда прислать информацию');
-    if (!consent) return fail('Поставь галочку согласия на обработку данных');
+    if (!name) return fail('Напиши, как к тебе обращаться');
+    if (!telegram && !phone) return fail('Оставь Telegram или телефон');
+    if (!consent) return fail('Поставь галочку согласия');
 
     const lead = {
-      about, goal, name, telegram, phone,
-      page: 'lead.html',
-      createdAt: new Date().toISOString()
+      about: answers.about || '', goal: answers.goal || '',
+      experience: answers.experience || '', time: answers.time || '',
+      name, telegram, phone,
+      page: 'lead.html (quiz)', createdAt: new Date().toISOString()
     };
 
     submitBtn.disabled = true;
     submitBtn.textContent = 'Отправляю...';
 
-    // Сохраняем локально (резерв)
     try {
       const all = JSON.parse(localStorage.getItem('sofia_leads') || '[]');
-      all.push(lead);
-      localStorage.setItem('sofia_leads', JSON.stringify(all));
+      all.push(lead); localStorage.setItem('sofia_leads', JSON.stringify(all));
     } catch (_) {}
 
-    // Отправка на вебхук, если настроен
     if (WEBHOOK_URL) {
       try {
-        await fetch(WEBHOOK_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(lead)
-        });
+        await fetch(WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(lead) });
       } catch (err) { console.warn('Webhook error:', err); }
     }
 
-    // Аналитика (если подключён пиксель) - событие лида
     if (window.fbq) { try { fbq('track', 'Lead'); } catch(_){} }
 
-    showSuccess(lead);
-  });
-
-  function fail(msg) {
-    errorLine.textContent = msg;
-    errorLine.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-
-  function showSuccess(lead) {
-    document.getElementById('leadForm').style.display = 'none';
-    const success = document.getElementById('success');
-    success.classList.add('show');
-
-    // Префилл сообщения в Telegram
-    const msg = `Привет! Оставила заявку на сайте.%0A` +
+    // Telegram deep-link с ответами
+    const msg = `Привет! Прошла тест на сайте 🎁%0A` +
       `Имя: ${encodeURIComponent(lead.name)}%0A` +
       `О себе: ${encodeURIComponent(lead.about)}%0A` +
-      `Цель: ${encodeURIComponent(lead.goal)}` +
+      `Цель: ${encodeURIComponent(lead.goal)}%0A` +
+      `Опыт с AI: ${encodeURIComponent(lead.experience)}%0A` +
+      `Время: ${encodeURIComponent(lead.time)}` +
       (lead.telegram ? `%0ATG: ${encodeURIComponent(lead.telegram)}` : '') +
       (lead.phone ? `%0AТел: ${encodeURIComponent(lead.phone)}` : '');
     document.getElementById('tgBtn').href = `https://t.me/${MANAGER_TELEGRAM}?text=${msg}`;
-
     document.getElementById('successText').textContent =
-      `${lead.name}, заявка принята! Скоро пришлю всю информацию о профессии AI-контент мейкера. Чтобы получить детали быстрее - напиши мне в Telegram прямо сейчас.`;
+      `${lead.name}, тест пройден! Скоро пришлю твой персональный разбор. Забери его быстрее - напиши мне в Telegram.`;
 
-    success.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
+    show('success');
+  });
+
+  function fail(msg) { errorLine.textContent = msg; }
 </script>
 
 </body>
