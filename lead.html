@@ -137,8 +137,6 @@
     transition:transform .25s, box-shadow .25s;
   }
   .btn-primary:hover { transform:translateY(-3px); box-shadow:0 24px 48px -16px rgba(232,52,106,0.8); }
-  .btn-primary .arrow { transition:transform .25s; }
-  .btn-primary:hover .arrow { transform:translateX(4px); }
 
   .proof { display:flex; align-items:center; gap:12px; }
   .proof-avatars { display:flex; }
@@ -447,11 +445,6 @@
 
         <button type="submit" class="submit-btn" id="submitBtn">Получить информацию</button>
         <div class="error-line" id="errorLine"></div>
-
-        <div class="form-foot">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z" stroke="#7A6572" stroke-width="1.6" stroke-linejoin="round"/></svg>
-          Данные не передаём третьим лицам. Только информация о профессии.
-        </div>
       </form>
 
       <!-- SUCCESS -->
