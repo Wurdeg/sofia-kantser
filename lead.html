@@ -111,8 +111,10 @@
   }
   .intro h1 em {
     font-family: 'Playfair Display', serif; font-style: italic; font-weight: 700;
-    color: #FFD6E8;
+    color: #FFD6E8; white-space: nowrap;
   }
+  .intro h1 .mob-br { display: none; }
+  @media (max-width: 540px) { .intro h1 .mob-br { display: inline; } }
   .intro p { color: rgba(255,255,255,0.92); font-size: 16px; font-weight: 500; }
   .reward-card {
     display: flex; align-items: center; gap: 12px;
@@ -244,7 +246,7 @@
   <section class="screen intro active" id="screen-intro" data-id="intro">
     <span class="logo-chip">✦ Sofia · AI</span>
     <div class="intro-inner">
-      <h1>Начни зарабатывать <em>от 1 500 €</em> на AI-контенте</h1>
+      <h1>Начни зарабатывать <br class="mob-br"><em>от 1 500 €</em> <br class="mob-br">на AI-контенте</h1>
       <p>Пройди короткий тест - подберём твой путь и откроем бесплатный разбор 🎁</p>
       <div class="reward-card">
         <span class="rc-emoji">🎁</span>
