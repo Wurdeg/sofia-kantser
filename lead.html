@@ -395,12 +395,12 @@
 <script>
   /* ===========================================================
      НАСТРОЙКИ ДОСТАВКИ ЛИДОВ
-     MANAGER_TELEGRAM - логин менеджера/бота (без @)
-     WEBHOOK_URL - URL веб-приложения Google Apps Script (см. google-sheets.gs).
-                   Вставь сюда ссылку, которая заканчивается на /exec.
-                   Пусто = лиды только в Telegram + localStorage.
+     MANAGER_TELEGRAM - логин аккаунта/бота (без @), куда ведёт кнопка
+     TG_TEXT - фраза, которая автоматически подставится в чат (триггер)
+     WEBHOOK_URL - URL веб-приложения Google Apps Script (см. google-sheets.gs)
      =========================================================== */
-  const MANAGER_TELEGRAM = 'wurdeg';
+  const MANAGER_TELEGRAM = 'aiaikantser';
+  const TG_TEXT = 'анкета';
   const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzPCL1GM0OmdgJ9zn-tdFNMhi7P8V5BeI8JJIypqez9tWuSD56lZGklw_BhBh1zjcmL/exec';
 
   const ORDER = ['intro','about','goal','experience','time','contact','success'];
@@ -484,16 +484,9 @@
 
     if (window.fbq) { try { fbq('track', 'Lead'); } catch(_){} }
 
-    // Telegram deep-link с ответами
-    const msg = `Привет! Прошла тест на сайте 🎁%0A` +
-      `Имя: ${encodeURIComponent(lead.name)}%0A` +
-      `О себе: ${encodeURIComponent(lead.about)}%0A` +
-      `Цель: ${encodeURIComponent(lead.goal)}%0A` +
-      `Опыт с AI: ${encodeURIComponent(lead.experience)}%0A` +
-      `Время: ${encodeURIComponent(lead.time)}` +
-      (lead.telegram ? `%0ATG: ${encodeURIComponent(lead.telegram)}` : '') +
-      (lead.phone ? `%0AТел: ${encodeURIComponent(lead.phone)}` : '');
-    document.getElementById('tgBtn').href = `https://t.me/${MANAGER_TELEGRAM}?text=${msg}`;
+    // Telegram: ведём в чат с заранее подставленной фразой-триггером
+    document.getElementById('tgBtn').href =
+      `https://t.me/${MANAGER_TELEGRAM}?text=${encodeURIComponent(TG_TEXT)}`;
     document.getElementById('successText').textContent =
       `${lead.name}, тест пройден! Скоро пришлю твой персональный разбор. Забери его быстрее - напиши мне в Telegram.`;
 
