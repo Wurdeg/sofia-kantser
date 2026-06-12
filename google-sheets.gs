@@ -64,13 +64,18 @@ function doPost(e) {
       sheet.setFrozenRows(1);
     }
 
+    // Колонку "Телефон" (C) держим как ТЕКСТ. Иначе Google Sheets считает
+    // значения вида "+373..." формулой и показывает #ERROR!
+    sheet.getRange('C:C').setNumberFormat('@');
+
     var tz = ss.getSpreadsheetTimeZone();
     var stamp = Utilities.formatDate(new Date(), tz, 'dd.MM.yyyy HH:mm:ss');
+    var phone = String(data.phone || '');
 
     sheet.appendRow([
       stamp,
       data.name        || '',
-      data.phone       || '',
+      phone,
       data.telegram    || '',
       data.about       || '',
       data.goal        || '',
@@ -81,6 +86,10 @@ function doPost(e) {
       data.utm_campaign|| '',
       data.page        || ''
     ]);
+
+    // Подстраховка: телефон в только что добавленной строке - принудительно текстом
+    var row = sheet.getLastRow();
+    sheet.getRange(row, 3).setNumberFormat('@').setValue(phone);
 
     return json_({ ok: true });
   } catch (err) {
