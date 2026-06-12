@@ -396,10 +396,12 @@
   /* ===========================================================
      НАСТРОЙКИ ДОСТАВКИ ЛИДОВ
      MANAGER_TELEGRAM - логин менеджера/бота (без @)
-     WEBHOOK_URL - URL вебхука Salebot / бэкенда (пусто = только TG + localStorage)
+     WEBHOOK_URL - URL веб-приложения Google Apps Script (см. google-sheets.gs).
+                   Вставь сюда ссылку, которая заканчивается на /exec.
+                   Пусто = лиды только в Telegram + localStorage.
      =========================================================== */
   const MANAGER_TELEGRAM = 'wurdeg';
-  const WEBHOOK_URL = '';
+  const WEBHOOK_URL = ''; // <-- сюда URL из Google Apps Script (.../exec)
 
   const ORDER = ['intro','about','goal','experience','time','contact','success'];
   const STEPS = ['about','goal','experience','time','contact'];
@@ -452,11 +454,16 @@
     if (!telegram && !phone) return fail('Оставь Telegram или телефон');
     if (!consent) return fail('Поставь галочку согласия');
 
+    const params = new URLSearchParams(location.search);
     const lead = {
+      name, phone, telegram,
       about: answers.about || '', goal: answers.goal || '',
       experience: answers.experience || '', time: answers.time || '',
-      name, telegram, phone,
-      page: 'lead.html (quiz)', createdAt: new Date().toISOString()
+      utm_source: params.get('utm_source') || '',
+      utm_medium: params.get('utm_medium') || '',
+      utm_campaign: params.get('utm_campaign') || '',
+      page: location.href,
+      createdAt: new Date().toISOString()
     };
 
     submitBtn.disabled = true;
@@ -467,9 +474,11 @@
       all.push(lead); localStorage.setItem('sofia_leads', JSON.stringify(all));
     } catch (_) {}
 
+    // Отправка в Google-таблицу (Apps Script). Без заголовка Content-Type,
+    // чтобы запрос был "простым" и не блокировался CORS-preflight.
     if (WEBHOOK_URL) {
       try {
-        await fetch(WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(lead) });
+        await fetch(WEBHOOK_URL, { method: 'POST', body: JSON.stringify(lead) });
       } catch (err) { console.warn('Webhook error:', err); }
     }
 
